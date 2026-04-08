@@ -1,0 +1,30 @@
+baseURL = "https://anwarshamim01.github.io/"
+theme = "PaperMod"
+title = "Sange Mehrab"
+
+[params]
+    env = "production"
+    title = "Sange Mehrab"
+    description = "Personal blog about AI, Tech, and Research"
+    author = "Anwar Shamim"
+    
+    # Theme Display Settings
+    defaultTheme = "auto"
+    displayFullContent = false
+    ShowReadingTime = true
+    ShowShareButtons = true
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    
+    # Home Page Profile
+    [params.homeInfoParams]
+        Title = "Sange Mehrab"
+        Content = "Welcome to my digital garden where I discuss AI architectures, high-performance computing, and tech."
+
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/Anwarshamim01/"
+    [[params.socialIcons]]
+        name = "linkedin"
+        url = "https://www.linkedin.com/in/anwar-shamim-wazir-8a6b4b184/" 
