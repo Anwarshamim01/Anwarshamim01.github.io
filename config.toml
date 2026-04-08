@@ -1,7 +1,6 @@
-baseURL = 'https://Anwarshamim01.github.io/'
-languageCode = 'en-us'
-title = 'Sange Mehrab'
-theme = 'PaperMod'
+baseURL = "https://anwarshamim01.github.io/"
+theme = "PaperMod"
+title = "Sange Mehrab"
 
 [params]
     env = "production"
@@ -25,7 +24,7 @@ theme = 'PaperMod'
 
     [[params.socialIcons]]
         name = "github"
-        url = "https://github.com/Anwarshamim01"
+        url = "https://github.com/Anwarshamim01/"
     [[params.socialIcons]]
         name = "linkedin"
         url = "https://linkedin.com/in/anwar-shamim" # Replace with your actual slug
