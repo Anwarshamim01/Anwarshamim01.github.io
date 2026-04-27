@@ -814,7 +814,6 @@ a.home-hero-title-link:focus-visible {
 
 .article-toolbar,
 .article-meta,
-.article-citation,
 .article-toc,
 .comments-box {
   padding: 1rem 1.1rem;
@@ -986,8 +985,7 @@ a.home-hero-title-link:focus-visible {
 }
 
 .button-secondary,
-.button-ghost,
-.article-citation .button {
+.button-ghost {
   background: color-mix(in oklab, var(--entry) 78%, var(--surface-muted));
   border-color: var(--border);
   color: var(--primary);

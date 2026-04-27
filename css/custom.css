@@ -606,9 +606,8 @@ pre code {
   background: rgba(92, 61, 30, 0.06);
 }
 
-/* Article meta / citation boxes */
-.article-meta,
-.article-citation {
+/* Article meta boxes */
+.article-meta {
   border-radius: 12px;
 }
 
