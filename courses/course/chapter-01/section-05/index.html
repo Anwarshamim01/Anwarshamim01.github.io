@@ -1,0 +1,776 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>1.5 Mathematics of Machine Learning and Deep Learning for Time Series | Sange Mehrab</title><meta name=keywords content="time series,forecasting,machine learning,deep learning,RNN,LSTM,transformers,state space models,probabilistic forecasting,foundation models"><meta name=description content="A beginner-to-advanced mathematical introduction to time-series machine learning and deep learning, covering classical forecasting, stochastic processes, spectral analysis, supervised time-series learning, recurrent neural networks, LSTMs, GRUs, temporal convolutional networks, transformers, PatchTST, iTransformer, TimesNet, TimeMixer, state-space models, S4, Mamba, DeepAR, N-BEATS, N-HiTS, Temporal Fusion Transformers, diffusion-based forecasting, neural ODEs, neural CDEs, foundation models, probabilistic losses, conformal prediction, anomaly detection, classification, and imputation."><meta name=author content="Anwar Shamim"><link rel=canonical href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/><link crossorigin=anonymous href=/Sang_e_Mehrab/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as=style><link rel=icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg><link rel=icon type=image/png sizes=16x16 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-32x32.png><link rel=apple-touch-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/apple-touch-icon.png><link rel=mask-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/safari-pinned-tab.svg><meta name=theme-color content="#3d2914"><meta name=msapplication-TileColor content="#3d2914"><link rel=alternate hreflang=en href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel=stylesheet><link rel=stylesheet href=/Sang_e_Mehrab/css/custom.css><link rel=stylesheet href=/Sang_e_Mehrab/css/system.css><style>html{font-family:Inter,system-ui,-apple-system,segoe ui,Roboto,helvetica neue,Arial,sans-serif}.post-content,.post-description,.toc{font-family:eb garamond,Georgia,times new roman,serif;font-size:1.08rem}h1,h2,h3,h4,.dm-hero-title,.dm-section-title,.post-title,.entry-title{font-family:cormorant garamond,Georgia,times new roman,serif}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}</style><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){if(typeof renderMathInElement!="function")return;renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1,strict:!1})})</script><meta property="og:url" content="https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/"><meta property="og:site_name" content="Sange Mehrab"><meta property="og:title" content="1.5 Mathematics of Machine Learning and Deep Learning for Time Series"><meta property="og:description" content="A beginner-to-advanced mathematical introduction to time-series machine learning and deep learning, covering classical forecasting, stochastic processes, spectral analysis, supervised time-series learning, recurrent neural networks, LSTMs, GRUs, temporal convolutional networks, transformers, PatchTST, iTransformer, TimesNet, TimeMixer, state-space models, S4, Mamba, DeepAR, N-BEATS, N-HiTS, Temporal Fusion Transformers, diffusion-based forecasting, neural ODEs, neural CDEs, foundation models, probabilistic losses, conformal prediction, anomaly detection, classification, and imputation."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="courses"><meta property="article:published_time" content="2026-05-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-01T00:00:00+00:00"><meta property="article:tag" content="Time Series"><meta property="article:tag" content="Forecasting"><meta property="article:tag" content="Machine Learning"><meta property="article:tag" content="Deep Learning"><meta property="article:tag" content="RNN"><meta property="article:tag" content="LSTM"><meta name=twitter:card content="summary"><meta name=twitter:title content="1.5 Mathematics of Machine Learning and Deep Learning for Time Series"><meta name=twitter:description content="A beginner-to-advanced mathematical introduction to time-series machine learning and deep learning, covering classical forecasting, stochastic processes, spectral analysis, supervised time-series learning, recurrent neural networks, LSTMs, GRUs, temporal convolutional networks, transformers, PatchTST, iTransformer, TimesNet, TimeMixer, state-space models, S4, Mamba, DeepAR, N-BEATS, N-HiTS, Temporal Fusion Transformers, diffusion-based forecasting, neural ODEs, neural CDEs, foundation models, probabilistic losses, conformal prediction, anomaly detection, classification, and imputation."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Courses","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/"},{"@type":"ListItem","position":2,"name":"Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/"},{"@type":"ListItem","position":3,"name":"The Language","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/"},{"@type":"ListItem","position":4,"name":"1.5 Mathematics of Machine Learning and Deep Learning for Time Series","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"1.5 Mathematics of Machine Learning and Deep Learning for Time Series","name":"1.5 Mathematics of Machine Learning and Deep Learning for Time Series","description":"A beginner-to-advanced mathematical introduction to time-series machine learning and deep learning, covering classical forecasting, stochastic processes, spectral analysis, supervised time-series learning, recurrent neural networks, LSTMs, GRUs, temporal convolutional networks, transformers, PatchTST, iTransformer, TimesNet, TimeMixer, state-space models, S4, Mamba, DeepAR, N-BEATS, N-HiTS, Temporal Fusion Transformers, diffusion-based forecasting, neural ODEs, neural CDEs, foundation models, probabilistic losses, conformal prediction, anomaly detection, classification, and imputation.","keywords":["time series","forecasting","machine learning","deep learning","RNN","LSTM","transformers","state space models","probabilistic forecasting","foundation models"],"articleBody":"Why time series matter A time series is data ordered by time.\nExamples:\nDomain Time series example Weather hourly temperature Finance stock prices Energy electricity demand Healthcare heart-rate signal Industry vibration sensor readings Language/audio waveform samples Traffic vehicle count per minute AI systems GPU utilization over time Video frames evolving through time A time series is different from an ordinary table because order matters.\nIf we observe:\n$$ 10,; 12,; 15,; 14,; 18 $$this is not the same as:\n$$ 18,; 10,; 15,; 12,; 14. $$The values are the same, but the temporal structure is different.\nTime-series analysis studies exactly this structure: dependence, trend, seasonality, cycles, shocks, noise, regime changes, long memory, and uncertainty. MIT’s graduate time-series course covers stationarity, lag operators, ARMA models, covariance structure, spectral analysis, GMM, VARs, structural breaks, and related econometric theory. (MIT OpenCourseWare)\nMain ideaA time series is not just a vector. It is an ordered stochastic object whose values depend on time and often depend on previous values. Part I — Beginner foundation A simple time series Suppose we record daily temperature:\nDay Temperature 1 20 2 21 3 19 4 22 5 24 6 23 We write:\n$$ y_1=20,\\quad y_2=21,\\quad y_3=19,\\quad y_4=22,\\quad y_5=24,\\quad y_6=23. $$The full time series is:\n$$ y_{1:6} = (y_1,y_2,y_3,y_4,y_5,y_6). $$In general:\n$$ y_{1:T}=(y_1,y_2,\\dots,y_T). $$Here:\n\\(t\\) is the time index, \\(T\\) is the total number of observations, \\(y_t\\) is the value at time \\(t\\). If the values are scalar, then:\n$$ y_t\\in\\mathbb{R}. $$This is a univariate time series.\nMultivariate time series Sometimes we observe many variables at each time.\nFor example, a weather station may record:\nTime Temperature Humidity Wind speed 1 20 60 5 2 21 58 6 3 19 70 4 At time \\(t\\), we have a vector:\n$$ y_t = \\begin{bmatrix} \\text{temperature}_t\\ \\text{humidity}_t\\ \\text{wind}_t \\end{bmatrix} \\in\\mathbb{R}^{3}. $$The whole series is:\n$$ y_{1:T} = (y_1,y_2,\\dots,y_T). $$As a matrix:\n$$ Y = \\begin{bmatrix} y_1^\\top \\\\ y_2^\\top \\\\ \\vdots \\\\ y_T^\\top \\end{bmatrix} \\in\\mathbb{R}^{T\\times d}. $$Here:\n\\(T\\) is sequence length, \\(d\\) is number of variables. For a batch of \\(B\\) time series:\n$$ Y\\in\\mathbb{R}^{B\\times T\\times d}. $$So time-series deep learning is tensor learning.\nForecasting The most common time-series task is forecasting.\nGiven past values:\n$$ y_1,y_2,\\dots,y_T, $$predict future values:\n$$ y_{T+1},y_{T+2},\\dots,y_{T+H}. $$Here:\n\\(T\\) is the history length, \\(H\\) is the forecast horizon. We write:\n$$ \\hat{y}_{T+1:T+H} {}={} f_\\theta(y_{1:T}). $$For one-step forecasting:\n$$ \\hat{y}_{T+1}=f_\\theta(y_{1:T}). $$For multi-step forecasting:\n$$ \\hat{y}_{T+1:T+H}=f_\\theta(y_{1:T}). $$Hyndman and Athanasopoulos’ Forecasting: Principles and Practice is a standard open textbook that introduces forecasting methods and practical modeling choices, including time-series features, exponential smoothing, ARIMA, dynamic regression, hierarchical forecasting, and practical evaluation. (OTexts: Online, open-access textbooks)\nInput window and output horizon In machine learning, we often convert a time series into supervised examples.\nSuppose:\n$$ y_1,y_2,\\dots,y_{100}. $$Choose input length:\n$$ L=5 $$and forecast horizon:\n$$ H=2. $$Then one training example is:\n$$ x_1= \\begin{bmatrix} y_1\\ y_2\\ y_3\\ y_4\\ y_5 \\end{bmatrix}, \\qquad \\text{target}= \\begin{bmatrix} y_6\\ y_7 \\end{bmatrix}. $$Another example is:\n$$ x_2= \\begin{bmatrix} y_2\\ y_3\\ y_4\\ y_5\\ y_6 \\end{bmatrix}, \\qquad \\text{target}= \\begin{bmatrix} y_7\\ y_8 \\end{bmatrix}. $$This is called a sliding window construction.\nIn general:\n$$ x_t=(y_t,y_{t+1},\\dots,y_{t+L-1}), $$and:\n$$ z_t=(y_{t+L},\\dots,y_{t+L+H-1}). $$The model learns:\n$$ f_\\theta:x_t\\mapsto z_t. $$Time-series tasks Time-series machine learning is not only forecasting.\nIt includes:\nTask Goal Forecasting predict future values Classification assign a label to a sequence Regression predict a continuous target from a sequence Anomaly detection find unusual time points or segments Imputation fill missing values Segmentation divide sequence into regimes Clustering group similar time series Representation learning learn useful embeddings Simulation/generation generate realistic future trajectories Control choose actions over time The UCR and UEA archives became major public benchmarks for time-series classification; the UEA 2018 multivariate archive was introduced to improve rigorous evaluation for multivariate time-series classification, where each example may contain multiple channels. (arXiv)\nPart II — Core statistical time-series mathematics Deterministic signal plus noise A useful beginner model is:\n$$ y_t = s_t+\\varepsilon_t. $$Here:\n\\(s_t\\) is the true signal, \\(\\varepsilon_t\\) is noise. For example:\n$$ y_t = \\text{trend}_t + \\text{seasonality}_t + \\text{noise}_t. $$So:\n$$ y_t = T_t + S_t + R_t. $$Here:\n\\(T_t\\) is trend, \\(S_t\\) is seasonal pattern, \\(R_t\\) is residual noise. This decomposition is central in classical forecasting and remains useful in modern deep learning. Hyndman and Athanasopoulos present decomposition as a core tool for understanding trend and seasonal structure before modeling. (OTexts: Online, open-access textbooks)\nTrend A trend is a long-term direction.\nA linear trend can be written:\n$$ T_t = a+bt. $$Here:\n\\(a\\) is intercept, \\(b\\) is slope. If \\(b\u003e0\\), the series increases.\nIf \\(b\u003c0\\), the series decreases.\nFor example:\n$$ y_t = 10+0.5t+\\varepsilon_t. $$This means the average value grows by 0.5 per time step.\nSeasonality Seasonality is a repeated pattern.\nFor daily data with weekly seasonality, the period is:\n$$ m=7. $$For monthly data with yearly seasonality:\n$$ m=12. $$A simple seasonal model is:\n$$ y_t = T_t + S_{t \\bmod m}+\\varepsilon_t. $$Fourier terms can model smooth seasonality:\n$$ S_t = \\sum_{k=1}^{K} \\left[ a_k\\cos\\left(\\frac{2\\pi kt}{m}\\right) + b_k\\sin\\left(\\frac{2\\pi kt}{m}\\right) \\right]. $$This connects time series to frequency-domain mathematics.\nLag operator The lag operator \\(L\\) shifts a series backward:\n$$ Ly_t=y_{t-1}. $$Then:\n$$ L^2y_t=y_{t-2}. $$MIT’s graduate time-series notes begin with stationarity, lag operators, ARMA models, and covariance structure, because lag notation is the compact language of classical time-series theory. (MIT OpenCourseWare)\nFor example:\n$$ y_t = 0.8y_{t-1}+\\varepsilon_t $$can be written:\n$$ y_t = 0.8Ly_t+\\varepsilon_t. $$So:\n$$ (1-0.8L)y_t=\\varepsilon_t. $$Stationarity A time series is stationary if its statistical properties do not change over time.\nWeak stationarity means:\nconstant mean: $$ \\mathbb{E}[y_t]=\\mu, $$ constant variance: $$ \\operatorname{Var}(y_t)=\\sigma^2, $$ autocovariance depends only on lag, not absolute time: $$ \\operatorname{Cov}(y_t,y_{t-k})=\\gamma(k). $$Stationarity matters because many classical time-series models assume stable dependence structure. MIT’s time-series notes treat stationarity as foundational for ARMA models and covariance analysis. (MIT OpenCourseWare)\nAutocovariance The autocovariance at lag \\(k\\) is:\n$$ \\gamma(k) {}={} \\operatorname{Cov}(y_t,y_{t-k}) \\mathbb{E}[(y_t-\\mu)(y_{t-k}-\\mu)]. $$For \\(k=0\\):\n$$ \\gamma(0)=\\operatorname{Var}(y_t). $$Autocovariance measures how values separated by \\(k\\) time steps move together.\nAutocorrelation Autocorrelation normalizes autocovariance:\n$$ \\rho(k)=\\frac{\\gamma(k)}{\\gamma(0)}. $$So:\n$$ -1\\leq \\rho(k)\\leq 1. $$If:\n$$ \\rho(1)\u003e0, $$then nearby values tend to move together.\nIf:\n$$ \\rho(1)\u003c0, $$then high values tend to be followed by low values.\nIf:\n$$ \\rho(k)\\approx 0, $$then values \\(k\\) steps apart are weakly linearly related.\nWhite noise A white-noise process satisfies:\n$$ \\mathbb{E}[\\varepsilon_t]=0, $$$$ \\operatorname{Var}(\\varepsilon_t)=\\sigma^2, $$$$ \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_s)=0 \\quad \\text{for } t\\neq s. $$If:\n$$ \\varepsilon_t\\sim\\mathcal{N}(0,\\sigma^2) $$independently, then it is Gaussian white noise.\nWhite noise is the basic random innovation in ARMA, state-space, Kalman filtering, SDEs, and probabilistic forecasting.\nRandom walk A random walk is:\n$$ y_t=y_{t-1}+\\varepsilon_t. $$Equivalently:\n$$ \\Delta y_t = y_t-y_{t-1}=\\varepsilon_t. $$The variance grows over time.\nIf:\n$$ y_0=0, $$then:\n$$ y_t=\\sum_{i=1}^{t}\\varepsilon_i. $$If the innovations have variance \\(\\sigma^2\\), then:\n$$ \\operatorname{Var}(y_t)=t\\sigma^2. $$So the process is not stationary.\nRandom walks are important in finance, stochastic processes, diffusion limits, and non-stationary forecasting.\nPart III — Classical forecasting models Autoregressive model AR\\(p\\) An autoregressive model predicts the present from past values.\nAn AR(1) model is:\n$$ y_t = c+\\phi y_{t-1}+\\varepsilon_t. $$An AR\\(p\\) model is:\n$$ y_t {}={} c+ \\phi_1y_{t-1} + \\phi_2y_{t-2} + \\cdots + \\phi_py_{t-p} + \\varepsilon_t. $$Using lag notation:\n$$ \\phi(L)y_t=c+\\varepsilon_t, $$where:\n$$ \\phi(L)=1-\\phi_1L-\\phi_2L^2-\\cdots-\\phi_pL^p. $$AR models are linear memory models.\nThey say:\nthe future depends linearly on the past.\nMoving-average model MA\\(q\\) A moving-average model uses past noise terms.\nAn MA(1) model is:\n$$ y_t=\\mu+\\varepsilon_t+\\theta\\varepsilon_{t-1}. $$An MA\\(q\\) model is:\n$$ y_t {}={} \\mu+ \\varepsilon_t+ \\theta_1\\varepsilon_{t-1} + \\cdots + \\theta_q\\varepsilon_{t-q}. $$This means shocks can influence future observations for several time steps.\nARMA model An ARMA\\(p,q\\) model combines AR and MA terms:\n$$ y_t {}={} c+ \\sum_{i=1}^{p}\\phi_i y_{t-i} + \\varepsilon_t + \\sum_{j=1}^{q}\\theta_j\\varepsilon_{t-j}. $$This is useful for stationary time series.\nMIT’s graduate time-series material covers ARMA and covariance structure as central tools for stationary time-series analysis. (MIT OpenCourseWare)\nARIMA model Many real time series are non-stationary.\nARIMA handles non-stationarity using differencing.\nThe first difference is:\n$$ \\nabla y_t = y_t-y_{t-1}. $$If the differenced series is stationary, we can apply ARMA to:\n$$ \\nabla^d y_t. $$An ARIMA\\(p,d,q\\) model means:\n\\(p\\): autoregressive order, \\(d\\): differencing order, \\(q\\): moving-average order. Hyndman and Athanasopoulos present ARIMA as a core classical forecasting model, alongside exponential smoothing and dynamic regression. (OTexts: Online, open-access textbooks)\nSeasonal ARIMA Seasonal ARIMA adds seasonal lags.\nA common notation is:\n$$ \\operatorname{ARIMA}(p,d,q)(P,D,Q)_m. $$Here:\n\\(m\\) is seasonal period, \\(P,D,Q\\) are seasonal AR, differencing, and MA orders. For monthly data with yearly seasonality:\n$$ m=12. $$For hourly data with daily seasonality:\n$$ m=24. $$Seasonal models are important because many time series contain repeating patterns.\nExponential smoothing Simple exponential smoothing updates a level estimate:\n$$ \\ell_t=\\alpha y_t+(1-\\alpha)\\ell_{t-1}. $$Here:\n$$ 0\u003c\\alpha\u003c1. $$The forecast is:\n$$ \\hat{y}_{t+h|t}=\\ell_t. $$Holt’s method adds trend:\n$$ \\ell_t=\\alpha y_t+(1-\\alpha)(\\ell_{t-1}+b_{t-1}), $$$$ b_t=\\beta(\\ell_t-\\ell_{t-1})+(1-\\beta)b_{t-1}. $$Holt-Winters methods add seasonality.\nETS models formalize exponential smoothing in terms of error, trend, and seasonal components. Hyndman’s forecasting material gives the standard treatment of ETS, ARIMA, and their state-space relationships. (Rob J Hyndman)\nPart IV — State-space models and Kalman filtering Why state-space models matter Sometimes the observed time series is only a noisy measurement of a hidden state.\nFor example:\nobserved GPS position is noisy, true physical position is hidden, sensor readings contain measurement error, economic indicators reflect hidden market state. A state-space model separates:\nhidden state dynamics, observation process. Linear Gaussian state-space model A standard model is:\n$$ x_t = A x_{t-1}+w_t, $$$$ y_t = C x_t+v_t. $$Here:\n\\(x_t\\) is hidden state, \\(y_t\\) is observation, \\(A\\) is state transition matrix, \\(C\\) is observation matrix, (w_t\\sim\\mathcal{N}(0,Q)) is process noise, (v_t\\sim\\mathcal{N}(0,R)) is observation noise. Stanford and MIT lecture notes present state-space models and Kalman filtering as efficient algorithms for state estimation in linear Gaussian systems. (Stanford University)\nKalman prediction step Suppose we have an estimate:\n$$ \\hat{x}_{t-1|t-1} $$with covariance:\n$$ P_{t-1|t-1}. $$Prediction:\n$$ \\hat{x}_{t|t-1}=A\\hat{x}_{t-1|t-1}, $$$$ P_{t|t-1}=AP_{t-1|t-1}A^\\top+Q. $$This predicts the next hidden state before seeing \\(y_t\\).\nKalman update step The predicted observation is:\n$$ \\hat{y}_{t|t-1}=C\\hat{x}_{t|t-1}. $$The innovation is:\n$$ r_t=y_t-\\hat{y}_{t|t-1}. $$The innovation covariance is:\n$$ S_t=CP_{t|t-1}C^\\top+R. $$The Kalman gain is:\n$$ K_t=P_{t|t-1}C^\\top S_t^{-1}. $$Update:\n$$ \\hat{x}_{t|t} {}={} \\hat{x}_{t|t-1}+K_t r_t, $$$$ P_{t|t} {}={} (I-K_tC)P_{t|t-1}. $$The Kalman filter is important because it is a mathematically exact recursive estimator for linear Gaussian state-space models.\nHidden Markov models A hidden Markov model, or HMM, uses a discrete hidden state:\n$$ z_t\\in{1,\\dots,K}. $$The hidden state evolves as a Markov chain:\n$$ p(z_t\\mid z_{t-1}). $$The observation is generated from:\n$$ p(y_t\\mid z_t). $$So the joint distribution is:\n$$ p(z_{1:T},y_{1:T}) {}={} p(z_1)p(y_1\\mid z_1) \\prod_{t=2}^{T} p(z_t\\mid z_{t-1})p(y_t\\mid z_t). $$Rabiner’s classic tutorial formalized the three central HMM problems: likelihood evaluation, decoding the most likely hidden state sequence, and parameter estimation. (Computer Science at UBC)\nPart V — Spectral and frequency-domain mathematics Time domain versus frequency domain A time series can be studied in the time domain:\n$$ y_t $$or in the frequency domain.\nFrequency analysis asks:\nwhich oscillations are present in the signal?\nFor example, electricity demand may have:\ndaily frequency, weekly frequency, annual frequency. MIT’s time-series course includes spectrum and spectrum estimation as core topics after stationarity and ARMA modeling. (MIT OpenCourseWare)\nDiscrete Fourier transform For a finite sequence:\n$$ y_0,y_1,\\dots,y_{T-1}, $$the discrete Fourier transform is:\n$$ Y_k {}={} \\sum_{t=0}^{T-1} y_t e^{-2\\pi i kt/T}. $$The inverse transform is:\n$$ y_t {}={} \\frac{1}{T} \\sum_{k=0}^{T-1} Y_k e^{2\\pi i kt/T}. $$The magnitude:\n$$ |Y_k| $$shows the strength of frequency \\(k\\).\nSpectral density For a stationary process with autocovariance \\(\\gamma(k)\\), the spectral density is:\n$$ f(\\omega) {}={} \\frac{1}{2\\pi} \\sum_{k=-\\infty}^{\\infty} \\gamma(k)e^{-i\\omega k}. $$This is the Fourier transform of the autocovariance function.\nSo the time-domain dependence structure and frequency-domain power distribution are mathematically connected.\nPart VI — Machine learning formulation Supervised time-series learning In machine learning, we define input-output pairs:\n$$ (x_i,z_i)_{i=1}^{N}. $$For forecasting:\n$$ x_i = y_{i:i+L-1}, $$$$ z_i = y_{i+L:i+L+H-1}. $$The model is:\n$$ \\hat{z}*i=f*\\theta(x_i). $$A standard mean squared error loss is:\n$$ \\mathcal{L}(\\theta) {}={} \\frac{1}{N} \\sum_{i=1}^{N} |\\hat{z}_i-z_i|_2^2. $$For scalar one-step forecasting:\n$$ \\mathcal{L}(\\theta) {}={} \\frac{1}{N} \\sum_{i=1}^{N} (\\hat{y}_{i+1}-y_{i+1})^2. $$Time-aware train-test split Ordinary random splitting can leak future information into training.\nFor time series, we usually split chronologically:\n$$ \\text{train}: y_1,\\dots,y_{T_{\\text{train}}}, $$$$ \\text{test}: y_{T_{\\text{train}}+1},\\dots,y_T. $$This respects causality.\nA model should not learn from the future when evaluated on the past.\nDirect versus recursive forecasting For multi-step forecasting, there are several strategies.\nRecursive forecasting Train one-step model:\n$$ \\hat{y}_{t+1}=f_\\theta(y_{t-L+1:t}). $$Then feed predictions back:\n$$ \\hat{y}_{t+2}=f_\\theta(y_{t-L+2:t},\\hat{y}_{t+1}). $$Problem: errors accumulate.\nDirect forecasting Train separate models:\n$$ \\hat{y}_{t+h}=f_{\\theta_h}(y_{t-L+1:t}) $$for each horizon \\(h\\).\nProblem: many models.\nMulti-output forecasting Train one model:\n$$ \\hat{y}_{t+1:t+H}=f_\\theta(y_{t-L+1:t}). $$This is common in deep learning.\nPoint forecasting and probabilistic forecasting A point forecast gives one value:\n$$ \\hat{y}_{t+h}. $$A probabilistic forecast gives a distribution:\n$$ p(y_{t+h}\\mid y_{1:t}). $$For decision-making, probabilistic forecasts are often more useful.\nFor example, energy planning needs:\n$$ P(y_{t+h}\u003e \\text{capacity}). $$DeepAR explicitly frames forecasting as probabilistic forecasting: estimating future distributions given the past, using an autoregressive recurrent neural network trained across many related time series. (arXiv)\nPart VII — Probabilistic forecasting losses Gaussian likelihood Suppose the model predicts:\n$$ \\mu_\\theta(x) $$and:\n$$ \\sigma_\\theta(x)\u003e0. $$Assume:\n$$ y\\mid x\\sim\\mathcal{N}(\\mu_\\theta(x),\\sigma_\\theta(x)^2). $$The negative log-likelihood is:\n$$ -\\log p(y\\mid x) {}={} \\frac{1}{2} \\log(2\\pi\\sigma_\\theta^2) + \\frac{(y-\\mu_\\theta)^2}{2\\sigma_\\theta^2}. $$This teaches the model both center and uncertainty.\nIf uncertainty is high, \\(\\sigma_\\theta\\) can be large.\nBut predicting large \\(\\sigma_\\theta\\) is penalized by the log term.\nQuantile loss A quantile forecast predicts \\(q_\\tau(x)\\), the \\(\\tau\\)-quantile.\nThe pinball loss is:\n$$ \\ell_\\tau(y,q) {}={} \\max \\left( \\tau(y-q), (\\tau-1)(y-q) \\right). $$For example:\n\\(\\tau=0.5\\) gives median forecasting, \\(\\tau=0.9\\) gives upper quantile forecasting. Multiple quantiles form prediction intervals.\nCRPS The continuous ranked probability score compares a full predictive CDF \\(F\\) with observation \\(y\\):\n$$ \\operatorname{CRPS}(F,y) {}={} \\int_{-\\infty}^{\\infty} \\left( F(z)-\\mathbf{1}{y\\leq z} \\right)^2dz. $$Gneiting and Raftery describe CRPS as a strictly proper scoring rule for probabilistic forecasts and note that it generalizes absolute error to predictive distributions. (Statistical Consulting Service)\nProper scoring rules A scoring rule is proper if the best expected score is achieved by reporting the true distribution.\nThis matters because we do not want a model to cheat by giving overconfident or underconfident forecasts.\nFor probabilistic forecasting, common proper scoring rules include:\nnegative log-likelihood, CRPS, energy score, variogram score. Part VIII — RNNs, LSTMs, and GRUs Recurrent neural networks A recurrent neural network updates a hidden state:\n$$ h_t = \\phi(W_xx_t+W_hh_{t-1}+b). $$The output may be:\n$$ \\hat{y}_{t+1}=W_oh_t+c. $$Here:\n\\(x_t\\) is input at time \\(t\\), \\(h_t\\) is memory state, \\(W_h\\) controls recurrence. RNNs are natural for time series because they process data sequentially.\nVanishing and exploding gradients Backpropagation through time multiplies many Jacobians.\nA simplified gradient contains products like:\n$$ \\prod_{t=1}^{T} W_h^\\top D_t. $$If eigenvalues are small, gradients vanish.\nIf eigenvalues are large, gradients explode.\nThis makes long-term dependency learning difficult.\nLSTM LSTM was introduced to address long-term dependency problems in recurrent training. The original LSTM paper explicitly discusses insufficient error backflow and introduces memory cells and gates to improve long-duration information storage. (bioinf.jku.at)\nAn LSTM uses gates:\n$$ f_t=\\sigma(W_fx_t+U_fh_{t-1}+b_f), $$$$ i_t=\\sigma(W_ix_t+U_ih_{t-1}+b_i), $$$$ o_t=\\sigma(W_ox_t+U_oh_{t-1}+b_o), $$candidate memory:\n$$ \\tilde{c}_t=\\tanh(W_cx_t+U_ch_{t-1}+b_c), $$cell update:\n$$ c_t=f_t\\odot c_{t-1}+i_t\\odot \\tilde{c}_t, $$hidden state:\n$$ h_t=o_t\\odot\\tanh(c_t). $$The forget gate \\(f_t\\) decides what to keep.\nThe input gate \\(i_t\\) decides what to write.\nThe output gate \\(o_t\\) decides what to expose.\nGRU A GRU is a simpler gated recurrent unit.\nIt uses update and reset gates:\n$$ z_t=\\sigma(W_zx_t+U_zh_{t-1}+b_z), $$$$ r_t=\\sigma(W_rx_t+U_rh_{t-1}+b_r). $$Candidate state:\n$$ \\tilde{h}*t= \\tanh(W_hx_t+U_h(r_t\\odot h_{t-1})+b_h). $$Update:\n$$ h_t=(1-z_t)\\odot h_{t-1}+z_t\\odot \\tilde{h}_t. $$GRUs were introduced in neural sequence modeling and later compared empirically with LSTMs as gated recurrent architectures. (arXiv)\nPart IX — Temporal convolutional networks Causal convolution A causal convolution ensures the output at time \\(t\\) uses only current and past inputs.\nFor kernel size \\(K\\):\n$$ h_t= \\sum_{k=0}^{K-1} w_k x_{t-k}. $$No future value \\(x_{t+1}\\) is used.\nThis is necessary for forecasting.\nDilated convolution A dilated convolution skips time steps:\n$$ h_t= \\sum_{k=0}^{K-1} w_k x_{t-dk}. $$Here \\(d\\) is dilation.\nWith increasing dilations:\n$$ 1,2,4,8,\\dots $$the receptive field grows quickly.\nWaveNet used dilated causal convolutions to obtain very large receptive fields without huge computational cost. (arXiv)\nTCN Temporal convolutional networks combine:\ncausal convolutions, dilation, residual blocks, stable parallel training. A large empirical comparison found that simple convolutional sequence models can outperform canonical recurrent models such as LSTMs on several sequence modeling tasks while showing longer effective memory. (arXiv)\nA TCN block may be written:\n$$ H^{(\\ell+1)} {}={} H^{(\\ell)} + \\operatorname{Conv}_{\\text{causal,dilated}} ( \\phi(H^{(\\ell)}) ). $$This is similar to residual deep learning, but adapted to time.\nPart X — Attention and transformers for time series Why attention helps RNNs compress the past into a hidden state.\nAttention directly compares time points.\nGiven:\n$$ X\\in\\mathbb{R}^{T\\times d}, $$we compute:\n$$ Q=XW_Q, $$$$ K=XW_K, $$$$ V=XW_V. $$Attention is:\n$$ \\operatorname{Attention}(Q,K,V) {}={} \\operatorname{softmax} \\left( \\frac{QK^\\top}{\\sqrt{d_k}} \\right)V. $$Transformers were originally introduced for sequence transduction using attention alone, avoiding recurrence and convolution. (arXiv)\nAttention as temporal dependency learning The attention matrix is:\n$$ A= \\operatorname{softmax} \\left( \\frac{QK^\\top}{\\sqrt{d_k}} \\right). $$Here:\n$$ A_{ij} $$measures how much time point \\(i\\) attends to time point \\(j\\).\nFor forecasting, causal masking may be used:\n$$ A_{ij}=0 \\quad \\text{if} \\quad j\u003ei. $$For encoder-style forecasting, the model may attend over the whole observed context.\nQuadratic complexity Standard attention forms a \\(T\\times T\\) matrix.\nSo memory and compute scale like:\n$$ O(T^2). $$This is a problem for long time series.\nIf:\n$$ T=10{,}000, $$then:\n$$ T^2=100{,}000{,}000. $$So many time-series transformer papers modify tokenization, attention, decomposition, or variable representation to reduce cost or improve inductive bias.\nTemporal Fusion Transformer Temporal Fusion Transformer combines recurrent layers, attention, gating, static covariate encoders, known future inputs, and variable selection for multi-horizon forecasting. Its paper emphasizes both high-performance multi-horizon forecasting and interpretability over temporal dynamics. (ScienceDirect)\nA simplified multi-horizon forecast is:\n$$ \\hat{y}_{t+1:t+H} {}={} f_\\theta ( \\text{past observed}, \\text{known future covariates}, \\text{static features} ). $$This is important because real forecasting often includes:\nstatic covariates, known future calendar features, observed historical covariates, target history. PatchTST PatchTST treats time-series segments as patches.\nInstead of tokenizing each time point, it tokenizes subseries:\n$$ p_i = [y_{s_i},y_{s_i+1},\\dots,y_{s_i+P-1}]. $$Then patches become transformer tokens.\nPatchTST argues that patching retains local semantic information, reduces attention cost quadratically for a fixed lookback window, and allows longer histories; it also uses channel independence, sharing embedding and transformer weights across univariate channels. (arXiv)\nMathematically:\n$$ Y\\in\\mathbb{R}^{T\\times d} \\quad \\longrightarrow \\quad P\\in\\mathbb{R}^{N_p\\times P\\times d}. $$Then each patch is embedded into:\n$$ z_i\\in\\mathbb{R}^{d_{\\text{model}}}. $$iTransformer Traditional transformers often treat each timestamp as a token.\niTransformer inverts this idea.\nIt treats each variable as a token whose feature vector is the lookback history.\nIf:\n$$ Y\\in\\mathbb{R}^{T\\times d}, $$then for variable \\(j\\):\n$$ v_j= [y_{1j},y_{2j},\\dots,y_{Tj}] \\in\\mathbb{R}^{T}. $$The model embeds variate tokens, and attention captures multivariate correlations.\nThe iTransformer paper argues that standard timestamp-token transformers may mix delayed events and distinct physical variables poorly, and shows that applying transformer components on inverted dimensions can improve forecasting and generalization. (arXiv)\nTimesNet TimesNet transforms 1D time series into 2D tensors based on discovered periods.\nIf a period is \\(p\\), a sequence can be reshaped into:\n$$ \\text{rows}=\\text{number of periods}, \\qquad \\text{columns}=p. $$This separates:\nintraperiod variation, interperiod variation. TimesNet motivates this by multi-periodicity and models temporal variation in 2D space using parameter-efficient 2D kernels. It reports results across forecasting, imputation, classification, and anomaly detection. (arXiv)\nTimeMixer TimeMixer uses multiscale decomposition.\nIt builds representations at multiple sampling scales:\n$$ Y^{(1)},Y^{(2)},\\dots,Y^{(S)}. $$Then it decomposes each scale into trend and seasonal parts:\n$$ Y^{(s)}=T^{(s)}+S^{(s)}. $$TimeMixer proposes past-decomposable mixing and future-multipredictor mixing to combine microscopic seasonal information and macroscopic trend information across scales. (ICLR Proceedings)\nPart XI — Deep forecasting architectures DeepAR DeepAR is a probabilistic autoregressive RNN.\nAt each time:\n$$ h_t=\\operatorname{RNN}_\\theta(h_{t-1},y_{t-1},x_t), $$then:\n$$ \\theta_t = g_\\theta(h_t), $$where \\(\\theta_t\\) parameterizes a probability distribution:\n$$ p(y_t\\mid y_{","wordCount":"3228","inLanguage":"en","datePublished":"2026-05-01T00:00:00Z","dateModified":"2026-05-01T00:00:00Z","author":{"@type":"Person","name":"Anwar Shamim"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/"},"publisher":{"@type":"Organization","name":"Sange Mehrab","logo":{"@type":"ImageObject","url":"https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ accesskey=h title="Sange Mehrab (Alt + H)"><span class=site-flag aria-hidden=true style=display:inline-block;vertical-align:middle;margin-right:.5rem><svg width="22" height="14" viewBox="0 0 22 14" role="img"><rect width="22" height="14" fill="#01411C"/><path d="M9.2 7a3.8 3.8.0 100-.001A3.8 3.8.0 009.2 7z" fill="#fff" transform="translate(0,0)"/><path d="M11.2 6.2c0 .7-.5 1.3-1.2 1.3-.6.0-1.2-.6-1.2-1.3s.6-1.3 1.2-1.3c.7.0 1.2.6 1.2 1.3z" fill="#01411C"/><path d="M10.6 3.3l.5.9.9.1-.7.6.2.9-.8-.5-.8.5.2-.9-.7-.6.9-.1.5-.9z" fill="#fff"/></svg>
+</span>Sange Mehrab</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ title=Home><span>Home</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/posts/ title=Articles><span>Articles</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/ title=Courses><span>Courses</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/research/ title=Research><span>Research</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/categories/ title=Topics><span>Topics</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/series/ title=Collections><span>Collections</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><div class="page-shell article-shell article-shell--course"><section class="page-hero page-hero--article"><div class=page-hero-inner><div class=breadcrumbs><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Home</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/>Courses</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/>Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/>The Language</a></div><p class=page-eyebrow>Course</p><h1 class=page-title>1.5 Mathematics of Machine Learning and Deep Learning for Time Series</h1><div class=page-description>A beginner-to-advanced mathematical introduction to time-series machine learning and deep learning, covering classical forecasting, stochastic processes, spectral analysis, supervised time-series learning, recurrent neural networks, LSTMs, GRUs, temporal convolutional networks, transformers, PatchTST, iTransformer, TimesNet, TimeMixer, state-space models, S4, Mamba, DeepAR, N-BEATS, N-HiTS, Temporal Fusion Transformers, diffusion-based forecasting, neural ODEs, neural CDEs, foundation models, probabilistic losses, conformal prediction, anomaly detection, classification, and imputation.</div></div></section><article class=article-layout><div class=article-main><div class="article-toolbar surface-card"><div class=post-meta><span title='2026-05-01 00:00:00 +0000 UTC'>May 1, 2026</span>&nbsp;·&nbsp;<span>16 min</span>&nbsp;·&nbsp;<span>3228 words</span>&nbsp;·&nbsp;<span>Anwar Shamim</span></div></div><figure class=article-lead-media><img src=/Sang_e_Mehrab/mathematicsforai/Chapter_01_Language_illustrative_image.png alt="1.5 Mathematics of Machine Learning and Deep Learning for Time Series" loading=eager decoding=async></figure><div class="article-toc surface-card"><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#why-time-series-matter>Why time series matter</a></li><li><a href=#part-i--beginner-foundation>Part I — Beginner foundation</a></li><li><a href=#a-simple-time-series>A simple time series</a></li><li><a href=#multivariate-time-series>Multivariate time series</a></li><li><a href=#forecasting>Forecasting</a></li><li><a href=#input-window-and-output-horizon>Input window and output horizon</a></li><li><a href=#time-series-tasks>Time-series tasks</a></li><li><a href=#part-ii--core-statistical-time-series-mathematics>Part II — Core statistical time-series mathematics</a></li><li><a href=#deterministic-signal-plus-noise>Deterministic signal plus noise</a></li><li><a href=#trend>Trend</a></li><li><a href=#seasonality>Seasonality</a></li><li><a href=#lag-operator>Lag operator</a></li><li><a href=#stationarity>Stationarity</a></li><li><a href=#autocovariance>Autocovariance</a></li><li><a href=#autocorrelation>Autocorrelation</a></li><li><a href=#white-noise>White noise</a></li><li><a href=#random-walk>Random walk</a></li><li><a href=#part-iii--classical-forecasting-models>Part III — Classical forecasting models</a></li><li><a href=#autoregressive-model-ar>Autoregressive model AR\(p\)</a></li><li><a href=#moving-average-model-ma>Moving-average model MA\(q\)</a></li><li><a href=#arma-model>ARMA model</a></li><li><a href=#arima-model>ARIMA model</a></li><li><a href=#seasonal-arima>Seasonal ARIMA</a></li><li><a href=#exponential-smoothing>Exponential smoothing</a></li><li><a href=#part-iv--state-space-models-and-kalman-filtering>Part IV — State-space models and Kalman filtering</a></li><li><a href=#why-state-space-models-matter>Why state-space models matter</a></li><li><a href=#linear-gaussian-state-space-model>Linear Gaussian state-space model</a></li><li><a href=#kalman-prediction-step>Kalman prediction step</a></li><li><a href=#kalman-update-step>Kalman update step</a></li><li><a href=#hidden-markov-models>Hidden Markov models</a></li><li><a href=#part-v--spectral-and-frequency-domain-mathematics>Part V — Spectral and frequency-domain mathematics</a></li><li><a href=#time-domain-versus-frequency-domain>Time domain versus frequency domain</a></li><li><a href=#discrete-fourier-transform>Discrete Fourier transform</a></li><li><a href=#spectral-density>Spectral density</a></li><li><a href=#part-vi--machine-learning-formulation>Part VI — Machine learning formulation</a></li><li><a href=#supervised-time-series-learning>Supervised time-series learning</a></li><li><a href=#time-aware-train-test-split>Time-aware train-test split</a></li><li><a href=#direct-versus-recursive-forecasting>Direct versus recursive forecasting</a><ul><li><a href=#recursive-forecasting>Recursive forecasting</a></li><li><a href=#direct-forecasting>Direct forecasting</a></li><li><a href=#multi-output-forecasting>Multi-output forecasting</a></li></ul></li><li><a href=#point-forecasting-and-probabilistic-forecasting>Point forecasting and probabilistic forecasting</a></li><li><a href=#part-vii--probabilistic-forecasting-losses>Part VII — Probabilistic forecasting losses</a></li><li><a href=#gaussian-likelihood>Gaussian likelihood</a></li><li><a href=#quantile-loss>Quantile loss</a></li><li><a href=#crps>CRPS</a></li><li><a href=#proper-scoring-rules>Proper scoring rules</a></li><li><a href=#part-viii--rnns-lstms-and-grus>Part VIII — RNNs, LSTMs, and GRUs</a></li><li><a href=#recurrent-neural-networks>Recurrent neural networks</a></li><li><a href=#vanishing-and-exploding-gradients>Vanishing and exploding gradients</a></li><li><a href=#lstm>LSTM</a></li><li><a href=#gru>GRU</a></li><li><a href=#part-ix--temporal-convolutional-networks>Part IX — Temporal convolutional networks</a></li><li><a href=#causal-convolution>Causal convolution</a></li><li><a href=#dilated-convolution>Dilated convolution</a></li><li><a href=#tcn>TCN</a></li><li><a href=#part-x--attention-and-transformers-for-time-series>Part X — Attention and transformers for time series</a></li><li><a href=#why-attention-helps>Why attention helps</a></li><li><a href=#attention-as-temporal-dependency-learning>Attention as temporal dependency learning</a></li><li><a href=#quadratic-complexity>Quadratic complexity</a></li><li><a href=#temporal-fusion-transformer>Temporal Fusion Transformer</a></li><li><a href=#patchtst>PatchTST</a></li><li><a href=#itransformer>iTransformer</a></li><li><a href=#timesnet>TimesNet</a></li><li><a href=#timemixer>TimeMixer</a></li><li><a href=#part-xi--deep-forecasting-architectures>Part XI — Deep forecasting architectures</a></li><li><a href=#deepar>DeepAR</a></li><li><a href=#n-beats>N-BEATS</a></li><li><a href=#n-hits>N-HiTS</a></li><li><a href=#part-xii--state-space-deep-sequence-models>Part XII — State-space deep sequence models</a></li><li><a href=#continuous-time-state-space-model>Continuous-time state-space model</a></li><li><a href=#s4>S4</a></li><li><a href=#mamba-and-selective-state-spaces>Mamba and selective state spaces</a></li><li><a href=#part-xiii--neural-differential-equations-for-time-series>Part XIII — Neural differential equations for time series</a></li><li><a href=#neural-ode>Neural ODE</a></li><li><a href=#latent-ode-for-irregular-time-series>Latent ODE for irregular time series</a></li><li><a href=#neural-cde>Neural CDE</a></li><li><a href=#part-xiv--gaussian-processes-for-time-series>Part XIV — Gaussian processes for time series</a></li><li><a href=#gaussian-process>Gaussian process</a></li><li><a href=#kernel>Kernel</a></li><li><a href=#gp-prediction>GP prediction</a></li><li><a href=#part-xv--self-supervised-and-representation-learning>Part XV — Self-supervised and representation learning</a></li><li><a href=#why-representation-learning-matters>Why representation learning matters</a></li><li><a href=#contrastive-learning>Contrastive learning</a></li><li><a href=#part-xvi--imputation-and-missing-data>Part XVI — Imputation and missing data</a></li><li><a href=#missing-values>Missing values</a></li><li><a href=#simple-imputation-methods>Simple imputation methods</a></li><li><a href=#diffusion-based-imputation>Diffusion-based imputation</a></li><li><a href=#part-xvii--anomaly-detection>Part XVII — Anomaly detection</a></li><li><a href=#what-is-an-anomaly>What is an anomaly?</a></li><li><a href=#reconstruction-based-anomaly-score>Reconstruction-based anomaly score</a></li><li><a href=#forecasting-based-anomaly-score>Forecasting-based anomaly score</a></li><li><a href=#transformer-based-anomaly-detection>Transformer-based anomaly detection</a></li><li><a href=#part-xviii--diffusion-models-for-time-series>Part XVIII — Diffusion models for time series</a></li><li><a href=#probabilistic-generation>Probabilistic generation</a></li><li><a href=#timegrad>TimeGrad</a></li><li><a href=#diffusion-forecasting-survey-view>Diffusion forecasting survey view</a></li><li><a href=#part-xix--time-series-foundation-models>Part XIX — Time-series foundation models</a></li><li><a href=#why-foundation-models-for-time-series>Why foundation models for time series?</a></li><li><a href=#tokenization-based-foundation-models>Tokenization-based foundation models</a></li><li><a href=#decoder-only-foundation-forecasting>Decoder-only foundation forecasting</a></li><li><a href=#lag-based-foundation-forecasting>Lag-based foundation forecasting</a></li><li><a href=#universal-forecasting-models>Universal forecasting models</a></li><li><a href=#general-purpose-time-series-foundation-models>General-purpose time-series foundation models</a></li><li><a href=#continuous-valued-foundation-models>Continuous-valued foundation models</a></li><li><a href=#part-xx--evaluation-metrics>Part XX — Evaluation metrics</a></li><li><a href=#point-forecast-metrics>Point forecast metrics</a></li><li><a href=#scale-free-metric-mase>Scale-free metric: MASE</a></li><li><a href=#probabilistic-metrics>Probabilistic metrics</a></li><li><a href=#conformal-prediction-for-time-series>Conformal prediction for time series</a></li><li><a href=#part-xxi--advanced-mathematical-view>Part XXI — Advanced mathematical view</a></li><li><a href=#time-series-as-stochastic-processes>Time series as stochastic processes</a></li><li><a href=#conditional-distribution-view>Conditional distribution view</a></li><li><a href=#filtration>Filtration</a></li><li><a href=#martingale-difference-noise>Martingale difference noise</a></li><li><a href=#ergodicity>Ergodicity</a></li><li><a href=#non-stationarity-and-distribution-shift>Non-stationarity and distribution shift</a></li><li><a href=#part-xxii--the-complete-mathematical-map>Part XXII — The complete mathematical map</a></li><li><a href=#section-summary>Section summary</a></li><li><a href=#source-anchors-used-for-this-section>Source anchors used for this section</a></li></ul></nav></div></details></div></div><div class="post-content article-content surface-card"><h2 id=why-time-series-matter>Why time series matter<a hidden class=anchor aria-hidden=true href=#why-time-series-matter>#</a></h2><p>A <strong>time series</strong> is data ordered by time.</p><p>Examples:</p><table><thead><tr><th>Domain</th><th>Time series example</th></tr></thead><tbody><tr><td>Weather</td><td>hourly temperature</td></tr><tr><td>Finance</td><td>stock prices</td></tr><tr><td>Energy</td><td>electricity demand</td></tr><tr><td>Healthcare</td><td>heart-rate signal</td></tr><tr><td>Industry</td><td>vibration sensor readings</td></tr><tr><td>Language/audio</td><td>waveform samples</td></tr><tr><td>Traffic</td><td>vehicle count per minute</td></tr><tr><td>AI systems</td><td>GPU utilization over time</td></tr><tr><td>Video</td><td>frames evolving through time</td></tr></tbody></table><p>A time series is different from an ordinary table because <strong>order matters</strong>.</p><p>If we observe:</p>$$
+10,; 12,; 15,; 14,; 18
+$$<p>this is not the same as:</p>$$
+18,; 10,; 15,; 12,; 14.
+$$<p>The values are the same, but the temporal structure is different.</p><p>Time-series analysis studies exactly this structure: dependence, trend, seasonality, cycles, shocks, noise, regime changes, long memory, and uncertainty. MIT’s graduate time-series course covers stationarity, lag operators, ARMA models, covariance structure, spectral analysis, GMM, VARs, structural breaks, and related econometric theory. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/?utm_source=chatgpt.com" title="Lecture Notes | Time Series Analysis | Economics">MIT OpenCourseWare</a>)</p><aside class="callout callout-note" role=note><div class=callout-title>Main idea</div><div class=callout-body>A time series is not just a vector. It is an ordered stochastic object whose values depend on time and often depend on previous values.</div></aside><h2 id=part-i--beginner-foundation>Part I — Beginner foundation<a hidden class=anchor aria-hidden=true href=#part-i--beginner-foundation>#</a></h2><h2 id=a-simple-time-series>A simple time series<a hidden class=anchor aria-hidden=true href=#a-simple-time-series>#</a></h2><p>Suppose we record daily temperature:</p><table><thead><tr><th style=text-align:right>Day</th><th style=text-align:right>Temperature</th></tr></thead><tbody><tr><td style=text-align:right>1</td><td style=text-align:right>20</td></tr><tr><td style=text-align:right>2</td><td style=text-align:right>21</td></tr><tr><td style=text-align:right>3</td><td style=text-align:right>19</td></tr><tr><td style=text-align:right>4</td><td style=text-align:right>22</td></tr><tr><td style=text-align:right>5</td><td style=text-align:right>24</td></tr><tr><td style=text-align:right>6</td><td style=text-align:right>23</td></tr></tbody></table><p>We write:</p>$$
+y_1=20,\quad y_2=21,\quad y_3=19,\quad y_4=22,\quad y_5=24,\quad y_6=23.
+$$<p>The full time series is:</p>$$
+y_{1:6} =
+(y_1,y_2,y_3,y_4,y_5,y_6).
+$$<p>In general:</p>$$
+y_{1:T}=(y_1,y_2,\dots,y_T).
+$$<p>Here:</p><ul><li>\(t\) is the time index,</li><li>\(T\) is the total number of observations,</li><li>\(y_t\) is the value at time \(t\).</li></ul><p>If the values are scalar, then:</p>$$
+y_t\in\mathbb{R}.
+$$<p>This is a <strong>univariate time series</strong>.</p><h2 id=multivariate-time-series>Multivariate time series<a hidden class=anchor aria-hidden=true href=#multivariate-time-series>#</a></h2><p>Sometimes we observe many variables at each time.</p><p>For example, a weather station may record:</p><table><thead><tr><th style=text-align:right>Time</th><th style=text-align:right>Temperature</th><th style=text-align:right>Humidity</th><th style=text-align:right>Wind speed</th></tr></thead><tbody><tr><td style=text-align:right>1</td><td style=text-align:right>20</td><td style=text-align:right>60</td><td style=text-align:right>5</td></tr><tr><td style=text-align:right>2</td><td style=text-align:right>21</td><td style=text-align:right>58</td><td style=text-align:right>6</td></tr><tr><td style=text-align:right>3</td><td style=text-align:right>19</td><td style=text-align:right>70</td><td style=text-align:right>4</td></tr></tbody></table><p>At time \(t\), we have a vector:</p>$$
+y_t =
+\begin{bmatrix}
+\text{temperature}_t\
+\text{humidity}_t\
+\text{wind}_t
+\end{bmatrix}
+\in\mathbb{R}^{3}.
+$$<p>The whole series is:</p>$$
+y_{1:T} =
+(y_1,y_2,\dots,y_T).
+$$<p>As a matrix:</p>$$
+Y =
+\begin{bmatrix}
+y_1^\top \\
+y_2^\top \\
+\vdots \\
+y_T^\top
+\end{bmatrix}
+\in\mathbb{R}^{T\times d}.
+$$<p>Here:</p><ul><li>\(T\) is sequence length,</li><li>\(d\) is number of variables.</li></ul><p>For a batch of \(B\) time series:</p>$$
+Y\in\mathbb{R}^{B\times T\times d}.
+$$<p>So time-series deep learning is tensor learning.</p><h2 id=forecasting>Forecasting<a hidden class=anchor aria-hidden=true href=#forecasting>#</a></h2><p>The most common time-series task is <strong>forecasting</strong>.</p><p>Given past values:</p>$$
+y_1,y_2,\dots,y_T,
+$$<p>predict future values:</p>$$
+y_{T+1},y_{T+2},\dots,y_{T+H}.
+$$<p>Here:</p><ul><li>\(T\) is the history length,</li><li>\(H\) is the forecast horizon.</li></ul><p>We write:</p>$$
+\hat{y}_{T+1:T+H}
+{}={}
+f_\theta(y_{1:T}).
+$$<p>For one-step forecasting:</p>$$
+\hat{y}_{T+1}=f_\theta(y_{1:T}).
+$$<p>For multi-step forecasting:</p>$$
+\hat{y}_{T+1:T+H}=f_\theta(y_{1:T}).
+$$<p>Hyndman and Athanasopoulos’ <em>Forecasting: Principles and Practice</em> is a standard open textbook that introduces forecasting methods and practical modeling choices, including time-series features, exponential smoothing, ARIMA, dynamic regression, hierarchical forecasting, and practical evaluation. (<a href="https://otexts.com/fpp3/?utm_source=chatgpt.com" title="Forecasting: Principles and Practice (3rd ed)">OTexts: Online, open-access textbooks</a>)</p><h2 id=input-window-and-output-horizon>Input window and output horizon<a hidden class=anchor aria-hidden=true href=#input-window-and-output-horizon>#</a></h2><p>In machine learning, we often convert a time series into supervised examples.</p><p>Suppose:</p>$$
+y_1,y_2,\dots,y_{100}.
+$$<p>Choose input length:</p>$$
+L=5
+$$<p>and forecast horizon:</p>$$
+H=2.
+$$<p>Then one training example is:</p>$$
+x_1=
+\begin{bmatrix}
+y_1\
+y_2\
+y_3\
+y_4\
+y_5
+\end{bmatrix},
+\qquad
+\text{target}=
+\begin{bmatrix}
+y_6\
+y_7
+\end{bmatrix}.
+$$<p>Another example is:</p>$$
+x_2=
+\begin{bmatrix}
+y_2\
+y_3\
+y_4\
+y_5\
+y_6
+\end{bmatrix},
+\qquad
+\text{target}=
+\begin{bmatrix}
+y_7\
+y_8
+\end{bmatrix}.
+$$<p>This is called a <strong>sliding window</strong> construction.</p><p>In general:</p>$$
+x_t=(y_t,y_{t+1},\dots,y_{t+L-1}),
+$$<p>and:</p>$$
+z_t=(y_{t+L},\dots,y_{t+L+H-1}).
+$$<p>The model learns:</p>$$
+f_\theta:x_t\mapsto z_t.
+$$<h2 id=time-series-tasks>Time-series tasks<a hidden class=anchor aria-hidden=true href=#time-series-tasks>#</a></h2><p>Time-series machine learning is not only forecasting.</p><p>It includes:</p><table><thead><tr><th>Task</th><th>Goal</th></tr></thead><tbody><tr><td>Forecasting</td><td>predict future values</td></tr><tr><td>Classification</td><td>assign a label to a sequence</td></tr><tr><td>Regression</td><td>predict a continuous target from a sequence</td></tr><tr><td>Anomaly detection</td><td>find unusual time points or segments</td></tr><tr><td>Imputation</td><td>fill missing values</td></tr><tr><td>Segmentation</td><td>divide sequence into regimes</td></tr><tr><td>Clustering</td><td>group similar time series</td></tr><tr><td>Representation learning</td><td>learn useful embeddings</td></tr><tr><td>Simulation/generation</td><td>generate realistic future trajectories</td></tr><tr><td>Control</td><td>choose actions over time</td></tr></tbody></table><p>The UCR and UEA archives became major public benchmarks for time-series classification; the UEA 2018 multivariate archive was introduced to improve rigorous evaluation for multivariate time-series classification, where each example may contain multiple channels. (<a href="https://arxiv.org/abs/1811.00075?utm_source=chatgpt.com" title="The UEA multivariate time series classification archive, 2018">arXiv</a>)</p><h2 id=part-ii--core-statistical-time-series-mathematics>Part II — Core statistical time-series mathematics<a hidden class=anchor aria-hidden=true href=#part-ii--core-statistical-time-series-mathematics>#</a></h2><h2 id=deterministic-signal-plus-noise>Deterministic signal plus noise<a hidden class=anchor aria-hidden=true href=#deterministic-signal-plus-noise>#</a></h2><p>A useful beginner model is:</p>$$
+y_t = s_t+\varepsilon_t.
+$$<p>Here:</p><ul><li>\(s_t\) is the true signal,</li><li>\(\varepsilon_t\) is noise.</li></ul><p>For example:</p>$$
+y_t =
+\text{trend}_t
++
+\text{seasonality}_t
++
+\text{noise}_t.
+$$<p>So:</p>$$
+y_t = T_t + S_t + R_t.
+$$<p>Here:</p><ul><li>\(T_t\) is trend,</li><li>\(S_t\) is seasonal pattern,</li><li>\(R_t\) is residual noise.</li></ul><p>This decomposition is central in classical forecasting and remains useful in modern deep learning. Hyndman and Athanasopoulos present decomposition as a core tool for understanding trend and seasonal structure before modeling. (<a href="https://otexts.com/fpp3/?utm_source=chatgpt.com" title="Forecasting: Principles and Practice (3rd ed)">OTexts: Online, open-access textbooks</a>)</p><h2 id=trend>Trend<a hidden class=anchor aria-hidden=true href=#trend>#</a></h2><p>A trend is a long-term direction.</p><p>A linear trend can be written:</p>$$
+T_t = a+bt.
+$$<p>Here:</p><ul><li>\(a\) is intercept,</li><li>\(b\) is slope.</li></ul><p>If \(b>0\), the series increases.</p><p>If \(b<0\), the series decreases.</p><p>For example:</p>$$
+y_t = 10+0.5t+\varepsilon_t.
+$$<p>This means the average value grows by 0.5 per time step.</p><h2 id=seasonality>Seasonality<a hidden class=anchor aria-hidden=true href=#seasonality>#</a></h2><p>Seasonality is a repeated pattern.</p><p>For daily data with weekly seasonality, the period is:</p>$$
+m=7.
+$$<p>For monthly data with yearly seasonality:</p>$$
+m=12.
+$$<p>A simple seasonal model is:</p>$$
+y_t = T_t + S_{t \bmod m}+\varepsilon_t.
+$$<p>Fourier terms can model smooth seasonality:</p>$$
+S_t =
+\sum_{k=1}^{K}
+\left[
+a_k\cos\left(\frac{2\pi kt}{m}\right)
++
+b_k\sin\left(\frac{2\pi kt}{m}\right)
+\right].
+$$<p>This connects time series to frequency-domain mathematics.</p><h2 id=lag-operator>Lag operator<a hidden class=anchor aria-hidden=true href=#lag-operator>#</a></h2><p>The lag operator \(L\) shifts a series backward:</p>$$
+Ly_t=y_{t-1}.
+$$<p>Then:</p>$$
+L^2y_t=y_{t-2}.
+$$<p>MIT’s graduate time-series notes begin with stationarity, lag operators, ARMA models, and covariance structure, because lag notation is the compact language of classical time-series theory. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/?utm_source=chatgpt.com" title="Lecture Notes | Time Series Analysis | Economics">MIT OpenCourseWare</a>)</p><p>For example:</p>$$
+y_t = 0.8y_{t-1}+\varepsilon_t
+$$<p>can be written:</p>$$
+y_t = 0.8Ly_t+\varepsilon_t.
+$$<p>So:</p>$$
+(1-0.8L)y_t=\varepsilon_t.
+$$<h2 id=stationarity>Stationarity<a hidden class=anchor aria-hidden=true href=#stationarity>#</a></h2><p>A time series is <strong>stationary</strong> if its statistical properties do not change over time.</p><p>Weak stationarity means:</p><ol><li>constant mean:</li></ol>$$
+\mathbb{E}[y_t]=\mu,
+$$<ol start=2><li>constant variance:</li></ol>$$
+\operatorname{Var}(y_t)=\sigma^2,
+$$<ol start=3><li>autocovariance depends only on lag, not absolute time:</li></ol>$$
+\operatorname{Cov}(y_t,y_{t-k})=\gamma(k).
+$$<p>Stationarity matters because many classical time-series models assume stable dependence structure. MIT’s time-series notes treat stationarity as foundational for ARMA models and covariance analysis. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/resources/mit14_384f13_lec1/?utm_source=chatgpt.com" title="Stationarity, Lag Operator, ARMA, and Covariance Structure">MIT OpenCourseWare</a>)</p><h2 id=autocovariance>Autocovariance<a hidden class=anchor aria-hidden=true href=#autocovariance>#</a></h2><p>The autocovariance at lag \(k\) is:</p>$$
+\gamma(k)
+{}={}
+\operatorname{Cov}(y_t,y_{t-k})
+\mathbb{E}[(y_t-\mu)(y_{t-k}-\mu)].
+$$<p>For \(k=0\):</p>$$
+\gamma(0)=\operatorname{Var}(y_t).
+$$<p>Autocovariance measures how values separated by \(k\) time steps move together.</p><h2 id=autocorrelation>Autocorrelation<a hidden class=anchor aria-hidden=true href=#autocorrelation>#</a></h2><p>Autocorrelation normalizes autocovariance:</p>$$
+\rho(k)=\frac{\gamma(k)}{\gamma(0)}.
+$$<p>So:</p>$$
+-1\leq \rho(k)\leq 1.
+$$<p>If:</p>$$
+\rho(1)>0,
+$$<p>then nearby values tend to move together.</p><p>If:</p>$$
+\rho(1)<0,
+$$<p>then high values tend to be followed by low values.</p><p>If:</p>$$
+\rho(k)\approx 0,
+$$<p>then values \(k\) steps apart are weakly linearly related.</p><h2 id=white-noise>White noise<a hidden class=anchor aria-hidden=true href=#white-noise>#</a></h2><p>A white-noise process satisfies:</p>$$
+\mathbb{E}[\varepsilon_t]=0,
+$$$$
+\operatorname{Var}(\varepsilon_t)=\sigma^2,
+$$$$
+\operatorname{Cov}(\varepsilon_t,\varepsilon_s)=0
+\quad
+\text{for } t\neq s.
+$$<p>If:</p>$$
+\varepsilon_t\sim\mathcal{N}(0,\sigma^2)
+$$<p>independently, then it is Gaussian white noise.</p><p>White noise is the basic random innovation in ARMA, state-space, Kalman filtering, SDEs, and probabilistic forecasting.</p><h2 id=random-walk>Random walk<a hidden class=anchor aria-hidden=true href=#random-walk>#</a></h2><p>A random walk is:</p>$$
+y_t=y_{t-1}+\varepsilon_t.
+$$<p>Equivalently:</p>$$
+\Delta y_t = y_t-y_{t-1}=\varepsilon_t.
+$$<p>The variance grows over time.</p><p>If:</p>$$
+y_0=0,
+$$<p>then:</p>$$
+y_t=\sum_{i=1}^{t}\varepsilon_i.
+$$<p>If the innovations have variance \(\sigma^2\), then:</p>$$
+\operatorname{Var}(y_t)=t\sigma^2.
+$$<p>So the process is not stationary.</p><p>Random walks are important in finance, stochastic processes, diffusion limits, and non-stationary forecasting.</p><h2 id=part-iii--classical-forecasting-models>Part III — Classical forecasting models<a hidden class=anchor aria-hidden=true href=#part-iii--classical-forecasting-models>#</a></h2><h2 id=autoregressive-model-ar>Autoregressive model AR\(p\)<a hidden class=anchor aria-hidden=true href=#autoregressive-model-ar>#</a></h2><p>An autoregressive model predicts the present from past values.</p><p>An AR(1) model is:</p>$$
+y_t = c+\phi y_{t-1}+\varepsilon_t.
+$$<p>An AR\(p\) model is:</p>$$
+y_t
+{}={}
+c+
+\phi_1y_{t-1}
++
+\phi_2y_{t-2}
++
+\cdots
++
+\phi_py_{t-p}
++
+\varepsilon_t.
+$$<p>Using lag notation:</p>$$
+\phi(L)y_t=c+\varepsilon_t,
+$$<p>where:</p>$$
+\phi(L)=1-\phi_1L-\phi_2L^2-\cdots-\phi_pL^p.
+$$<p>AR models are linear memory models.</p><p>They say:</p><blockquote><p>the future depends linearly on the past.</p></blockquote><h2 id=moving-average-model-ma>Moving-average model MA\(q\)<a hidden class=anchor aria-hidden=true href=#moving-average-model-ma>#</a></h2><p>A moving-average model uses past noise terms.</p><p>An MA(1) model is:</p>$$
+y_t=\mu+\varepsilon_t+\theta\varepsilon_{t-1}.
+$$<p>An MA\(q\) model is:</p>$$
+y_t
+{}={}
+\mu+
+\varepsilon_t+
+\theta_1\varepsilon_{t-1}
++
+\cdots
++
+\theta_q\varepsilon_{t-q}.
+$$<p>This means shocks can influence future observations for several time steps.</p><h2 id=arma-model>ARMA model<a hidden class=anchor aria-hidden=true href=#arma-model>#</a></h2><p>An ARMA\(p,q\) model combines AR and MA terms:</p>$$
+y_t
+{}={}
+c+
+\sum_{i=1}^{p}\phi_i y_{t-i}
++
+\varepsilon_t
++
+\sum_{j=1}^{q}\theta_j\varepsilon_{t-j}.
+$$<p>This is useful for stationary time series.</p><p>MIT’s graduate time-series material covers ARMA and covariance structure as central tools for stationary time-series analysis. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/?utm_source=chatgpt.com" title="Lecture Notes | Time Series Analysis | Economics">MIT OpenCourseWare</a>)</p><h2 id=arima-model>ARIMA model<a hidden class=anchor aria-hidden=true href=#arima-model>#</a></h2><p>Many real time series are non-stationary.</p><p>ARIMA handles non-stationarity using differencing.</p><p>The first difference is:</p>$$
+\nabla y_t = y_t-y_{t-1}.
+$$<p>If the differenced series is stationary, we can apply ARMA to:</p>$$
+\nabla^d y_t.
+$$<p>An ARIMA\(p,d,q\) model means:</p><ul><li>\(p\): autoregressive order,</li><li>\(d\): differencing order,</li><li>\(q\): moving-average order.</li></ul><p>Hyndman and Athanasopoulos present ARIMA as a core classical forecasting model, alongside exponential smoothing and dynamic regression. (<a href="https://otexts.com/fpp3/?utm_source=chatgpt.com" title="Forecasting: Principles and Practice (3rd ed)">OTexts: Online, open-access textbooks</a>)</p><h2 id=seasonal-arima>Seasonal ARIMA<a hidden class=anchor aria-hidden=true href=#seasonal-arima>#</a></h2><p>Seasonal ARIMA adds seasonal lags.</p><p>A common notation is:</p>$$
+\operatorname{ARIMA}(p,d,q)(P,D,Q)_m.
+$$<p>Here:</p><ul><li>\(m\) is seasonal period,</li><li>\(P,D,Q\) are seasonal AR, differencing, and MA orders.</li></ul><p>For monthly data with yearly seasonality:</p>$$
+m=12.
+$$<p>For hourly data with daily seasonality:</p>$$
+m=24.
+$$<p>Seasonal models are important because many time series contain repeating patterns.</p><h2 id=exponential-smoothing>Exponential smoothing<a hidden class=anchor aria-hidden=true href=#exponential-smoothing>#</a></h2><p>Simple exponential smoothing updates a level estimate:</p>$$
+\ell_t=\alpha y_t+(1-\alpha)\ell_{t-1}.
+$$<p>Here:</p>$$
+0<\alpha<1.
+$$<p>The forecast is:</p>$$
+\hat{y}_{t+h|t}=\ell_t.
+$$<p>Holt’s method adds trend:</p>$$
+\ell_t=\alpha y_t+(1-\alpha)(\ell_{t-1}+b_{t-1}),
+$$$$
+b_t=\beta(\ell_t-\ell_{t-1})+(1-\beta)b_{t-1}.
+$$<p>Holt-Winters methods add seasonality.</p><p>ETS models formalize exponential smoothing in terms of error, trend, and seasonal components. Hyndman’s forecasting material gives the standard treatment of ETS, ARIMA, and their state-space relationships. (<a href="https://robjhyndman.com/uwafiles/9-StateSpaceModels.pdf?utm_source=chatgpt.com" title="Forecasting: - Principles and Practice">Rob J Hyndman</a>)</p><h2 id=part-iv--state-space-models-and-kalman-filtering>Part IV — State-space models and Kalman filtering<a hidden class=anchor aria-hidden=true href=#part-iv--state-space-models-and-kalman-filtering>#</a></h2><h2 id=why-state-space-models-matter>Why state-space models matter<a hidden class=anchor aria-hidden=true href=#why-state-space-models-matter>#</a></h2><p>Sometimes the observed time series is only a noisy measurement of a hidden state.</p><p>For example:</p><ul><li>observed GPS position is noisy,</li><li>true physical position is hidden,</li><li>sensor readings contain measurement error,</li><li>economic indicators reflect hidden market state.</li></ul><p>A state-space model separates:</p><ol><li>hidden state dynamics,</li><li>observation process.</li></ol><h2 id=linear-gaussian-state-space-model>Linear Gaussian state-space model<a hidden class=anchor aria-hidden=true href=#linear-gaussian-state-space-model>#</a></h2><p>A standard model is:</p>$$
+x_t = A x_{t-1}+w_t,
+$$$$
+y_t = C x_t+v_t.
+$$<p>Here:</p><ul><li>\(x_t\) is hidden state,</li><li>\(y_t\) is observation,</li><li>\(A\) is state transition matrix,</li><li>\(C\) is observation matrix,</li><li>(w_t\sim\mathcal{N}(0,Q)) is process noise,</li><li>(v_t\sim\mathcal{N}(0,R)) is observation noise.</li></ul><p>Stanford and MIT lecture notes present state-space models and Kalman filtering as efficient algorithms for state estimation in linear Gaussian systems. (<a href="https://web.stanford.edu/class/stats253/lectures_2014/lect4.pdf?utm_source=chatgpt.com" title="Lecture 4 State-Space Models">Stanford University</a>)</p><h2 id=kalman-prediction-step>Kalman prediction step<a hidden class=anchor aria-hidden=true href=#kalman-prediction-step>#</a></h2><p>Suppose we have an estimate:</p>$$
+\hat{x}_{t-1|t-1}
+$$<p>with covariance:</p>$$
+P_{t-1|t-1}.
+$$<p>Prediction:</p>$$
+\hat{x}_{t|t-1}=A\hat{x}_{t-1|t-1},
+$$$$
+P_{t|t-1}=AP_{t-1|t-1}A^\top+Q.
+$$<p>This predicts the next hidden state before seeing \(y_t\).</p><h2 id=kalman-update-step>Kalman update step<a hidden class=anchor aria-hidden=true href=#kalman-update-step>#</a></h2><p>The predicted observation is:</p>$$
+\hat{y}_{t|t-1}=C\hat{x}_{t|t-1}.
+$$<p>The innovation is:</p>$$
+r_t=y_t-\hat{y}_{t|t-1}.
+$$<p>The innovation covariance is:</p>$$
+S_t=CP_{t|t-1}C^\top+R.
+$$<p>The Kalman gain is:</p>$$
+K_t=P_{t|t-1}C^\top S_t^{-1}.
+$$<p>Update:</p>$$
+\hat{x}_{t|t}
+{}={}
+\hat{x}_{t|t-1}+K_t r_t,
+$$$$
+P_{t|t}
+{}={}
+(I-K_tC)P_{t|t-1}.
+$$<p>The Kalman filter is important because it is a mathematically exact recursive estimator for linear Gaussian state-space models.</p><h2 id=hidden-markov-models>Hidden Markov models<a hidden class=anchor aria-hidden=true href=#hidden-markov-models>#</a></h2><p>A hidden Markov model, or HMM, uses a discrete hidden state:</p>$$
+z_t\in{1,\dots,K}.
+$$<p>The hidden state evolves as a Markov chain:</p>$$
+p(z_t\mid z_{t-1}).
+$$<p>The observation is generated from:</p>$$
+p(y_t\mid z_t).
+$$<p>So the joint distribution is:</p>$$
+p(z_{1:T},y_{1:T})
+{}={}
+p(z_1)p(y_1\mid z_1)
+\prod_{t=2}^{T}
+p(z_t\mid z_{t-1})p(y_t\mid z_t).
+$$<p>Rabiner’s classic tutorial formalized the three central HMM problems: likelihood evaluation, decoding the most likely hidden state sequence, and parameter estimation. (<a href="https://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf?utm_source=chatgpt.com" title="A Tutorial on Hidden Markov Models and Selected ...">Computer Science at UBC</a>)</p><h2 id=part-v--spectral-and-frequency-domain-mathematics>Part V — Spectral and frequency-domain mathematics<a hidden class=anchor aria-hidden=true href=#part-v--spectral-and-frequency-domain-mathematics>#</a></h2><h2 id=time-domain-versus-frequency-domain>Time domain versus frequency domain<a hidden class=anchor aria-hidden=true href=#time-domain-versus-frequency-domain>#</a></h2><p>A time series can be studied in the time domain:</p>$$
+y_t
+$$<p>or in the frequency domain.</p><p>Frequency analysis asks:</p><blockquote><p>which oscillations are present in the signal?</p></blockquote><p>For example, electricity demand may have:</p><ul><li>daily frequency,</li><li>weekly frequency,</li><li>annual frequency.</li></ul><p>MIT’s time-series course includes spectrum and spectrum estimation as core topics after stationarity and ARMA modeling. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/?utm_source=chatgpt.com" title="Lecture Notes | Time Series Analysis | Economics">MIT OpenCourseWare</a>)</p><h2 id=discrete-fourier-transform>Discrete Fourier transform<a hidden class=anchor aria-hidden=true href=#discrete-fourier-transform>#</a></h2><p>For a finite sequence:</p>$$
+y_0,y_1,\dots,y_{T-1},
+$$<p>the discrete Fourier transform is:</p>$$
+Y_k
+{}={}
+\sum_{t=0}^{T-1}
+y_t
+e^{-2\pi i kt/T}.
+$$<p>The inverse transform is:</p>$$
+y_t
+{}={}
+\frac{1}{T}
+\sum_{k=0}^{T-1}
+Y_k
+e^{2\pi i kt/T}.
+$$<p>The magnitude:</p>$$
+|Y_k|
+$$<p>shows the strength of frequency \(k\).</p><h2 id=spectral-density>Spectral density<a hidden class=anchor aria-hidden=true href=#spectral-density>#</a></h2><p>For a stationary process with autocovariance \(\gamma(k)\), the spectral density is:</p>$$
+f(\omega)
+{}={}
+\frac{1}{2\pi}
+\sum_{k=-\infty}^{\infty}
+\gamma(k)e^{-i\omega k}.
+$$<p>This is the Fourier transform of the autocovariance function.</p><p>So the time-domain dependence structure and frequency-domain power distribution are mathematically connected.</p><h2 id=part-vi--machine-learning-formulation>Part VI — Machine learning formulation<a hidden class=anchor aria-hidden=true href=#part-vi--machine-learning-formulation>#</a></h2><h2 id=supervised-time-series-learning>Supervised time-series learning<a hidden class=anchor aria-hidden=true href=#supervised-time-series-learning>#</a></h2><p>In machine learning, we define input-output pairs:</p>$$
+(x_i,z_i)_{i=1}^{N}.
+$$<p>For forecasting:</p>$$
+x_i = y_{i:i+L-1},
+$$$$
+z_i = y_{i+L:i+L+H-1}.
+$$<p>The model is:</p>$$
+\hat{z}*i=f*\theta(x_i).
+$$<p>A standard mean squared error loss is:</p>$$
+\mathcal{L}(\theta)
+{}={}
+\frac{1}{N}
+\sum_{i=1}^{N}
+|\hat{z}_i-z_i|_2^2.
+$$<p>For scalar one-step forecasting:</p>$$
+\mathcal{L}(\theta)
+{}={}
+\frac{1}{N}
+\sum_{i=1}^{N}
+(\hat{y}_{i+1}-y_{i+1})^2.
+$$<h2 id=time-aware-train-test-split>Time-aware train-test split<a hidden class=anchor aria-hidden=true href=#time-aware-train-test-split>#</a></h2><p>Ordinary random splitting can leak future information into training.</p><p>For time series, we usually split chronologically:</p>$$
+\text{train}:
+y_1,\dots,y_{T_{\text{train}}},
+$$$$
+\text{test}:
+y_{T_{\text{train}}+1},\dots,y_T.
+$$<p>This respects causality.</p><p>A model should not learn from the future when evaluated on the past.</p><h2 id=direct-versus-recursive-forecasting>Direct versus recursive forecasting<a hidden class=anchor aria-hidden=true href=#direct-versus-recursive-forecasting>#</a></h2><p>For multi-step forecasting, there are several strategies.</p><h3 id=recursive-forecasting>Recursive forecasting<a hidden class=anchor aria-hidden=true href=#recursive-forecasting>#</a></h3><p>Train one-step model:</p>$$
+\hat{y}_{t+1}=f_\theta(y_{t-L+1:t}).
+$$<p>Then feed predictions back:</p>$$
+\hat{y}_{t+2}=f_\theta(y_{t-L+2:t},\hat{y}_{t+1}).
+$$<p>Problem: errors accumulate.</p><h3 id=direct-forecasting>Direct forecasting<a hidden class=anchor aria-hidden=true href=#direct-forecasting>#</a></h3><p>Train separate models:</p>$$
+\hat{y}_{t+h}=f_{\theta_h}(y_{t-L+1:t})
+$$<p>for each horizon \(h\).</p><p>Problem: many models.</p><h3 id=multi-output-forecasting>Multi-output forecasting<a hidden class=anchor aria-hidden=true href=#multi-output-forecasting>#</a></h3><p>Train one model:</p>$$
+\hat{y}_{t+1:t+H}=f_\theta(y_{t-L+1:t}).
+$$<p>This is common in deep learning.</p><h2 id=point-forecasting-and-probabilistic-forecasting>Point forecasting and probabilistic forecasting<a hidden class=anchor aria-hidden=true href=#point-forecasting-and-probabilistic-forecasting>#</a></h2><p>A point forecast gives one value:</p>$$
+\hat{y}_{t+h}.
+$$<p>A probabilistic forecast gives a distribution:</p>$$
+p(y_{t+h}\mid y_{1:t}).
+$$<p>For decision-making, probabilistic forecasts are often more useful.</p><p>For example, energy planning needs:</p>$$
+P(y_{t+h}> \text{capacity}).
+$$<p>DeepAR explicitly frames forecasting as probabilistic forecasting: estimating future distributions given the past, using an autoregressive recurrent neural network trained across many related time series. (<a href="https://arxiv.org/abs/1704.04110?utm_source=chatgpt.com" title="DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks">arXiv</a>)</p><h2 id=part-vii--probabilistic-forecasting-losses>Part VII — Probabilistic forecasting losses<a hidden class=anchor aria-hidden=true href=#part-vii--probabilistic-forecasting-losses>#</a></h2><h2 id=gaussian-likelihood>Gaussian likelihood<a hidden class=anchor aria-hidden=true href=#gaussian-likelihood>#</a></h2><p>Suppose the model predicts:</p>$$
+\mu_\theta(x)
+$$<p>and:</p>$$
+\sigma_\theta(x)>0.
+$$<p>Assume:</p>$$
+y\mid x\sim\mathcal{N}(\mu_\theta(x),\sigma_\theta(x)^2).
+$$<p>The negative log-likelihood is:</p>$$
+-\log p(y\mid x)
+{}={}
+\frac{1}{2}
+\log(2\pi\sigma_\theta^2)
++
+\frac{(y-\mu_\theta)^2}{2\sigma_\theta^2}.
+$$<p>This teaches the model both center and uncertainty.</p><p>If uncertainty is high, \(\sigma_\theta\) can be large.</p><p>But predicting large \(\sigma_\theta\) is penalized by the log term.</p><h2 id=quantile-loss>Quantile loss<a hidden class=anchor aria-hidden=true href=#quantile-loss>#</a></h2><p>A quantile forecast predicts \(q_\tau(x)\), the \(\tau\)-quantile.</p><p>The pinball loss is:</p>$$
+\ell_\tau(y,q)
+{}={}
+\max
+\left(
+\tau(y-q),
+(\tau-1)(y-q)
+\right).
+$$<p>For example:</p><ul><li>\(\tau=0.5\) gives median forecasting,</li><li>\(\tau=0.9\) gives upper quantile forecasting.</li></ul><p>Multiple quantiles form prediction intervals.</p><h2 id=crps>CRPS<a hidden class=anchor aria-hidden=true href=#crps>#</a></h2><p>The continuous ranked probability score compares a full predictive CDF \(F\) with observation \(y\):</p>$$
+\operatorname{CRPS}(F,y)
+{}={}
+\int_{-\infty}^{\infty}
+\left(
+F(z)-\mathbf{1}{y\leq z}
+\right)^2dz.
+$$<p>Gneiting and Raftery describe CRPS as a strictly proper scoring rule for probabilistic forecasts and note that it generalizes absolute error to predictive distributions. (<a href="https://sites.stat.washington.edu/raftery/Research/PDF/Gneiting2007jasa.pdf?utm_source=chatgpt.com" title="Strictly Proper Scoring Rules, Prediction, and Estimation">Statistical Consulting Service</a>)</p><h2 id=proper-scoring-rules>Proper scoring rules<a hidden class=anchor aria-hidden=true href=#proper-scoring-rules>#</a></h2><p>A scoring rule is <strong>proper</strong> if the best expected score is achieved by reporting the true distribution.</p><p>This matters because we do not want a model to cheat by giving overconfident or underconfident forecasts.</p><p>For probabilistic forecasting, common proper scoring rules include:</p><ul><li>negative log-likelihood,</li><li>CRPS,</li><li>energy score,</li><li>variogram score.</li></ul><h2 id=part-viii--rnns-lstms-and-grus>Part VIII — RNNs, LSTMs, and GRUs<a hidden class=anchor aria-hidden=true href=#part-viii--rnns-lstms-and-grus>#</a></h2><h2 id=recurrent-neural-networks>Recurrent neural networks<a hidden class=anchor aria-hidden=true href=#recurrent-neural-networks>#</a></h2><p>A recurrent neural network updates a hidden state:</p>$$
+h_t = \phi(W_xx_t+W_hh_{t-1}+b).
+$$<p>The output may be:</p>$$
+\hat{y}_{t+1}=W_oh_t+c.
+$$<p>Here:</p><ul><li>\(x_t\) is input at time \(t\),</li><li>\(h_t\) is memory state,</li><li>\(W_h\) controls recurrence.</li></ul><p>RNNs are natural for time series because they process data sequentially.</p><h2 id=vanishing-and-exploding-gradients>Vanishing and exploding gradients<a hidden class=anchor aria-hidden=true href=#vanishing-and-exploding-gradients>#</a></h2><p>Backpropagation through time multiplies many Jacobians.</p><p>A simplified gradient contains products like:</p>$$
+\prod_{t=1}^{T} W_h^\top D_t.
+$$<p>If eigenvalues are small, gradients vanish.</p><p>If eigenvalues are large, gradients explode.</p><p>This makes long-term dependency learning difficult.</p><h2 id=lstm>LSTM<a hidden class=anchor aria-hidden=true href=#lstm>#</a></h2><p>LSTM was introduced to address long-term dependency problems in recurrent training. The original LSTM paper explicitly discusses insufficient error backflow and introduces memory cells and gates to improve long-duration information storage. (<a href="https://www.bioinf.jku.at/publications/older/2604.pdf?utm_source=chatgpt.com" title="LONG SHORT-TERM MEMORY 1 INTRODUCTION">bioinf.jku.at</a>)</p><p>An LSTM uses gates:</p>$$
+f_t=\sigma(W_fx_t+U_fh_{t-1}+b_f),
+$$$$
+i_t=\sigma(W_ix_t+U_ih_{t-1}+b_i),
+$$$$
+o_t=\sigma(W_ox_t+U_oh_{t-1}+b_o),
+$$<p>candidate memory:</p>$$
+\tilde{c}_t=\tanh(W_cx_t+U_ch_{t-1}+b_c),
+$$<p>cell update:</p>$$
+c_t=f_t\odot c_{t-1}+i_t\odot \tilde{c}_t,
+$$<p>hidden state:</p>$$
+h_t=o_t\odot\tanh(c_t).
+$$<p>The forget gate \(f_t\) decides what to keep.</p><p>The input gate \(i_t\) decides what to write.</p><p>The output gate \(o_t\) decides what to expose.</p><h2 id=gru>GRU<a hidden class=anchor aria-hidden=true href=#gru>#</a></h2><p>A GRU is a simpler gated recurrent unit.</p><p>It uses update and reset gates:</p>$$
+z_t=\sigma(W_zx_t+U_zh_{t-1}+b_z),
+$$$$
+r_t=\sigma(W_rx_t+U_rh_{t-1}+b_r).
+$$<p>Candidate state:</p>$$
+\tilde{h}*t=
+\tanh(W_hx_t+U_h(r_t\odot h_{t-1})+b_h).
+$$<p>Update:</p>$$
+h_t=(1-z_t)\odot h_{t-1}+z_t\odot \tilde{h}_t.
+$$<p>GRUs were introduced in neural sequence modeling and later compared empirically with LSTMs as gated recurrent architectures. (<a href="https://arxiv.org/abs/1406.1078?utm_source=chatgpt.com" title="Learning Phrase Representations using RNN Encoder- ...">arXiv</a>)</p><h2 id=part-ix--temporal-convolutional-networks>Part IX — Temporal convolutional networks<a hidden class=anchor aria-hidden=true href=#part-ix--temporal-convolutional-networks>#</a></h2><h2 id=causal-convolution>Causal convolution<a hidden class=anchor aria-hidden=true href=#causal-convolution>#</a></h2><p>A causal convolution ensures the output at time \(t\) uses only current and past inputs.</p><p>For kernel size \(K\):</p>$$
+h_t=
+\sum_{k=0}^{K-1}
+w_k x_{t-k}.
+$$<p>No future value \(x_{t+1}\) is used.</p><p>This is necessary for forecasting.</p><h2 id=dilated-convolution>Dilated convolution<a hidden class=anchor aria-hidden=true href=#dilated-convolution>#</a></h2><p>A dilated convolution skips time steps:</p>$$
+h_t=
+\sum_{k=0}^{K-1}
+w_k x_{t-dk}.
+$$<p>Here \(d\) is dilation.</p><p>With increasing dilations:</p>$$
+1,2,4,8,\dots
+$$<p>the receptive field grows quickly.</p><p>WaveNet used dilated causal convolutions to obtain very large receptive fields without huge computational cost. (<a href="https://arxiv.org/pdf/1609.03499?utm_source=chatgpt.com" title="wavenet:agenerative model for raw audio">arXiv</a>)</p><h2 id=tcn>TCN<a hidden class=anchor aria-hidden=true href=#tcn>#</a></h2><p>Temporal convolutional networks combine:</p><ul><li>causal convolutions,</li><li>dilation,</li><li>residual blocks,</li><li>stable parallel training.</li></ul><p>A large empirical comparison found that simple convolutional sequence models can outperform canonical recurrent models such as LSTMs on several sequence modeling tasks while showing longer effective memory. (<a href="https://arxiv.org/abs/1803.01271?utm_source=chatgpt.com" title="An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling">arXiv</a>)</p><p>A TCN block may be written:</p>$$
+H^{(\ell+1)}
+{}={}
+H^{(\ell)}
++
+\operatorname{Conv}_{\text{causal,dilated}}
+(
+\phi(H^{(\ell)})
+).
+$$<p>This is similar to residual deep learning, but adapted to time.</p><h2 id=part-x--attention-and-transformers-for-time-series>Part X — Attention and transformers for time series<a hidden class=anchor aria-hidden=true href=#part-x--attention-and-transformers-for-time-series>#</a></h2><h2 id=why-attention-helps>Why attention helps<a hidden class=anchor aria-hidden=true href=#why-attention-helps>#</a></h2><p>RNNs compress the past into a hidden state.</p><p>Attention directly compares time points.</p><p>Given:</p>$$
+X\in\mathbb{R}^{T\times d},
+$$<p>we compute:</p>$$
+Q=XW_Q,
+$$$$
+K=XW_K,
+$$$$
+V=XW_V.
+$$<p>Attention is:</p>$$
+\operatorname{Attention}(Q,K,V)
+{}={}
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right)V.
+$$<p>Transformers were originally introduced for sequence transduction using attention alone, avoiding recurrence and convolution. (<a href="https://arxiv.org/abs/1912.09363?utm_source=chatgpt.com" title="Temporal Fusion Transformers for Interpretable Multi-horizon Time Series Forecasting">arXiv</a>)</p><h2 id=attention-as-temporal-dependency-learning>Attention as temporal dependency learning<a hidden class=anchor aria-hidden=true href=#attention-as-temporal-dependency-learning>#</a></h2><p>The attention matrix is:</p>$$
+A=
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right).
+$$<p>Here:</p>$$
+A_{ij}
+$$<p>measures how much time point \(i\) attends to time point \(j\).</p><p>For forecasting, causal masking may be used:</p>$$
+A_{ij}=0
+\quad
+\text{if}
+\quad
+j>i.
+$$<p>For encoder-style forecasting, the model may attend over the whole observed context.</p><h2 id=quadratic-complexity>Quadratic complexity<a hidden class=anchor aria-hidden=true href=#quadratic-complexity>#</a></h2><p>Standard attention forms a \(T\times T\) matrix.</p><p>So memory and compute scale like:</p>$$
+O(T^2).
+$$<p>This is a problem for long time series.</p><p>If:</p>$$
+T=10{,}000,
+$$<p>then:</p>$$
+T^2=100{,}000{,}000.
+$$<p>So many time-series transformer papers modify tokenization, attention, decomposition, or variable representation to reduce cost or improve inductive bias.</p><h2 id=temporal-fusion-transformer>Temporal Fusion Transformer<a hidden class=anchor aria-hidden=true href=#temporal-fusion-transformer>#</a></h2><p>Temporal Fusion Transformer combines recurrent layers, attention, gating, static covariate encoders, known future inputs, and variable selection for multi-horizon forecasting. Its paper emphasizes both high-performance multi-horizon forecasting and interpretability over temporal dynamics. (<a href="https://www.sciencedirect.com/science/article/pii/S0169207021000637?utm_source=chatgpt.com" title="Temporal Fusion Transformers for interpretable multi ...">ScienceDirect</a>)</p><p>A simplified multi-horizon forecast is:</p>$$
+\hat{y}_{t+1:t+H}
+{}={}
+f_\theta
+(
+\text{past observed},
+\text{known future covariates},
+\text{static features}
+).
+$$<p>This is important because real forecasting often includes:</p><ul><li>static covariates,</li><li>known future calendar features,</li><li>observed historical covariates,</li><li>target history.</li></ul><h2 id=patchtst>PatchTST<a hidden class=anchor aria-hidden=true href=#patchtst>#</a></h2><p>PatchTST treats time-series segments as patches.</p><p>Instead of tokenizing each time point, it tokenizes subseries:</p>$$
+p_i =
+[y_{s_i},y_{s_i+1},\dots,y_{s_i+P-1}].
+$$<p>Then patches become transformer tokens.</p><p>PatchTST argues that patching retains local semantic information, reduces attention cost quadratically for a fixed lookback window, and allows longer histories; it also uses channel independence, sharing embedding and transformer weights across univariate channels. (<a href="https://arxiv.org/abs/2211.14730?utm_source=chatgpt.com" title="A Time Series is Worth 64 Words: Long-term Forecasting with Transformers">arXiv</a>)</p><p>Mathematically:</p>$$
+Y\in\mathbb{R}^{T\times d}
+\quad
+\longrightarrow
+\quad
+P\in\mathbb{R}^{N_p\times P\times d}.
+$$<p>Then each patch is embedded into:</p>$$
+z_i\in\mathbb{R}^{d_{\text{model}}}.
+$$<h2 id=itransformer>iTransformer<a hidden class=anchor aria-hidden=true href=#itransformer>#</a></h2><p>Traditional transformers often treat each timestamp as a token.</p><p>iTransformer inverts this idea.</p><p>It treats each variable as a token whose feature vector is the lookback history.</p><p>If:</p>$$
+Y\in\mathbb{R}^{T\times d},
+$$<p>then for variable \(j\):</p>$$
+v_j=
+[y_{1j},y_{2j},\dots,y_{Tj}]
+\in\mathbb{R}^{T}.
+$$<p>The model embeds variate tokens, and attention captures multivariate correlations.</p><p>The iTransformer paper argues that standard timestamp-token transformers may mix delayed events and distinct physical variables poorly, and shows that applying transformer components on inverted dimensions can improve forecasting and generalization. (<a href="https://arxiv.org/abs/2310.06625?utm_source=chatgpt.com" title="iTransformer: Inverted Transformers Are Effective for Time Series Forecasting">arXiv</a>)</p><h2 id=timesnet>TimesNet<a hidden class=anchor aria-hidden=true href=#timesnet>#</a></h2><p>TimesNet transforms 1D time series into 2D tensors based on discovered periods.</p><p>If a period is \(p\), a sequence can be reshaped into:</p>$$
+\text{rows}=\text{number of periods},
+\qquad
+\text{columns}=p.
+$$<p>This separates:</p><ul><li>intraperiod variation,</li><li>interperiod variation.</li></ul><p>TimesNet motivates this by multi-periodicity and models temporal variation in 2D space using parameter-efficient 2D kernels. It reports results across forecasting, imputation, classification, and anomaly detection. (<a href="https://arxiv.org/abs/2210.02186?utm_source=chatgpt.com" title="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis">arXiv</a>)</p><h2 id=timemixer>TimeMixer<a hidden class=anchor aria-hidden=true href=#timemixer>#</a></h2><p>TimeMixer uses multiscale decomposition.</p><p>It builds representations at multiple sampling scales:</p>$$
+Y^{(1)},Y^{(2)},\dots,Y^{(S)}.
+$$<p>Then it decomposes each scale into trend and seasonal parts:</p>$$
+Y^{(s)}=T^{(s)}+S^{(s)}.
+$$<p>TimeMixer proposes past-decomposable mixing and future-multipredictor mixing to combine microscopic seasonal information and macroscopic trend information across scales. (<a href="https://proceedings.iclr.cc/paper_files/paper/2024/file/a7ac8a21e5a27e7ab31a5f42a0117bdb-Paper-Conference.pdf?utm_source=chatgpt.com" title="timemixer: decomposable multiscale mixing">ICLR Proceedings</a>)</p><h2 id=part-xi--deep-forecasting-architectures>Part XI — Deep forecasting architectures<a hidden class=anchor aria-hidden=true href=#part-xi--deep-forecasting-architectures>#</a></h2><h2 id=deepar>DeepAR<a hidden class=anchor aria-hidden=true href=#deepar>#</a></h2><p>DeepAR is a probabilistic autoregressive RNN.</p><p>At each time:</p>$$
+h_t=\operatorname{RNN}_\theta(h_{t-1},y_{t-1},x_t),
+$$<p>then:</p>$$
+\theta_t = g_\theta(h_t),
+$$<p>where \(\theta_t\) parameterizes a probability distribution:</p>$$
+p(y_t\mid y_{<t},x_{\leq t}). $$<p>For Gaussian output:</p>$$
+y_t\mid h_t\sim\mathcal{N}(\mu_t,\sigma_t^2).
+$$<p>Training maximizes likelihood:</p>$$
+\sum_t \log p_\theta(y_t\mid y_{<t}). $$<p>DeepAR was designed to train one global probabilistic model across many related time series, allowing information sharing across items. (<a href="https://arxiv.org/abs/1704.04110?utm_source=chatgpt.com" title="DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks">arXiv</a>)</p><h2 id=n-beats>N-BEATS<a hidden class=anchor aria-hidden=true href=#n-beats>#</a></h2><p>N-BEATS uses fully connected residual blocks for univariate forecasting.</p><p>Each block produces:</p><ul><li>a backcast,</li><li>a forecast.</li></ul><p>Let the input window be:</p>$$
+x\in\mathbb{R}^{L}.
+$$<p>A block computes:</p>$$
+\theta_b = f_b(x),
+$$<p>then:</p>$$
+\hat{x}_b = B_b\theta_b,
+$$$$
+\hat{y}_b = F_b\theta_b.
+$$<p>The residual input to the next block is:</p>$$
+x \leftarrow x-\hat{x}_b.
+$$<p>The total forecast is:</p>$$
+\hat{y}=\sum_b \hat{y}_b.
+$$<p>N-BEATS introduced neural basis expansion with backward and forward residual links, and it reported strong results on M3, M4, and TOURISM datasets. (<a href="https://arxiv.org/abs/1905.10437?utm_source=chatgpt.com" title="N-BEATS: Neural basis expansion analysis for interpretable time series forecasting">arXiv</a>)</p><h2 id=n-hits>N-HiTS<a hidden class=anchor aria-hidden=true href=#n-hits>#</a></h2><p>N-HiTS extends this idea using hierarchical interpolation and multi-rate sampling.</p><p>It is designed for long-horizon forecasting, where naive deep models can become computationally expensive and volatile.</p><p>N-HiTS reports that hierarchical interpolation can approximate long horizons efficiently under smoothness assumptions and shows strong accuracy and runtime advantages in long-horizon experiments. (<a href="https://arxiv.org/abs/2201.12886?utm_source=chatgpt.com" title="N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting">arXiv</a>)</p><h2 id=part-xii--state-space-deep-sequence-models>Part XII — State-space deep sequence models<a hidden class=anchor aria-hidden=true href=#part-xii--state-space-deep-sequence-models>#</a></h2><h2 id=continuous-time-state-space-model>Continuous-time state-space model<a hidden class=anchor aria-hidden=true href=#continuous-time-state-space-model>#</a></h2><p>A linear state-space model can be written:</p>$$
+\frac{dh(t)}{dt}=Ah(t)+Bu(t),
+$$$$
+y(t)=Ch(t)+Du(t).
+$$<p>Here:</p><ul><li>\(u(t)\) is input,</li><li>\(h(t)\) is hidden state,</li><li>\(y(t)\) is output.</li></ul><p>This bridges control theory, signal processing, differential equations, and sequence modeling.</p><h2 id=s4>S4<a hidden class=anchor aria-hidden=true href=#s4>#</a></h2><p>S4 uses structured state-space models to model long sequences efficiently.</p><p>The S4 paper starts from continuous-time state-space equations and develops a structured parameterization allowing efficient computation while preserving long-range dependency modeling. (<a href="https://arxiv.org/abs/2111.00396?utm_source=chatgpt.com" title="Efficiently Modeling Long Sequences with Structured State Spaces">arXiv</a>)</p><p>A discretized form is:</p>$$
+h_{t+1}=\bar{A}h_t+\bar{B}x_t,
+$$$$
+y_t=Ch_t+Dx_t.
+$$<p>The impulse response defines a convolution kernel:</p>$$
+K_k=C\bar{A}^k\bar{B}.
+$$<p>Then:</p>$$
+y_t=\sum_{k=0}^{t}K_kx_{t-k}.
+$$<p>So SSMs can be viewed as recurrent models or convolutional models.</p><h2 id=mamba-and-selective-state-spaces>Mamba and selective state spaces<a hidden class=anchor aria-hidden=true href=#mamba-and-selective-state-spaces>#</a></h2><p>A limitation of static SSMs is that their dynamics may not depend enough on the current input.</p><p>Mamba introduces selective state-space models where SSM parameters depend on the input, enabling selective propagation or forgetting along the sequence. The paper emphasizes linear scaling in sequence length and hardware-aware parallel algorithms. (<a href="https://arxiv.org/abs/2312.00752?utm_source=chatgpt.com" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces">arXiv</a>)</p><p>A simplified selective update is:</p>$$
+h_t=A(x_t)h_{t-1}+B(x_t)x_t,
+$$$$
+y_t=C(x_t)h_t.
+$$<p>So the model decides what to remember based on the current input.</p><h2 id=part-xiii--neural-differential-equations-for-time-series>Part XIII — Neural differential equations for time series<a hidden class=anchor aria-hidden=true href=#part-xiii--neural-differential-equations-for-time-series>#</a></h2><h2 id=neural-ode>Neural ODE<a hidden class=anchor aria-hidden=true href=#neural-ode>#</a></h2><p>A neural ODE models hidden dynamics continuously:</p>$$
+\frac{dh(t)}{dt}=f_\theta(h(t),t).
+$$<p>Given initial state \(h(t_0)\), the solution is:</p>$$
+h(t_1)=h(t_0)+\int_{t_0}^{t_1}f_\theta(h(t),t),dt.
+$$<p>Neural ODEs use black-box ODE solvers and support continuous-depth models, adaptive computation, and latent time-series models. (<a href="https://arxiv.org/abs/1806.07366?utm_source=chatgpt.com" title="Neural Ordinary Differential Equations">arXiv</a>)</p><h2 id=latent-ode-for-irregular-time-series>Latent ODE for irregular time series<a hidden class=anchor aria-hidden=true href=#latent-ode-for-irregular-time-series>#</a></h2><p>Suppose observations occur at irregular times:</p>$$
+t_1,t_2,\dots,t_n.
+$$<p>A latent ODE defines:</p>$$
+z(t)=\operatorname{ODESolve}(z(t_0),f_\theta,t_0,t).
+$$<p>Then observations are generated by:</p>$$
+y_i\sim p_\theta(y_i\mid z(t_i)).
+$$<p>This is useful when data is not sampled at regular intervals.</p><h2 id=neural-cde>Neural CDE<a hidden class=anchor aria-hidden=true href=#neural-cde>#</a></h2><p>A neural controlled differential equation is:</p>$$
+d h_t = f_\theta(h_t),dX_t.
+$$<p>Here:</p><ul><li>\(X_t\) is an interpolated input path,</li><li>\(h_t\) is hidden state.</li></ul><p>Neural CDEs were introduced as a continuous-time limit of RNNs and are directly applicable to irregular, partially observed multivariate time series. (<a href="https://arxiv.org/abs/2005.08926?utm_source=chatgpt.com" title="Neural Controlled Differential Equations for Irregular Time Series">arXiv</a>)</p><p>A more explicit integral form is:</p>$$
+h_t
+{}={}
+h_0+
+\int_0^t
+f_\theta(h_s),dX_s.
+$$<p>This is advanced mathematics because it uses controlled differential equations, rough path ideas, and continuous-time sequence modeling.</p><h2 id=part-xiv--gaussian-processes-for-time-series>Part XIV — Gaussian processes for time series<a hidden class=anchor aria-hidden=true href=#part-xiv--gaussian-processes-for-time-series>#</a></h2><h2 id=gaussian-process>Gaussian process<a hidden class=anchor aria-hidden=true href=#gaussian-process>#</a></h2><p>A Gaussian process is a distribution over functions:</p>$$
+f(t)\sim\mathcal{GP}(m(t),k(t,t')).
+$$<p>This means any finite collection:</p>$$
+[f(t_1),\dots,f(t_n)]
+$$<p>has a multivariate Gaussian distribution.</p><p>Rasmussen and Williams’ <em>Gaussian Processes for Machine Learning</em> is a standard MIT Press reference that presents GPs as a principled probabilistic approach to regression and classification with covariance kernels. (<a href="https://gaussianprocess.org/gpml/chapters/RW.pdf?utm_source=chatgpt.com" title="Gaussian Processes for Machine Learning">the Gaussian Process web site</a>)</p><h2 id=kernel>Kernel<a hidden class=anchor aria-hidden=true href=#kernel>#</a></h2><p>The kernel controls similarity:</p>$$
+k(t,t')=\operatorname{Cov}(f(t),f(t')).
+$$<p>A squared exponential kernel is:</p>$$
+k(t,t')
+{}={}
+\sigma_f^2
+\exp
+\left(
+-\frac{(t-t')^2}{2\ell^2}
+\right).
+$$<p>A periodic kernel is:</p>$$
+k(t,t')
+{}={}
+\sigma_f^2
+\exp
+\left(
+-\frac{2\sin^2(\pi |t-t'|/p)}{\ell^2}
+\right).
+$$<p>Kernels encode assumptions about smoothness, periodicity, and long-range correlation.</p><h2 id=gp-prediction>GP prediction<a hidden class=anchor aria-hidden=true href=#gp-prediction>#</a></h2><p>Let:</p>$$
+y=f(X)+\varepsilon,
+\qquad
+\varepsilon\sim\mathcal{N}(0,\sigma_n^2I).
+$$<p>For test inputs \(X_*\), the predictive distribution is Gaussian:</p>$$
+p(f_*\mid X,y,X_*)=
+\mathcal{N}(\mu_*,\Sigma_*).
+$$<p>The mean is:</p>$$
+\mu_*
+{}={}
+K_{*X}
+(K_{XX}+\sigma_n^2I)^{-1}y.
+$$<p>The covariance is:</p>$$
+\Sigma_*
+{}={}
+K_{**} -
+K_{*X}
+(K_{XX}+\sigma_n^2I)^{-1}
+K_{X*}.
+$$<p>This gives both prediction and uncertainty.</p><h2 id=part-xv--self-supervised-and-representation-learning>Part XV — Self-supervised and representation learning<a hidden class=anchor aria-hidden=true href=#part-xv--self-supervised-and-representation-learning>#</a></h2><h2 id=why-representation-learning-matters>Why representation learning matters<a hidden class=anchor aria-hidden=true href=#why-representation-learning-matters>#</a></h2><p>Sometimes labels are scarce.</p><p>Instead of training directly for forecasting or classification, we learn representations:</p>$$
+z_t = f_\theta(y_{1:T})_t.
+$$<p>Then use \(z_t\) for:</p><ul><li>classification,</li><li>anomaly detection,</li><li>forecasting,</li><li>clustering,</li><li>imputation.</li></ul><h2 id=contrastive-learning>Contrastive learning<a hidden class=anchor aria-hidden=true href=#contrastive-learning>#</a></h2><p>A contrastive objective pulls related views together and pushes unrelated views apart.</p><p>Let:</p>$$
+z_i
+$$<p>and:</p>$$
+z_i^+
+$$<p>be two views of the same time series.</p><p>Let:</p>$$
+z_j^-
+$$<p>be a negative example.</p><p>An InfoNCE-style loss is:</p>$$
+\mathcal{L}
+{}={}
+-\log
+\frac{
+\exp(\operatorname{sim}(z_i,z_i^+)/\tau)
+}{
+\exp(\operatorname{sim}(z_i,z_i^+)/\tau)
++
+\sum_j
+\exp(\operatorname{sim}(z_i,z_j^-)/\tau)
+}.
+$$<p>TS2Vec learns time-series representations using hierarchical contrastive learning over augmented context views and reports strong results across UCR/UEA classification, forecasting, and anomaly detection settings. (<a href="https://arxiv.org/abs/2106.10466?utm_source=chatgpt.com" title="TS2Vec: Towards Universal Representation of Time Series">arXiv</a>)</p><h2 id=part-xvi--imputation-and-missing-data>Part XVI — Imputation and missing data<a hidden class=anchor aria-hidden=true href=#part-xvi--imputation-and-missing-data>#</a></h2><h2 id=missing-values>Missing values<a hidden class=anchor aria-hidden=true href=#missing-values>#</a></h2><p>A time series may have missing observations.</p><p>Let:</p>$$
+m_t=
+\begin{cases}
+1, & y_t \text{ observed},\
+0, & y_t \text{ missing}.
+\end{cases}
+$$<p>The observed data is:</p>$$
+y_t^{\text{obs}}=m_ty_t.
+$$<p>The goal is to estimate missing values:</p>$$
+p(y_{\text{miss}}\mid y_{\text{obs}}).
+$$<p>This is a conditional distribution.</p><h2 id=simple-imputation-methods>Simple imputation methods<a hidden class=anchor aria-hidden=true href=#simple-imputation-methods>#</a></h2><p>Basic methods include:</p><ul><li>forward fill,</li><li>mean fill,</li><li>interpolation,</li><li>seasonal average.</li></ul><p>But these may fail when the dynamics are complex.</p><h2 id=diffusion-based-imputation>Diffusion-based imputation<a hidden class=anchor aria-hidden=true href=#diffusion-based-imputation>#</a></h2><p>CSDI uses conditional score-based diffusion for probabilistic time-series imputation, conditioning on observed values and learning a conditional distribution over missing values. It reports improvements on healthcare and environmental datasets over earlier probabilistic imputation methods. (<a href="https://arxiv.org/abs/2107.03502?utm_source=chatgpt.com" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation">arXiv</a>)</p><p>Mathematically, the goal is:</p>$$
+p_\theta(y_{\text{miss}}\mid y_{\text{obs}},m).
+$$<p>A diffusion model gradually denoises missing values while respecting observed values.</p><h2 id=part-xvii--anomaly-detection>Part XVII — Anomaly detection<a hidden class=anchor aria-hidden=true href=#part-xvii--anomaly-detection>#</a></h2><h2 id=what-is-an-anomaly>What is an anomaly?<a hidden class=anchor aria-hidden=true href=#what-is-an-anomaly>#</a></h2><p>An anomaly is a time point or segment that does not fit the expected pattern.</p><p>Examples:</p><ul><li>sudden spike in traffic,</li><li>abnormal heart rhythm,</li><li>machine vibration before failure,</li><li>cyberattack in network traffic,</li><li>sensor malfunction.</li></ul><h2 id=reconstruction-based-anomaly-score>Reconstruction-based anomaly score<a hidden class=anchor aria-hidden=true href=#reconstruction-based-anomaly-score>#</a></h2><p>Train an autoencoder:</p>$$
+\hat{y}_{1:T}=g_\theta(f_\theta(y_{1:T})).
+$$<p>Compute reconstruction error:</p>$$
+s_t = |y_t-\hat{y}_t|^2.
+$$<p>If:</p>$$
+s_t>\tau,
+$$<p>then \(t\) is anomalous.</p><h2 id=forecasting-based-anomaly-score>Forecasting-based anomaly score<a hidden class=anchor aria-hidden=true href=#forecasting-based-anomaly-score>#</a></h2><p>Train a forecasting model:</p>$$
+\hat{y}*t=f*\theta(y_{<t}). $$<p>Define error:</p>$$
+e_t=y_t-\hat{y}_t.
+$$<p>An anomaly score is:</p>$$
+s_t=|e_t|
+$$<p>or:</p>$$
+s_t=e_t^\top\Sigma_t^{-1}e_t.
+$$<p>Large forecast error suggests unusual behavior.</p><h2 id=transformer-based-anomaly-detection>Transformer-based anomaly detection<a hidden class=anchor aria-hidden=true href=#transformer-based-anomaly-detection>#</a></h2><p>Anomaly Transformer introduces association discrepancy: anomalies tend to have different attention-association patterns from normal points. The method uses an anomaly-attention mechanism and a minimax strategy to distinguish normal and abnormal temporal associations. (<a href="https://arxiv.org/abs/2110.02642?utm_source=chatgpt.com" title="Anomaly Transformer: Time Series Anomaly Detection with Association Discrepancy">arXiv</a>)</p><h2 id=part-xviii--diffusion-models-for-time-series>Part XVIII — Diffusion models for time series<a hidden class=anchor aria-hidden=true href=#part-xviii--diffusion-models-for-time-series>#</a></h2><h2 id=probabilistic-generation>Probabilistic generation<a hidden class=anchor aria-hidden=true href=#probabilistic-generation>#</a></h2><p>A diffusion model defines a noising process:</p>$$
+q(x_t\mid x_{t-1})
+$$<p>and learns a reverse process:</p>$$
+p_\theta(x_{t-1}\mid x_t,\text{condition}).
+$$<p>For forecasting, the condition is historical context:</p>$$
+y_{1:T}.
+$$<p>The target is future trajectory:</p>$$
+y_{T+1:T+H}.
+$$<h2 id=timegrad>TimeGrad<a hidden class=anchor aria-hidden=true href=#timegrad>#</a></h2><p>TimeGrad combines autoregressive forecasting with denoising diffusion.</p><p>At each future time step, it samples from the conditional distribution by estimating gradients of the data distribution.</p><p>TimeGrad is an autoregressive denoising diffusion model for multivariate probabilistic time-series forecasting. (<a href="https://arxiv.org/abs/2101.12072?utm_source=chatgpt.com" title="Autoregressive Denoising Diffusion Models for Multivariate ...">arXiv</a>)</p><p>A simplified objective is:</p>$$
+\mathbb{E}
+\left[
+|\epsilon-\epsilon_\theta(x_t,t,\text{history})|^2
+\right].
+$$<p>This is similar to image diffusion, but the conditioning is temporal history.</p><h2 id=diffusion-forecasting-survey-view>Diffusion forecasting survey view<a hidden class=anchor aria-hidden=true href=#diffusion-forecasting-survey-view>#</a></h2><p>Recent surveys organize diffusion-based time-series forecasting by how conditional information is supplied and how it is integrated into the denoising network. They emphasize that diffusion models provide probabilistic forecasts by sampling future trajectories through iterative denoising. (<a href="https://arxiv.org/abs/2507.14507?utm_source=chatgpt.com" title="Diffusion Models for Time Series Forecasting: A Survey">arXiv</a>)</p><h2 id=part-xix--time-series-foundation-models>Part XIX — Time-series foundation models<a hidden class=anchor aria-hidden=true href=#part-xix--time-series-foundation-models>#</a></h2><h2 id=why-foundation-models-for-time-series>Why foundation models for time series?<a hidden class=anchor aria-hidden=true href=#why-foundation-models-for-time-series>#</a></h2><p>Traditional forecasting often trains one model per dataset.</p><p>Foundation models try to pretrain on many time series from many domains and then generalize to new series.</p><p>This is analogous to language models, but the data is numerical temporal data rather than text.</p><p>A 2025 survey identifies transformer-based time-series foundation models as a major emerging paradigm for forecasting, anomaly detection, classification, trend analysis, and related tasks, and categorizes them by architecture, prediction type, scale, data type, and training objective. (<a href="https://arxiv.org/abs/2504.04011?utm_source=chatgpt.com" title="Foundation Models for Time Series: A Survey">arXiv</a>)</p><h2 id=tokenization-based-foundation-models>Tokenization-based foundation models<a hidden class=anchor aria-hidden=true href=#tokenization-based-foundation-models>#</a></h2><p>Chronos converts time-series values into discrete tokens using scaling and quantization, then trains language-model architectures with cross-entropy loss. It reports strong zero-shot performance across many datasets. (<a href="https://arxiv.org/abs/2403.07815?utm_source=chatgpt.com" title="Chronos: Learning the Language of Time Series">arXiv</a>)</p><p>Mathematically:</p>$$
+y_t
+\longrightarrow
+\tilde{y}_t
+{}={}
+\frac{y_t-\mu}{s}
+$$<p>then quantize:</p>$$
+z_t=Q(\tilde{y}_t)\in{1,\dots,V}.
+$$<p>Train:</p>$$
+p_\theta(z_{t+1}\mid z_{\leq t}).
+$$<p>Then sample token futures and dequantize.</p><h2 id=decoder-only-foundation-forecasting>Decoder-only foundation forecasting<a hidden class=anchor aria-hidden=true href=#decoder-only-foundation-forecasting>#</a></h2><p>TimesFM is a decoder-only foundation model for time-series forecasting and was designed for zero-shot forecasting across public datasets. Its paper reports that out-of-the-box zero-shot performance can approach supervised models trained specifically on individual datasets. (<a href="https://arxiv.org/abs/2310.10688?utm_source=chatgpt.com" title="A decoder-only foundation model for time-series forecasting">arXiv</a>)</p><p>A decoder-only forecasting model learns:</p>$$
+p_\theta(y_{T+1:T+H}\mid y_{1:T}).
+$$<p>Depending on design, outputs may be:</p><ul><li>point forecasts,</li><li>quantiles,</li><li>distribution parameters,</li><li>sampled trajectories.</li></ul><h2 id=lag-based-foundation-forecasting>Lag-based foundation forecasting<a hidden class=anchor aria-hidden=true href=#lag-based-foundation-forecasting>#</a></h2><p>Lag-Llama is a decoder-only transformer foundation model for univariate probabilistic forecasting that uses lagged values as covariates and is pretrained on diverse time-series data. (<a href="https://arxiv.org/abs/2310.08278?utm_source=chatgpt.com" title="[2310.08278] Lag-Llama: Towards Foundation Models for ...">arXiv</a>)</p><p>Lag features may be:</p>$$
+[y_{t-1},y_{t-7},y_{t-24},y_{t-168}]
+$$<p>for daily, hourly, or weekly structures.</p><p>The model learns:</p>$$
+p_\theta(y_t\mid y_{t-\ell_1},y_{t-\ell_2},\dots,\text{context}).
+$$<h2 id=universal-forecasting-models>Universal forecasting models<a hidden class=anchor aria-hidden=true href=#universal-forecasting-models>#</a></h2><p>Moirai frames universal forecasting as pretraining one model across many time-series datasets to handle diverse downstream forecasting tasks. It supports probabilistic zero-shot forecasting and exogenous features. (<a href="https://arxiv.org/abs/2402.02592?utm_source=chatgpt.com" title="Unified Training of Universal Time Series Forecasting ...">arXiv</a>)</p><p>The mathematical goal is no longer:</p>$$
+\text{one dataset} \rightarrow \text{one model}.
+$$<p>It becomes:</p>$$
+\text{many datasets}
+\rightarrow
+\text{one general model}
+\rightarrow
+\text{zero-shot or fine-tuned forecasting}.
+$$<h2 id=general-purpose-time-series-foundation-models>General-purpose time-series foundation models<a hidden class=anchor aria-hidden=true href=#general-purpose-time-series-foundation-models>#</a></h2><p>MOMENT introduces open time-series foundation models for general-purpose tasks, including forecasting, classification, anomaly detection, and imputation, and discusses challenges such as lack of a large cohesive public repository and heterogeneous time-series characteristics. (<a href="https://arxiv.org/abs/2402.03885?utm_source=chatgpt.com" title="MOMENT: A Family of Open Time-series Foundation Models">arXiv</a>)</p><p>So foundation models must handle:</p><ul><li>different frequencies,</li><li>different units,</li><li>different scales,</li><li>different lengths,</li><li>missing values,</li><li>multivariate inputs,</li><li>diverse downstream tasks.</li></ul><h2 id=continuous-valued-foundation-models>Continuous-valued foundation models<a hidden class=anchor aria-hidden=true href=#continuous-valued-foundation-models>#</a></h2><p>Some recent models avoid discrete tokenization.</p><p>Sundial proposes TimeFlow Loss based on flow matching to predict next-patch distributions directly for continuous-valued time series, enabling probabilistic zero-shot forecasting with generated sample trajectories. (<a href="https://arxiv.org/abs/2502.00816?utm_source=chatgpt.com" title="A Family of Highly Capable Time Series Foundation Models">arXiv</a>)</p><p>This connects time-series foundation models to:</p><ul><li>continuous probability flows,</li><li>generative modeling,</li><li>stochastic forecasting,</li><li>distribution learning.</li></ul><p>A flow-matching-style objective learns a vector field:</p>$$
+v_\theta(x,t)
+\approx
+v^\star(x,t)
+$$<p>that transports a simple distribution toward the data distribution.</p><h2 id=part-xx--evaluation-metrics>Part XX — Evaluation metrics<a hidden class=anchor aria-hidden=true href=#part-xx--evaluation-metrics>#</a></h2><h2 id=point-forecast-metrics>Point forecast metrics<a hidden class=anchor aria-hidden=true href=#point-forecast-metrics>#</a></h2><p>Mean absolute error:</p>$$
+\operatorname{MAE}
+{}={}
+\frac{1}{N}
+\sum_{i=1}^{N}
+|y_i-\hat{y}_i|.
+$$<p>Mean squared error:</p>$$
+\operatorname{MSE}
+{}={}
+\frac{1}{N}
+\sum_{i=1}^{N}
+(y_i-\hat{y}_i)^2.
+$$<p>Root mean squared error:</p>$$
+\operatorname{RMSE}
+{}={}
+\sqrt{\operatorname{MSE}}.
+$$<p>Mean absolute percentage error:</p>$$
+\operatorname{MAPE}
+{}={}
+\frac{100}{N}
+\sum_i
+\left|
+\frac{y_i-\hat{y}_i}{y_i}
+\right|.
+$$<p>MAPE is problematic when \(y_i\) is near zero.</p><h2 id=scale-free-metric-mase>Scale-free metric: MASE<a hidden class=anchor aria-hidden=true href=#scale-free-metric-mase>#</a></h2><p>Mean absolute scaled error compares forecast error to a naive baseline:</p>$$
+\operatorname{MASE}
+{}={}
+\frac{
+\frac{1}{N}\sum_i |y_i-\hat{y}*i|
+}{
+\frac{1}{T-1}\sum_{t=2}^{T}|y_t-y_{t-1}|
+}.
+$$<p>This helps compare across series with different scales.</p><h2 id=probabilistic-metrics>Probabilistic metrics<a hidden class=anchor aria-hidden=true href=#probabilistic-metrics>#</a></h2><p>For probabilistic forecasts, use:</p><ul><li>negative log-likelihood,</li><li>CRPS,</li><li>pinball loss,</li><li>coverage,</li><li>interval width,</li><li>calibration error.</li></ul><p>Prediction interval coverage:</p>$$
+\operatorname{Coverage}
+{}={}
+\frac{1}{N}
+\sum_i
+\mathbf{1}
+{y_i\in [\ell_i,u_i]}.
+$$<p>If a 90% interval is calibrated, coverage should be close to 0.9.</p><h2 id=conformal-prediction-for-time-series>Conformal prediction for time series<a hidden class=anchor aria-hidden=true href=#conformal-prediction-for-time-series>#</a></h2><p>Conformal forecasting uses residuals to build prediction intervals with frequentist coverage guarantees under assumptions.</p><p>A conformal score may be:</p>$$
+s_i=|y_i-\hat{y}_i|.
+$$<p>Let:</p>$$
+q_{1-\alpha}
+$$<p>be a quantile of calibration scores.</p><p>Then interval:</p>$$
+[\hat{y}_{t}-q_{1-\alpha},\hat{y}_{t}+q_{1-\alpha}]
+$$<p>has approximate coverage.</p><p>Conformal time-series forecasting extends inductive conformal prediction to forecasting and proposes lightweight uncertainty intervals for multi-horizon predictors. (<a href="https://proceedings.neurips.cc/paper/2021/file/312f1ba2a72318edaaa995a67835fad5-Paper.pdf?utm_source=chatgpt.com" title="Conformal Time-Series Forecasting">NeurIPS Proceedings</a>)</p><h2 id=part-xxi--advanced-mathematical-view>Part XXI — Advanced mathematical view<a hidden class=anchor aria-hidden=true href=#part-xxi--advanced-mathematical-view>#</a></h2><h2 id=time-series-as-stochastic-processes>Time series as stochastic processes<a hidden class=anchor aria-hidden=true href=#time-series-as-stochastic-processes>#</a></h2><p>A time series is one realization of a stochastic process:</p>$$
+{Y_t:t\in\mathcal{T}}.
+$$<p>If \(\mathcal{T}=\mathbb{Z}\), it is discrete time.</p><p>If \(\mathcal{T}=\mathbb{R}\), it is continuous time.</p><p>The complete mathematical object is not just observed values. It is the probability law:</p>$$
+P(Y_{1:T}\in A).
+$$<p>Learning a time-series model means estimating or approximating this probability law.</p><h2 id=conditional-distribution-view>Conditional distribution view<a hidden class=anchor aria-hidden=true href=#conditional-distribution-view>#</a></h2><p>The general forecasting problem is:</p>$$
+p(y_{T+1:T+H}\mid y_{1:T},x_{1:T+H}).
+$$<p>Here:</p><ul><li>\(y\) is target series,</li><li>\(x\) are covariates,</li><li>past covariates may be observed,</li><li>future covariates may be known,</li><li>future targets are unknown.</li></ul><p>A deep model parameterizes:</p>$$
+p_\theta(y_{T+1:T+H}\mid \mathcal{F}_T),
+$$<p>where \(\mathcal{F}_T\) is the information available at time \(T\).</p><p>This is the mathematically correct forecasting object.</p><h2 id=filtration>Filtration<a hidden class=anchor aria-hidden=true href=#filtration>#</a></h2><p>In stochastic process theory, information up to time \(t\) is represented by a filtration:</p>$$
+\mathcal{F}_t.
+$$<p>A forecast is conditional on this information:</p>$$
+\mathbb{E}[Y_{t+h}\mid \mathcal{F}_t].
+$$<p>A probabilistic forecast is:</p>$$
+P(Y_{t+h}\in A\mid \mathcal{F}_t).
+$$<p>This notation is advanced but extremely important.</p><p>It formalizes “no future leakage.”</p><h2 id=martingale-difference-noise>Martingale difference noise<a hidden class=anchor aria-hidden=true href=#martingale-difference-noise>#</a></h2><p>A noise sequence \(\varepsilon_t\) is a martingale difference if:</p>$$
+\mathbb{E}[\varepsilon_t\mid \mathcal{F}_{t-1}]=0.
+$$<p>This means the noise is unpredictable from the past.</p><p>Many forecasting models aim to make residuals behave like martingale differences.</p><p>If residuals still have predictable structure, the model has not captured all available information.</p><h2 id=ergodicity>Ergodicity<a hidden class=anchor aria-hidden=true href=#ergodicity>#</a></h2><p>Ergodicity allows time averages to approximate expectations.</p><p>For a stationary ergodic process:</p>$$
+\frac{1}{T}
+\sum_{t=1}^{T}
+g(Y_t)
+\to
+\mathbb{E}[g(Y)]
+$$<p>as:</p>$$
+T\to\infty.
+$$<p>This is important because in time series we often observe one long trajectory, not many independent samples.</p><h2 id=non-stationarity-and-distribution-shift>Non-stationarity and distribution shift<a hidden class=anchor aria-hidden=true href=#non-stationarity-and-distribution-shift>#</a></h2><p>Real time series often violate stationarity.</p><p>The distribution may change:</p>$$
+p_t(y)\neq p_{t+1}(y).
+$$<p>Sources of non-stationarity include:</p><ul><li>climate change,</li><li>market regime shifts,</li><li>sensor drift,</li><li>policy changes,</li><li>equipment aging,</li><li>seasonal changes,</li><li>user behavior shifts.</li></ul><p>Modern models use:</p><ul><li>normalization,</li><li>decomposition,</li><li>adaptive training,</li><li>online learning,</li><li>covariate conditioning,</li><li>foundation pretraining,</li><li>conformal recalibration.</li></ul><p>But non-stationarity remains one of the hardest problems in time-series ML.</p><h2 id=part-xxii--the-complete-mathematical-map>Part XXII — The complete mathematical map<a hidden class=anchor aria-hidden=true href=#part-xxii--the-complete-mathematical-map>#</a></h2><p>The mathematics of time-series machine learning and deep learning includes:</p><table><thead><tr><th>Area</th><th>Mathematics</th></tr></thead><tbody><tr><td>Basic time series</td><td>sequences, indexing, windows</td></tr><tr><td>Classical statistics</td><td>stationarity, autocorrelation, ARMA, ARIMA</td></tr><tr><td>Forecasting</td><td>conditional expectation, conditional distribution</td></tr><tr><td>Seasonality</td><td>Fourier analysis, periodic functions</td></tr><tr><td>State-space models</td><td>linear systems, Gaussian conditioning</td></tr><tr><td>Kalman filtering</td><td>Bayesian recursion, matrix covariance updates</td></tr><tr><td>HMMs</td><td>Markov chains, latent variables, dynamic programming</td></tr><tr><td>ML forecasting</td><td>supervised learning, empirical risk minimization</td></tr><tr><td>Probabilistic forecasting</td><td>likelihoods, quantiles, CRPS, calibration</td></tr><tr><td>RNNs</td><td>recurrence, dynamical systems, BPTT</td></tr><tr><td>LSTMs/GRUs</td><td>gating, memory, gradient flow</td></tr><tr><td>TCNs</td><td>causal convolution, dilation, receptive fields</td></tr><tr><td>Transformers</td><td>attention, tensor algebra, positional encodings</td></tr><tr><td>Patch models</td><td>local subsequence tokenization</td></tr><tr><td>Inverted models</td><td>variate-token attention</td></tr><tr><td>Multiscale models</td><td>decomposition, trend-season mixing</td></tr><tr><td>SSMs</td><td>differential equations, convolution kernels</td></tr><tr><td>Neural ODE/CDE</td><td>continuous-time dynamics, adjoint methods</td></tr><tr><td>Gaussian processes</td><td>kernels, Bayesian function priors</td></tr><tr><td>Diffusion models</td><td>score matching, denoising, conditional generation</td></tr><tr><td>Foundation models</td><td>pretraining, zero-shot transfer, scaling</td></tr><tr><td>Anomaly detection</td><td>residuals, reconstruction error, association discrepancy</td></tr><tr><td>Imputation</td><td>conditional distributions, missing-data inference</td></tr><tr><td>Evaluation</td><td>proper scoring rules, calibration, backtesting</td></tr></tbody></table><h2 id=section-summary>Section summary<a hidden class=anchor aria-hidden=true href=#section-summary>#</a></h2><p>A time series is ordered data:</p>$$
+y_{1:T}=(y_1,\dots,y_T).
+$$<p>A multivariate time series is:</p>$$
+Y\in\mathbb{R}^{T\times d}.
+$$<p>A forecasting model learns:</p>$$
+\hat{y}_{T+1:T+H}=f_\theta(y_{1:T}).
+$$<p>A probabilistic forecasting model learns:</p>$$
+p_\theta(y_{T+1:T+H}\mid y_{1:T}).
+$$<p>Classical models include:</p>$$
+\text{AR},\quad \text{MA},\quad \text{ARMA},\quad \text{ARIMA},\quad \text{ETS}.
+$$<p>State-space models separate hidden dynamics and noisy observations:</p>$$
+x_t=Ax_{t-1}+w_t,
+$$$$
+y_t=Cx_t+v_t.
+$$<p>Deep learning models include:</p>$$
+\text{RNN},\quad \text{LSTM},\quad \text{GRU},\quad \text{TCN},\quad \text{Transformer}.
+$$<p>Modern SOTA families include:</p>$$
+\text{N-BEATS},\quad
+\text{N-HiTS},\quad
+\text{DeepAR},\quad
+\text{TFT},\quad
+\text{PatchTST},\quad
+\text{iTransformer},\quad
+\text{TimesNet},\quad
+\text{TimeMixer}.
+$$<p>Advanced models include:</p>$$
+\text{S4},\quad
+\text{Mamba},\quad
+\text{Neural ODEs},\quad
+\text{Neural CDEs},\quad
+\text{Gaussian Processes},\quad
+\text{Diffusion Models}.
+$$<p>Foundation models aim to learn across many datasets:</p>$$
+\text{many time series}
+\to
+\text{one pretrained model}
+\to
+\text{zero-shot or fine-tuned forecasting}.
+$$<p>The deepest view is:</p><blockquote><p>time-series learning is conditional probability modeling over ordered stochastic processes.</p></blockquote><p>Mathematically:</p>$$
+p_\theta(y_{T+1:T+H}\mid \mathcal{F}_T)
+$$<p>is the central object.</p><p>Everything else — ARIMA, Kalman filters, RNNs, transformers, diffusion models, and foundation models — is a different way of approximating this conditional law.</p><h2 id=source-anchors-used-for-this-section>Source anchors used for this section<a hidden class=anchor aria-hidden=true href=#source-anchors-used-for-this-section>#</a></h2><ul><li>Hyndman and Athanasopoulos, <em>Forecasting: Principles and Practice</em>, for classical forecasting, decomposition, ETS, ARIMA, and practical evaluation. (<a href="https://otexts.com/fpp3/?utm_source=chatgpt.com" title="Forecasting: Principles and Practice (3rd ed)">OTexts: Online, open-access textbooks</a>)</li><li>MIT OCW graduate time-series notes for stationarity, lag operators, ARMA, covariance, spectral analysis, and econometric time-series theory. (<a href="https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/pages/lecture-notes/?utm_source=chatgpt.com" title="Lecture Notes | Time Series Analysis | Economics">MIT OpenCourseWare</a>)</li><li>Stanford and MIT notes for state-space models and Kalman filtering. (<a href="https://web.stanford.edu/class/stats253/lectures_2014/lect4.pdf?utm_source=chatgpt.com" title="Lecture 4 State-Space Models">Stanford University</a>)</li><li>Rabiner’s HMM tutorial for Markov chains, hidden states, likelihood evaluation, decoding, and parameter estimation. (<a href="https://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf?utm_source=chatgpt.com" title="A Tutorial on Hidden Markov Models and Selected ...">Computer Science at UBC</a>)</li><li>Rasmussen and Williams, <em>Gaussian Processes for Machine Learning</em>, for Gaussian processes, kernels, and probabilistic function modeling. (<a href="https://gaussianprocess.org/gpml/chapters/RW.pdf?utm_source=chatgpt.com" title="Gaussian Processes for Machine Learning">the Gaussian Process web site</a>)</li><li>DeepAR, N-BEATS, N-HiTS, TFT, PatchTST, TimesNet, iTransformer, and TimeMixer papers for representative deep forecasting architectures. (<a href="https://arxiv.org/abs/1704.04110?utm_source=chatgpt.com" title="DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks">arXiv</a>)</li><li>LSTM, GRU, WaveNet, and TCN papers for recurrent and convolutional sequence modeling. (<a href="https://www.bioinf.jku.at/publications/older/2604.pdf?utm_source=chatgpt.com" title="LONG SHORT-TERM MEMORY 1 INTRODUCTION">bioinf.jku.at</a>)</li><li>S4 and Mamba papers for structured and selective state-space sequence models. (<a href="https://arxiv.org/abs/2111.00396?utm_source=chatgpt.com" title="Efficiently Modeling Long Sequences with Structured State Spaces">arXiv</a>)</li><li>Neural ODE and Neural CDE papers for continuous-time and irregular time-series modeling. (<a href="https://arxiv.org/abs/1806.07366?utm_source=chatgpt.com" title="Neural Ordinary Differential Equations">arXiv</a>)</li><li>TS2Vec and Anomaly Transformer for representation learning and anomaly detection. (<a href="https://arxiv.org/abs/2106.10466?utm_source=chatgpt.com" title="TS2Vec: Towards Universal Representation of Time Series">arXiv</a>)</li><li>TimeGrad, CSDI, and diffusion time-series surveys for diffusion-based probabilistic forecasting and imputation. (<a href="https://arxiv.org/abs/2101.12072?utm_source=chatgpt.com" title="Autoregressive Denoising Diffusion Models for Multivariate ...">arXiv</a>)</li><li>Chronos, TimesFM, Lag-Llama, Moirai, MOMENT, Timer, and Sundial for modern time-series foundation models. (<a href="https://arxiv.org/abs/2403.07815?utm_source=chatgpt.com" title="Chronos: Learning the Language of Time Series">arXiv</a>)</li></ul></div><footer class="post-footer article-footer"><ul class=post-tags><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/time-series/>Time Series</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/forecasting/>Forecasting</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/machine-learning/>Machine Learning</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/deep-learning/>Deep Learning</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/rnn/>RNN</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/lstm/>LSTM</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/transformers/>Transformers</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/state-space-models/>State Space Models</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/probabilistic-forecasting/>Probabilistic Forecasting</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/foundation-models/>Foundation Models</a></li></ul><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on x" href="https://x.com/intent/tweet/?text=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f&amp;hashtags=timeseries%2cforecasting%2cmachinelearning%2cdeeplearning%2cRNN%2cLSTM%2ctransformers%2cstatespacemodels%2cprobabilisticforecasting%2cfoundationmodels"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f&amp;title=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series&amp;summary=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series&amp;source=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f&title=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on whatsapp" href="https://api.whatsapp.com/send?text=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series%20-%20https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on telegram" href="https://telegram.me/share/url?text=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.5 Mathematics of Machine Learning and Deep Learning for Time Series on ycombinator" href="https://news.ycombinator.com/submitlink?t=1.5%20Mathematics%20of%20Machine%20Learning%20and%20Deep%20Learning%20for%20Time%20Series&u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-05%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer><script type=application/ld+json>"{\"@context\":\"https://schema.org\",\"@type\":\"ScholarlyArticle\",\"author\":[{\"@type\":\"Person\",\"name\":\"Anwar Shamim\"}],\"datePublished\":\"2026-05-01\",\"headline\":\"1.5 Mathematics of Machine Learning and Deep Learning for Time Series\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sange Mehrab\"},\"url\":\"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-05/\"}"</script></div></article></div></main><footer class=footer><span>&copy; 2026 <a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Sange Mehrab</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",()=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const t=document.createRange();t.selectNodeContents(e);const n=window.getSelection();n.removeAllRanges(),n.addRange(t);try{document.execCommand("copy"),s()}catch{}n.removeRange(t)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

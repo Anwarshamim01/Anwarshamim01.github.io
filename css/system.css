@@ -466,6 +466,7 @@ a.home-hero-title-link:focus-visible {
 
 .article-card-title {
   font-size: 1.35rem;
+  overflow-wrap: anywhere;
 }
 
 .article-card--feature .article-card-title {
@@ -489,6 +490,13 @@ a.home-hero-title-link:focus-visible {
 .pillar-description {
   margin: 0;
   line-height: 1.58;
+}
+
+.article-card-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .article-card-footer {
@@ -833,6 +841,7 @@ a.home-hero-title-link:focus-visible {
   border: 1px solid var(--border);
   border-radius: var(--ds-radius-md);
   box-shadow: var(--ds-shadow-soft);
+  aspect-ratio: 16 / 7;
 }
 
 .article-content {
@@ -867,6 +876,25 @@ a.home-hero-title-link:focus-visible {
 .article-shell--course .post-content h5,
 .article-shell--course .post-content h6 {
   color: var(--accent-2);
+}
+
+.article-shell--course {
+  max-width: 1160px;
+}
+
+.article-shell--course .page-title {
+  max-width: 32ch;
+  font-size: clamp(1.85rem, 3vw, 2.85rem);
+  line-height: 1.08;
+}
+
+.page-shell--course .article-grid--three {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+.page-shell--course .article-card--compact .article-card-media {
+  aspect-ratio: 16 / 9;
+  max-height: 240px;
 }
 
 .page-shell--course .page-title,

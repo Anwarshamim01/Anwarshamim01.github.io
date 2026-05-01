@@ -1,0 +1,803 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs | Sange Mehrab</title><meta name=keywords content="probability,distributions,Gaussian noise,white noise,colored noise,Markov chains,SDE,SPDE,diffusion models,generative AI"><meta name=description content="A careful introduction to distributions and noise for AI mathematics, starting from real-world uncertainty and moving toward Gaussian random vectors, white and colored noise, Markov chains, Brownian motion, Itô SDEs, Fokker–Planck equations, stochastic PDEs, Euler–Maruyama, Milstein methods, and the mathematical foundation of diffusion generative models."><meta name=author content="Anwar Shamim"><link rel=canonical href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/><link crossorigin=anonymous href=/Sang_e_Mehrab/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as=style><link rel=icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg><link rel=icon type=image/png sizes=16x16 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-32x32.png><link rel=apple-touch-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/apple-touch-icon.png><link rel=mask-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/safari-pinned-tab.svg><meta name=theme-color content="#3d2914"><meta name=msapplication-TileColor content="#3d2914"><link rel=alternate hreflang=en href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel=stylesheet><link rel=stylesheet href=/Sang_e_Mehrab/css/custom.css><link rel=stylesheet href=/Sang_e_Mehrab/css/system.css><style>html{font-family:Inter,system-ui,-apple-system,segoe ui,Roboto,helvetica neue,Arial,sans-serif}.post-content,.post-description,.toc{font-family:eb garamond,Georgia,times new roman,serif;font-size:1.08rem}h1,h2,h3,h4,.dm-hero-title,.dm-section-title,.post-title,.entry-title{font-family:cormorant garamond,Georgia,times new roman,serif}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}</style><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){if(typeof renderMathInElement!="function")return;renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1,strict:!1})})</script><meta property="og:url" content="https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/"><meta property="og:site_name" content="Sange Mehrab"><meta property="og:title" content="1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs"><meta property="og:description" content="A careful introduction to distributions and noise for AI mathematics, starting from real-world uncertainty and moving toward Gaussian random vectors, white and colored noise, Markov chains, Brownian motion, Itô SDEs, Fokker–Planck equations, stochastic PDEs, Euler–Maruyama, Milstein methods, and the mathematical foundation of diffusion generative models."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="courses"><meta property="article:published_time" content="2026-04-29T00:00:00+00:00"><meta property="article:modified_time" content="2026-04-29T00:00:00+00:00"><meta property="article:tag" content="Probability"><meta property="article:tag" content="Distributions"><meta property="article:tag" content="Gaussian Noise"><meta property="article:tag" content="White Noise"><meta property="article:tag" content="Colored Noise"><meta property="article:tag" content="Markov Chains"><meta name=twitter:card content="summary"><meta name=twitter:title content="1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs"><meta name=twitter:description content="A careful introduction to distributions and noise for AI mathematics, starting from real-world uncertainty and moving toward Gaussian random vectors, white and colored noise, Markov chains, Brownian motion, Itô SDEs, Fokker–Planck equations, stochastic PDEs, Euler–Maruyama, Milstein methods, and the mathematical foundation of diffusion generative models."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Courses","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/"},{"@type":"ListItem","position":2,"name":"Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/"},{"@type":"ListItem","position":3,"name":"The Language","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/"},{"@type":"ListItem","position":4,"name":"1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs","name":"1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs","description":"A careful introduction to distributions and noise for AI mathematics, starting from real-world uncertainty and moving toward Gaussian random vectors, white and colored noise, Markov chains, Brownian motion, Itô SDEs, Fokker–Planck equations, stochastic PDEs, Euler–Maruyama, Milstein methods, and the mathematical foundation of diffusion generative models.","keywords":["probability","distributions","Gaussian noise","white noise","colored noise","Markov chains","SDE","SPDE","diffusion models","generative AI"],"articleBody":"Why probability comes after tensors In the previous section, we learned that AI data is often stored as vectors, matrices, and tensors.\nA single house may be a vector:\n$$ x \\in \\mathbb{R}^d. $$A dataset may be a matrix:\n$$ X \\in \\mathbb{R}^{n \\times d}. $$An image may be a tensor:\n$$ X \\in \\mathbb{R}^{H \\times W \\times C}. $$A video may be a higher-order tensor:\n$$ X \\in \\mathbb{R}^{T \\times H \\times W \\times C}. $$But tensors alone are not enough.\nAI does not only need to store data. It must also reason about uncertainty.\nFor example:\na sensor measurement may be noisy, a house price may be uncertain, a pixel may be corrupted, a video frame may contain motion blur, a neural network may output probabilities, a generative model may sample many possible images from the same text prompt. This means we need probability.\nMIT’s probability and random variables course covers distribution functions, common distributions, conditional probability, Bayes’ theorem, joint distributions, the law of large numbers, and the central limit theorem — exactly the probability foundation used throughout machine learning. (MIT OpenCourseWare)\nIn modern generative AI, probability becomes even more central.\nA diffusion model begins with data, adds noise, and then learns how to remove noise.\nSo the path is:\n$$ \\text{data} \\longrightarrow \\text{random variables} \\longrightarrow \\text{distributions} \\longrightarrow \\text{noise} \\longrightarrow \\text{stochastic processes} \\longrightarrow \\text{diffusion models}. $$Main ideaProbability is the mathematics of uncertainty. Diffusion generative models use probability to describe how clean data becomes noisy and how noisy data can be transformed back into realistic samples. A real-world example: measuring a house Suppose the true area of a house is:\n$$ x = 1200 $$square feet.\nBut a measurement device may not return exactly 1200. It may return:\n$$ 1198,\\quad 1201,\\quad 1203,\\quad 1197. $$The measured value is not fixed. It changes because of measurement noise.\nWe may write:\n$$ Y = x + \\varepsilon $$where:\n\\(x\\) is the true value, \\(\\varepsilon\\) is random noise, \\(Y\\) is the observed noisy measurement. If the noise is small, the measurement is close to the truth.\nIf the noise is large, the measurement may be unreliable.\nThis simple equation:\n$$ Y = x + \\varepsilon $$is one of the most important ideas in statistics, machine learning, signal processing, and diffusion models.\nA real-world example: noisy images A clean grayscale image can be represented as a matrix:\n$$ X \\in \\mathbb{R}^{H \\times W}. $$A noisy image may be written as:\n$$ Y = X + E $$where:\n\\(X\\) is the clean image, \\(E\\) is a noise matrix, \\(Y\\) is the corrupted image. Entry by entry:\n$$ Y_{ij}=X_{ij}+E_{ij}. $$If each noise value \\(E_{ij}\\) is random, then the whole image is random.\nFor a color image:\n$$ X \\in \\mathbb{R}^{H \\times W \\times C} $$and:\n$$ Y_{i,j,c}=X_{i,j,c}+E_{i,j,c}. $$For a video:\n$$ X \\in \\mathbb{R}^{T \\times H \\times W \\times C} $$and:\n$$ Y_{t,i,j,c}=X_{t,i,j,c}+E_{t,i,j,c}. $$So noise is not only one random number. It may be a random vector, random matrix, random image, random video, or random field.\nRandom experiments A random experiment is a process whose outcome is uncertain.\nExamples:\nflipping a coin, rolling a die, measuring temperature, recording a noisy image, sampling an image from a diffusion model, sampling the next token from a language model. The set of all possible outcomes is called the sample space.\nIt is usually written:\n$$ \\Omega. $$For a coin flip:\n$$ \\Omega={H,T}. $$For a die roll:\n$$ \\Omega={1,2,3,4,5,6}. $$For an image generation model, the sample space is much larger. It may be the space of all possible image tensors:\n$$ \\Omega \\subseteq \\mathbb{R}^{H \\times W \\times C}. $$A probability assigns a number between 0 and 1 to events.\nIf an event \\(A\\) is impossible:\n$$ P(A)=0. $$If an event \\(A\\) is certain:\n$$ P(A)=1. $$Random variables A random variable is a function that assigns a numerical value to the outcome of a random experiment.\nFormally:\n$$ X:\\Omega \\to \\mathbb{R}. $$For example, if we roll a die, then \\(X\\) may be the number that appears.\nIf:\n$$ \\omega = \\text{the die lands on 4}, $$then:\n$$ X(\\omega)=4. $$In machine learning, random variables may represent:\na noisy pixel, a class label, a house price, a token ID, a latent variable, a model prediction, a diffusion timestep, a random noise vector. A random vector is a vector of random variables:\n$$ X = \\begin{bmatrix} X_1 \\ X_2 \\ \\vdots \\ X_d \\end{bmatrix}. $$A random image is a tensor-valued random variable:\n$$ X:\\Omega \\to \\mathbb{R}^{H \\times W \\times C}. $$This is the correct mathematical way to say:\nan image is sampled from a probability distribution.\nProbability distributions A probability distribution describes how likely different values of a random variable are.\nMIT’s statistics notes describe discrete distributions using probability functions and continuous distributions using probability density functions. (MIT OpenCourseWare)\nThere are two main cases:\ndiscrete random variables, continuous random variables. Discrete distributions A discrete random variable takes values in a finite or countable set.\nFor example, a die roll has values:\n$$ 1,2,3,4,5,6. $$Its probability mass function, or PMF, is:\n$$ p_X(x)=P(X=x). $$For a fair die:\n$$ P(X=1)=P(X=2)=\\cdots=P(X=6)=\\frac{1}{6}. $$The probabilities must satisfy:\n$$ p_X(x)\\geq 0 $$and:\n$$ \\sum_x p_X(x)=1. $$Bernoulli distribution A Bernoulli random variable has two possible values:\n$$ X \\in {0,1}. $$It is often used for yes/no events.\nIf:\n$$ P(X=1)=p, $$then:\n$$ P(X=0)=1-p. $$We write:\n$$ X \\sim \\operatorname{Bernoulli}(p). $$The PMF is:\n$$ P(X=x)=p^x(1-p)^{1-x}, \\qquad x\\in{0,1}. $$In AI, Bernoulli distributions appear in:\nbinary classification, dropout masks, binary pixels, success/failure events. Categorical distribution A categorical random variable takes one of \\(K\\) possible classes:\n$$ X \\in {1,2,\\dots,K}. $$If:\n$$ P(X=k)=p_k, $$then:\n$$ p_k \\geq 0 $$and:\n$$ \\sum_{k=1}^{K}p_k=1. $$A neural network classifier often outputs:\n$$ p = \\begin{bmatrix} p_1 \\ p_2 \\ \\vdots \\ p_K \\end{bmatrix} $$where \\(p_k\\) is the predicted probability of class \\(k\\).\nFor example:\n$$ p = \\begin{bmatrix} 0.1 \\ 0.7 \\ 0.2 \\end{bmatrix} $$means:\nclass 1 has probability 0.1, class 2 has probability 0.7, class 3 has probability 0.2. Continuous distributions A continuous random variable can take infinitely many values.\nFor example, temperature, height, time, or measurement noise may be continuous.\nA continuous random variable is described by a probability density function, or PDF:\n$$ f_X(x). $$The probability that \\(X\\) lies between \\(a\\) and \\(b\\) is:\n$$ P(a\\leq X\\leq b) {}={} \\int_a^b f_X(x),dx. $$The density must satisfy:\n$$ f_X(x)\\geq 0 $$and:\n$$ \\int_{-\\infty}^{\\infty} f_X(x),dx = 1. $$For a continuous random variable:\n$$ P(X=a)=0 $$for any exact single value \\(a\\).\nThis does not mean values are impossible. It means probability is measured over intervals.\nExpectation The expectation is the average value of a random variable.\nFor a discrete random variable:\n$$ \\mathbb{E}[X] {}={} \\sum_x xP(X=x). $$For a continuous random variable:\n$$ \\mathbb{E}[X] {}={} \\int_{-\\infty}^{\\infty} x f_X(x),dx. $$Expectation is also called the mean.\nFor example, if:\n$$ X = \\begin{cases} 0 \u0026 \\text{with probability } 0.3,\\ 1 \u0026 \\text{with probability } 0.7, \\end{cases} $$then:\n$$ \\mathbb{E}[X] {}={} 0(0.3)+1(0.7)=0.7. $$Variance Variance measures spread around the mean.\nIf:\n$$ \\mu=\\mathbb{E}[X], $$then:\n$$ \\operatorname{Var}(X) {}={} \\mathbb{E}[(X-\\mu)^2]. $$The standard deviation is:\n$$ \\sigma = \\sqrt{\\operatorname{Var}(X)}. $$Small variance means the values are concentrated near the mean.\nLarge variance means the values are spread out.\nIn machine learning, variance matters because noise level controls how corrupted the data becomes.\nThe Gaussian distribution The Gaussian distribution is the most important continuous distribution in diffusion models.\nA random variable \\(X\\) is Gaussian with mean \\(\\mu\\) and variance \\(\\sigma^2\\) if:\n$$ X \\sim \\mathcal{N}(\\mu,\\sigma^2). $$Its density is:\n$$ p(x) {}={} \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp \\left( -\\frac{(x-\\mu)^2}{2\\sigma^2} \\right). $$MIT notes define a normal random variable \\(X\\sim N(\\mu,\\sigma^2)\\) using this bell-shaped density, with mean \\(\\mu\\) and variance \\(\\sigma^2\\). (MIT OpenCourseWare)\nIf:\n$$ \\mu=0, \\qquad \\sigma^2=1, $$then:\n$$ X\\sim\\mathcal{N}(0,1) $$is called a standard normal random variable.\nWhy the Gaussian is important The Gaussian distribution is important because:\nit appears in measurement noise, it is mathematically convenient, sums of many small independent effects tend to become approximately Gaussian, multivariate Gaussians are easy to manipulate, diffusion models usually add Gaussian noise. In DDPMs, the forward diffusion process adds Gaussian noise step by step. The original DDPM paper defines diffusion models as latent-variable models with a Markov noising process and connects their training objective to denoising score matching and Langevin dynamics. (NeurIPS Proceedings)\nMultivariate Gaussian distribution A random vector:\n$$ X \\in \\mathbb{R}^{d} $$has a multivariate Gaussian distribution if:\n$$ X \\sim \\mathcal{N}(\\mu,\\Sigma), $$where:\n\\(\\mu \\in \\mathbb{R}^d\\) is the mean vector, \\(\\Sigma \\in \\mathbb{R}^{d\\times d}\\) is the covariance matrix. The density is:\n$$ p(x) {}={} \\frac{1}{(2\\pi)^{d/2}|\\Sigma|^{1/2}} \\exp \\left( -\\frac{1}{2}(x-\\mu)^\\top\\Sigma^{-1}(x-\\mu) \\right). $$The covariance matrix describes how components vary together.\nThe diagonal entries are variances:\n$$ \\Sigma_{ii}=\\operatorname{Var}(X_i). $$The off-diagonal entries are covariances:\n$$ \\Sigma_{ij}=\\operatorname{Cov}(X_i,X_j). $$Stanford’s probability review emphasizes useful Gaussian closure properties: sums of independent Gaussian random variables are Gaussian, marginals of joint Gaussians are Gaussian, and conditionals of joint Gaussians are Gaussian. (CS229)\nThese properties are one reason Gaussian noise is so common in machine learning and diffusion models.\nCovariance For two random variables \\(X\\) and \\(Y\\), covariance is:\n$$ \\operatorname{Cov}(X,Y) {}={} \\mathbb{E}[(X-\\mathbb{E}[X])(Y-\\mathbb{E}[Y])]. $$If covariance is positive, \\(X\\) and \\(Y\\) tend to increase together.\nIf covariance is negative, one tends to increase while the other decreases.\nIf covariance is zero, they are uncorrelated.\nFor a random vector:\n$$ X = \\begin{bmatrix} X_1 \\ X_2 \\ \\vdots \\ X_d \\end{bmatrix}, $$the covariance matrix is:\n$$ \\Sigma {}={} \\mathbb{E}[(X-\\mu)(X-\\mu)^\\top]. $$This is a matrix of all pairwise covariances.\nIndependent Gaussian noise The simplest noise model is independent Gaussian noise:\n$$ \\varepsilon \\sim \\mathcal{N}(0,\\sigma^2 I). $$This means:\neach component has mean 0, each component has variance \\(\\sigma^2\\), components are independent, the covariance matrix is diagonal. For a vector:\n$$ x \\in \\mathbb{R}^d, $$a noisy version is:\n$$ y=x+\\varepsilon. $$Entrywise:\n$$ y_i=x_i+\\varepsilon_i, \\qquad \\varepsilon_i\\sim\\mathcal{N}(0,\\sigma^2). $$This is the basic finite-dimensional version of Gaussian white noise.\nWhite noise White noise is noise with no correlation across time or space.\nIn discrete time, a white noise sequence is often written:\n$$ \\varepsilon_1,\\varepsilon_2,\\dots $$with:\n$$ \\mathbb{E}[\\varepsilon_t]=0 $$and:\n$$ \\mathbb{E}[\\varepsilon_t\\varepsilon_s] {}={} \\sigma^2\\delta_{ts}. $$Here:\n$$ \\delta_{ts} {}={} \\begin{cases} 1, \u0026 t=s,\\ 0, \u0026 t\\neq s. \\end{cases} $$So different times are uncorrelated.\nIf the noise is Gaussian, then:\n$$ \\varepsilon_t \\sim \\mathcal{N}(0,\\sigma^2) $$and the sequence is called Gaussian white noise.\nMIT non-equilibrium statistical mechanics notes describe random forces satisfying Gaussian white noise assumptions and express their moment structure using two-time correlations. (MIT OpenCourseWare)\nWhite noise in images For an image:\n$$ X \\in \\mathbb{R}^{H \\times W}, $$white Gaussian noise means:\n$$ E_{ij}\\sim \\mathcal{N}(0,\\sigma^2) $$independently for each pixel location \\(i,j\\).\nThen:\n$$ Y_{ij}=X_{ij}+E_{ij}. $$This produces a noisy image where each pixel is independently perturbed.\nWhite noise in continuous time Continuous-time white noise is more subtle.\nIt is often informally written:\n$$ \\xi(t) $$with:\n$$ \\mathbb{E}[\\xi(t)]=0 $$and:\n$$ \\mathbb{E}[\\xi(t)\\xi(s)] {}={} \\sigma^2\\delta(t-s). $$Here (\\delta(t-s)) is the Dirac delta distribution.\nThis means continuous white noise is not an ordinary function.\nIt is a generalized random distribution.\nA useful way to understand it is:\n$$ \\xi(t)=\\frac{dW_t}{dt}, $$where \\(W_t\\) is Brownian motion.\nBut Brownian motion is almost surely nowhere differentiable, so this derivative does not exist in the ordinary classical sense. MIT Itô calculus notes emphasize that Brownian sample paths are nowhere differentiable with probability 1, which is why ordinary calculus must be replaced by Itô calculus. (MIT OpenCourseWare)\nImportant mathematical warningIn continuous time, white noise is not a normal function. It should be treated as a generalized random object, often interpreted through Brownian motion and stochastic integrals. Colored noise White noise has no correlation across time.\nColored noise has correlation.\nFor a discrete-time noise sequence:\n$$ \\varepsilon_t, $$white noise satisfies:\n$$ \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_s)=0 \\quad \\text{for } t\\neq s. $$Colored noise may satisfy:\n$$ \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_s)\\neq 0 \\quad \\text{for nearby } t,s. $$For example:\n$$ \\operatorname{Cov}(\\varepsilon_t,\\varepsilon_s) {}={} \\sigma^2 e^{-|t-s|/\\ell}. $$Here \\(\\ell\\) is a correlation length.\nIf \\(\\ell\\) is small, the noise loses memory quickly.\nIf \\(\\ell\\) is large, the noise remains correlated over longer times.\nGardiner’s stochastic methods text explicitly discusses white noise as a limit of nonwhite noise processes, which is important because many physical systems have finite correlation time rather than ideal delta-correlated noise. (Deutsche Nationalbibliothek)\nPower spectrum intuition Noise can also be described by frequency content.\nWhite noise has equal power at all frequencies.\nColored noise does not.\nExamples:\nwhite noise: flat spectrum, pink noise: power roughly decreases like (1/f), brown noise: power roughly decreases like \\(1/f^2\\). In images and video, colored noise often looks smoother because nearby pixels or frames are correlated.\nIn diffusion models, the standard assumption is usually Gaussian noise with independent components, but variants can use structured or correlated noise.\nRandom fields A random field is a collection of random variables indexed by space.\nFor example:\n$$ X(s), \\qquad s\\in D\\subseteq\\mathbb{R}^2. $$This may represent:\ntemperature over a 2D region, terrain height over a map, image intensity over a pixel grid, material properties in a physical simulation. A random image can be viewed as a discretized random field.\nA random video can be viewed as a random field indexed by time and space:\n$$ X(t,s), \\qquad t\\in[0,T], \\quad s\\in D. $$The Cambridge book An Introduction to Computational Stochastic PDEs develops stochastic processes, random fields, stochastic differential equations, and numerical methods together, especially for uncertainty quantification and stochastic PDE computation. (Cambridge University Press \u0026 Assessment)\nConditional probability Conditional probability tells us the probability of one event given another event.\nIt is written:\n$$ P(A\\mid B) {}={} \\frac{P(A\\cap B)}{P(B)} $$provided:\n$$ P(B)\u003e0. $$In machine learning, we often model:\n$$ p(y\\mid x), $$the probability of output \\(y\\) given input \\(x\\).\nFor example:\n$$ p(\\text{cat}\\mid \\text{image}) $$is the probability that an image contains a cat.\nIn diffusion models, we often model reverse conditional distributions:\n$$ p_\\theta(x_{t-1}\\mid x_t). $$This means:\ngiven a noisy sample \\(x_t\\), predict a slightly less noisy sample \\(x_{t-1}\\).\nBayes’ theorem Bayes’ theorem is:\n$$ P(A\\mid B) {}={} \\frac{P(B\\mid A)P(A)}{P(B)}. $$In density notation:\n$$ p(z\\mid x) {}={} \\frac{p(x\\mid z)p(z)}{p(x)}. $$This appears throughout latent-variable models.\nHere:\n\\(p(z)\\) is the prior, \\(p(x\\mid z)\\) is the likelihood, \\(p(z\\mid x)\\) is the posterior, \\(p(x)\\) is the evidence. Diffusion models are often interpreted as latent-variable models, where the noisy states \\(x_1,\\dots,x_T\\) are latent variables between clean data \\(x_0\\) and pure noise \\(x_T\\). The DDPM paper explicitly presents diffusion probabilistic models as latent-variable models trained with a variational bound. (arXiv)\nData distributions In machine learning, we assume data comes from an unknown distribution:\n$$ x \\sim p_{\\text{data}}(x). $$For images:\n$$ x \\in \\mathbb{R}^{H \\times W \\times C}. $$For videos:\n$$ x \\in \\mathbb{R}^{T \\times H \\times W \\times C}. $$A generative model tries to learn a distribution:\n$$ p_\\theta(x) $$that approximates:\n$$ p_{\\text{data}}(x). $$The goal is:\n$$ p_\\theta(x)\\approx p_{\\text{data}}(x). $$Then we can sample:\n$$ x \\sim p_\\theta(x) $$to generate new images, videos, audio, or text.\nMarkov chains A Markov chain is a stochastic process where the future depends on the present, not the full past.\nLet:\n$$ X_0,X_1,X_2,\\dots $$be random variables.\nThe Markov property is:\n$$ P(X_{t+1}=x_{t+1}\\mid X_t=x_t,X_{t-1}=x_{t-1},\\dots,X_0=x_0) {}={} P(X_{t+1}=x_{t+1}\\mid X_t=x_t). $$In words:\nonce we know the current state, the older history is not needed.\nMIT’s stochastic process material introduces stochastic processes as collections of random variables indexed by time and discusses Markov chains as a central example. (MIT OpenCourseWare)\nTransition matrices For a finite-state Markov chain, transition probabilities are stored in a matrix:\n$$ P = \\begin{bmatrix} P_{11} \u0026 P_{12} \u0026 \\cdots \u0026 P_{1K} \\ P_{21} \u0026 P_{22} \u0026 \\cdots \u0026 P_{2K} \\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\ P_{K1} \u0026 P_{K2} \u0026 \\cdots \u0026 P_{KK} \\end{bmatrix}. $$Here:\n$$ P_{ij}=P(X_{t+1}=j\\mid X_t=i). $$Each row sums to 1:\n$$ \\sum_{j=1}^K P_{ij}=1. $$Numerical example Suppose weather has two states:\n$$ 0=\\text{sunny}, \\qquad 1=\\text{rainy}. $$Let:\n$$ P= \\begin{bmatrix} 0.8 \u0026 0.2 \\ 0.4 \u0026 0.6 \\end{bmatrix}. $$This means:\nif today is sunny, tomorrow is sunny with probability 0.8, if today is sunny, tomorrow is rainy with probability 0.2, if today is rainy, tomorrow is sunny with probability 0.4, if today is rainy, tomorrow is rainy with probability 0.6. If today’s distribution is:\n$$ \\pi_0= \\begin{bmatrix} 1 \u0026 0 \\end{bmatrix}, $$then tomorrow’s distribution is:\n$$ \\pi_1=\\pi_0P {}={} \\begin{bmatrix} 1 \u0026 0 \\end{bmatrix} \\begin{bmatrix} 0.8 \u0026 0.2 \\ 0.4 \u0026 0.6 \\end{bmatrix} {}={} \\begin{bmatrix} 0.8 \u0026 0.2 \\end{bmatrix}. $$After two days:\n$$ \\pi_2=\\pi_1P. $$So probability evolves by matrix multiplication.\nStationary distributions A stationary distribution is a distribution that does not change after applying the transition matrix.\nIt satisfies:\n$$ \\pi P = \\pi. $$MIT’s Markov chain notes state that every finite-state Markov chain has at least one stationary distribution. (MIT OpenCourseWare)\nFor the weather example:\n$$ P= \\begin{bmatrix} 0.8 \u0026 0.2 \\ 0.4 \u0026 0.6 \\end{bmatrix}. $$Let:\n$$ \\pi = \\begin{bmatrix} a \u0026 b \\end{bmatrix}. $$We need:\n$$ \\pi P=\\pi $$and:\n$$ a+b=1. $$Compute:\n$$ \\begin{bmatrix} a \u0026 b \\end{bmatrix} \\begin{bmatrix} 0.8 \u0026 0.2 \\ 0.4 \u0026 0.6 \\end{bmatrix} {}={} \\begin{bmatrix} 0.8a+0.4b \u0026 0.2a+0.6b \\end{bmatrix}. $$So:\n$$ 0.8a+0.4b=a $$and:\n$$ 0.2a+0.6b=b. $$From the first equation:\n$$ 0.4b=0.2a $$so:\n$$ a=2b. $$Using \\(a+b=1\\):\n$$ 2b+b=1 $$so:\n$$ b=\\frac{1}{3}, \\qquad a=\\frac{2}{3}. $$Thus:\n$$ \\pi = \\begin{bmatrix} 2/3 \u0026 1/3 \\end{bmatrix}. $$In the long run, the chain spends about two-thirds of the time sunny and one-third rainy.\nMarkov chains in diffusion models Diffusion models use Markov chains.\nThe forward diffusion process gradually adds noise:\n$$ x_0 \\to x_1 \\to x_2 \\to \\cdots \\to x_T. $$A standard DDPM forward transition is:\n$$ q(x_t\\mid x_{t-1}) {}={} \\mathcal{N} \\left( x_t; \\sqrt{1-\\beta_t}x_{t-1}, \\beta_t I \\right). $$Here:\n\\(x_0\\) is clean data, \\(x_t\\) is noisy data at time \\(t\\), \\(\\beta_t\\) controls how much noise is added, \\(I\\) is the identity covariance matrix. The reverse model learns:\n$$ p_\\theta(x_{t-1}\\mid x_t). $$The DDPM paper presents this as a diffusion probabilistic model with a learned reverse denoising process. (NeurIPS Proceedings)\nDiffusion-model connectionIn DDPMs, the forward process is a fixed Markov chain that corrupts data with Gaussian noise. The neural network learns the reverse Markov chain that removes noise. Closed-form noising in DDPMs Define:\n$$ \\alpha_t = 1-\\beta_t $$and:\n$$ \\bar{\\alpha}_t = \\prod_{s=1}^{t}\\alpha_s. $$Then the forward process has a closed form:\n$$ q(x_t\\mid x_0) {}={} \\mathcal{N} \\left( x_t; \\sqrt{\\bar{\\alpha}_t}x_0, (1-\\bar{\\alpha}_t)I \\right). $$Equivalently, we can sample \\(x_t\\) directly as:\n$$ x_t {}={} \\sqrt{\\bar{\\alpha}_t}x_0 + \\sqrt{1-\\bar{\\alpha}_t}\\epsilon, $$where:\n$$ \\epsilon\\sim\\mathcal{N}(0,I). $$This formula is central because it allows training at random timesteps without simulating every previous step.\nBrownian motion Brownian motion is the mathematical model of continuous random motion.\nA standard Brownian motion \\(W_t\\) satisfies:\n\\(W_0=0\\), (W_t-W_s\\sim\\mathcal{N}(0,t-s)) for \\(t\u003es\\), increments over disjoint intervals are independent, paths are continuous, paths are almost surely nowhere differentiable. Brownian motion is the continuous-time limit of random walks.\nIt is also the source of continuous-time Gaussian noise.\nThe derivative:\n$$ \\frac{dW_t}{dt} $$does not exist classically, but it is often informally called white noise.\nThis is why stochastic calculus is needed.\nStochastic differential equations An ordinary differential equation has the form:\n$$ \\frac{dx}{dt}=f(x,t). $$A stochastic differential equation, or SDE, adds random forcing:\n$$ dX_t = a(X_t,t),dt + b(X_t,t),dW_t. $$Here:\n\\(X_t\\) is a random process, \\(a(X_t,t)\\) is the drift, \\(b(X_t,t)\\) is the diffusion coefficient, \\(W_t\\) is Brownian motion. The term:\n$$ a(X_t,t),dt $$describes deterministic motion.\nThe term:\n$$ b(X_t,t),dW_t $$describes random motion.\nHigham’s SIAM Review paper gives a practical introduction to numerical SDE simulation and covers stochastic integration, Euler–Maruyama, Milstein, strong and weak convergence, and stability. (SIAM)\nExample: pure Brownian motion The simplest SDE is:\n$$ dX_t=dW_t. $$With:\n$$ X_0=0, $$the solution is:\n$$ X_t=W_t. $$So Brownian motion itself solves an SDE.\nExample: Brownian motion with drift Consider:\n$$ dX_t = \\mu,dt+\\sigma,dW_t. $$The solution is:\n$$ X_t=X_0+\\mu t+\\sigma W_t. $$The mean is:\n$$ \\mathbb{E}[X_t]=X_0+\\mu t. $$The variance is:\n$$ \\operatorname{Var}(X_t)=\\sigma^2t. $$So the drift controls average motion.\nThe diffusion coefficient controls random spread.\nExample: Ornstein–Uhlenbeck process The Ornstein–Uhlenbeck process is:\n$$ dX_t = \\theta(\\mu-X_t),dt+\\sigma,dW_t. $$Here:\n\\(\\mu\\) is the long-term mean, \\(\\theta\\) controls how strongly the process returns to the mean, \\(\\sigma\\) controls noise strength. If \\(X_t\\) is above \\(\\mu\\), then:\n$$ \\theta(\\mu-X_t)\u003c0, $$so the drift pulls it downward.\nIf \\(X_t\\) is below \\(\\mu\\), then:\n$$ \\theta(\\mu-X_t)\u003e0, $$so the drift pulls it upward.\nThis is a mean-reverting stochastic process.\nIt is important in physics, finance, stochastic filtering, and generative modeling intuition.\nItô calculus In ordinary calculus:\n$$ df(X_t)=f'(X_t)dX_t. $$But in stochastic calculus, Brownian motion has quadratic variation:\n$$ (dW_t)^2 = dt. $$So Itô’s formula includes a second derivative term.\nIf:\n$$ dX_t=a(X_t,t),dt+b(X_t,t),dW_t, $$then:\n$$ df(X_t,t) {}={} \\left( \\frac{\\partial f}{\\partial t} + a\\frac{\\partial f}{\\partial x} + \\frac{1}{2}b^2\\frac{\\partial^2 f}{\\partial x^2} \\right)dt + b\\frac{\\partial f}{\\partial x}dW_t. $$This extra term:\n$$ \\frac{1}{2}b^2\\frac{\\partial^2 f}{\\partial x^2} $$is one of the key differences between deterministic and stochastic calculus.\nMIT’s Itô calculus lecture notes explain that Brownian paths are nowhere differentiable, so expressions involving functions of Brownian motion require Itô calculus rather than ordinary differentiation. (MIT OpenCourseWare)\nFokker–Planck equation An SDE describes random sample paths.\nThe Fokker–Planck equation describes how the probability density evolves.\nFor the SDE:\n$$ dX_t=a(X_t,t),dt+b(X_t,t),dW_t, $$the density \\(p(x,t)\\) often satisfies:\n$$ \\frac{\\partial p}{\\partial t} {}={} -\\frac{\\partial}{\\partial x} \\left( a(x,t)p(x,t) \\right) + \\frac{1}{2} \\frac{\\partial^2}{\\partial x^2} \\left( b^2(x,t)p(x,t) \\right). $$In higher dimensions:\n$$ dX_t=f(X_t,t),dt+G(X_t,t),dW_t, $$the Fokker–Planck equation becomes:\n$$ \\frac{\\partial p}{\\partial t} {}={} -\\sum_i \\frac{\\partial}{\\partial x_i} \\left( f_i p \\right) + \\frac{1}{2} \\sum_{i,j} \\frac{\\partial^2}{\\partial x_i\\partial x_j} \\left( D_{ij}p \\right), $$where:\n$$ D=GG^\\top. $$This PDE view is very important in diffusion models because the noising process changes the entire probability distribution over time.\nScore function The score function of a probability density is:\n$$ s(x,t)=\\nabla_x \\log p_t(x). $$It points in the direction where the log-density increases fastest.\nScore-based generative modeling learns:\n$$ s_\\theta(x,t) \\approx \\nabla_x \\log p_t(x). $$Song et al. present a framework where an SDE transforms data into a known noise distribution, and the reverse-time SDE transforms noise back into data using the time-dependent score function. (arXiv)\nThis is the deep mathematical connection between:\nprobability distributions, gradients, SDEs, noise, generative AI. Reverse-time SDE in diffusion models A forward SDE may be written:\n$$ dX_t=f(X_t,t),dt+g(t),dW_t. $$Under suitable conditions, the reverse-time process has the form:\n$$ dX_t= \\left[ f(X_t,t) - g(t)^2\\nabla_x\\log p_t(X_t) \\right]dt + g(t),d\\bar{W}_t. $$Here:\n\\(p_t\\) is the density of \\(X_t\\), \\(\\nabla_x\\log p_t(x)\\) is the score, \\(\\bar{W}_t\\) is reverse-time Brownian motion. The neural network estimates the score.\nThen numerical SDE solvers generate samples.\nSong et al. also derive a probability-flow ODE that samples from the same marginal distributions and enables likelihood computation. (arXiv)\nNumerical methods for SDEs Most SDEs cannot be solved exactly.\nWe approximate them numerically.\nConsider:\n$$ dX_t=a(X_t,t),dt+b(X_t,t),dW_t. $$Choose a timestep:\n$$ \\Delta t. $$Let:\n$$ t_n=n\\Delta t. $$Brownian increments satisfy:\n$$ \\Delta W_n=W_{t_{n+1}}-W_{t_n} \\sim \\mathcal{N}(0,\\Delta t). $$So we can sample:\n$$ \\Delta W_n=\\sqrt{\\Delta t},Z_n, \\qquad Z_n\\sim\\mathcal{N}(0,1). $$Euler–Maruyama method The Euler–Maruyama method is the stochastic analogue of Euler’s method.\nIt approximates:\n$$ dX_t=a(X_t,t),dt+b(X_t,t),dW_t $$by:\n$$ X_{n+1} {}={} X_n + a(X_n,t_n)\\Delta t + b(X_n,t_n)\\Delta W_n. $$Since:\n$$ \\Delta W_n=\\sqrt{\\Delta t}Z_n, $$we can write:\n$$ X_{n+1} {}={} X_n + a(X_n,t_n)\\Delta t + b(X_n,t_n)\\sqrt{\\Delta t}Z_n. $$Higham’s article introduces Euler–Maruyama as a core numerical method for SDE simulation and uses practical programs to explain its behavior. (SIAM)\nNumerical example Consider:\n$$ dX_t = -X_t,dt + 0.5,dW_t. $$Let:\n$$ X_0=1, \\qquad \\Delta t=0.01. $$Euler–Maruyama gives:\n$$ X_{n+1} {}={} -X_n\\Delta t + 0.5\\sqrt{\\Delta t}Z_n. $$Since:\n$$ \\sqrt{0.01}=0.1, $$we get:\n$$ X_{n+1} {}={} 0.99X_n+0.05Z_n. $$At each step, the process is pulled toward zero but perturbed by random Gaussian noise.\nMilstein method For scalar SDEs, the Milstein method adds a correction term:\n$$ X_{n+1} {}={} X_n + a(X_n,t_n)\\Delta t + b(X_n,t_n)\\Delta W_n + \\frac{1}{2} b(X_n,t_n)b_x(X_n,t_n) \\left[ (\\Delta W_n)^2-\\Delta t \\right]. $$Here:\n$$ b_x=\\frac{\\partial b}{\\partial x}. $$If \\(b\\) is constant, then:\n$$ b_x=0 $$and Milstein reduces to Euler–Maruyama.\nMilstein can achieve better strong convergence for certain SDEs, and Higham’s SIAM Review paper covers both Euler–Maruyama and Milstein methods, including strong and weak convergence. (SIAM)\nStrong and weak convergence There are two main ways to measure numerical accuracy for SDEs.\nStrong convergence Strong convergence measures pathwise accuracy.\nIt asks:\nDoes the simulated path stay close to the true path?\nA method has strong order \\(\\gamma\\) if:\n$$ \\mathbb{E} \\left[ |X_T-X_T^{\\Delta t}| \\right] \\leq C(\\Delta t)^\\gamma. $$This matters when individual sample paths are important.\nWeak convergence Weak convergence measures accuracy of expectations.\nIt asks:\nDoes the method estimate averages correctly?\nA method has weak order \\(\\gamma\\) if:\n$$ | \\mathbb{E}[\\phi(X_T)] - \\mathbb{E}[\\phi(X_T^{\\Delta t})] | \\leq C(\\Delta t)^\\gamma. $$This matters when we care about statistics, distributions, and expected values.\nThe Cambridge computational SPDE text explicitly discusses strong approximation of samples and weak approximation of averages, along with Euler–Maruyama, Milstein, and multilevel Monte Carlo. (PagePlace)\nMonte Carlo simulation Monte Carlo means estimating quantities by repeated random sampling.\nSuppose we want:\n$$ \\mathbb{E}[\\phi(X_T)]. $$We simulate \\(M\\) independent paths:\n$$ X_T^{(1)},X_T^{(2)},\\dots,X_T^{(M)}. $$Then estimate:\n$$ \\mathbb{E}[\\phi(X_T)] \\approx \\frac{1}{M} \\sum_{m=1}^{M} \\phi(X_T^{(m)}). $$The Monte Carlo error usually decreases like:\n$$ \\frac{1}{\\sqrt{M}}. $$This is slow but general.\nMonte Carlo methods are fundamental in stochastic simulation, Bayesian inference, uncertainty quantification, and stochastic PDE computation.\nStochastic PDEs A deterministic PDE may look like:\n$$ \\frac{\\partial u}{\\partial t} {}={} \\Delta u. $$This is the heat equation.\nA stochastic PDE adds randomness:\n$$ \\frac{\\partial u}{\\partial t} {}={} \\Delta u+\\xi. $$Here:\n$$ \\xi $$may be space-time white noise.\nMore formally, a stochastic heat equation may be written:\n$$ du {}={} \\Delta u,dt + \\sigma,dW_t. $$Here \\(W_t\\) may be an infinite-dimensional Brownian motion or a cylindrical Wiener process.\nHairer’s introduction to SPDEs discusses motivating examples such as stochastic heat equations and develops intuition for random evolution equations. (hairer.org)\nWhy SPDEs are harder than SDEs An SDE evolves a finite-dimensional random variable:\n$$ X_t \\in \\mathbb{R}^d. $$An SPDE evolves a random function:\n$$ u(t,x). $$So the unknown is infinite-dimensional.\nFor example:\n$$ u(t,\\cdot) $$is a function over space.\nThis means SPDEs combine:\nprobability, stochastic processes, functional analysis, PDE theory, numerical analysis, infinite-dimensional linear algebra. This is graduate-level mathematics.\nRandom-coefficient PDEs Not all stochastic PDEs have white-noise forcing.\nSometimes the PDE has random coefficients.\nFor example:\n$$ -\\nabla\\cdot(a(x,\\omega)\\nabla u(x,\\omega))=f(x). $$Here:\n\\(a(x,\\omega)\\) is a random field, \\(u(x,\\omega)\\) is the random solution, \\(\\omega\\) represents randomness. This appears in porous media flow, materials science, climate modeling, and uncertainty quantification.\nThe Cambridge computational SPDE book discusses elliptic PDEs with correlated random data, Monte Carlo estimation of mean and variance, Karhunen–Loève expansions, and stochastic Galerkin finite-element methods. (MIMS EPrints)\nKarhunen–Loève expansion A random field can often be approximated using a basis expansion.\nLet:\n$$ a(x,\\omega) $$be a random field with mean:\n$$ \\bar{a}(x) $$and covariance function:\n$$ C(x,y). $$A Karhunen–Loève expansion writes:\n$$ a(x,\\omega) {}={} \\bar{a}(x) + \\sum_{k=1}^{\\infty} \\sqrt{\\lambda_k} \\phi_k(x) \\xi_k(\\omega). $$Here:\n\\(\\lambda_k\\) are eigenvalues of the covariance operator, \\(\\phi_k(x)\\) are eigenfunctions, \\(\\xi_k\\) are uncorrelated random variables. A truncated approximation is:\n$$ a_M(x,\\omega) {}={} \\bar{a}(x) + \\sum_{k=1}^{M} \\sqrt{\\lambda_k} \\phi_k(x) \\xi_k(\\omega). $$This converts a random field into finitely many random variables.\nThis is important for numerical SPDE methods and uncertainty quantification.\nSpatial discretization of SPDEs To compute an SPDE, we must discretize space.\nCommon methods include:\nfinite differences, finite elements, spectral methods. Suppose:\n$$ u(t,x) $$is approximated at grid points:\n$$ x_1,x_2,\\dots,x_N. $$Then we form a vector:\n$$ U(t) {}={} \\begin{bmatrix} u(t,x_1)\\ u(t,x_2)\\ \\vdots\\ u(t,x_N) \\end{bmatrix}. $$A PDE becomes a large system of SDEs:\n$$ dU_t = AU_t,dt + G(U_t),dW_t. $$This method is called method of lines.\nThen we can apply SDE time-stepping methods such as Euler–Maruyama.\nStochastic heat equation: semi-discrete form Consider:\n$$ du = \\Delta u,dt + \\sigma,dW_t. $$After spatial discretization:\n$$ dU_t = AU_t,dt+\\sigma,dW_t. $$Here:\n\\(U_t\\in\\mathbb{R}^N\\), \\(A\\in\\mathbb{R}^{N\\times N}\\) approximates the Laplacian, \\(W_t\\in\\mathbb{R}^N\\) is a vector Brownian motion. Euler–Maruyama gives:\n$$ U_{n+1} {}={} U_n + AU_n\\Delta t + \\sigma\\Delta W_n. $$Since:\n$$ \\Delta W_n\\sim\\mathcal{N}(0,\\Delta t I), $$we write:\n$$ \\Delta W_n=\\sqrt{\\Delta t}Z_n, \\qquad Z_n\\sim\\mathcal{N}(0,I). $$Thus:\n$$ U_{n+1} {}={} U_n + AU_n\\Delta t + \\sigma\\sqrt{\\Delta t}Z_n. $$This is a finite-dimensional approximation of an infinite-dimensional stochastic equation.\nStability warning for stochastic PDEs PDE discretizations can be unstable if the timestep is too large.\nFor the heat equation, explicit Euler often requires:\n$$ \\Delta t \\leq C(\\Delta x)^2. $$With stochastic forcing, stability and accuracy become even more delicate.\nThis is why implicit methods, exponential integrators, spectral methods, and carefully designed schemes are often used for SPDEs.\nComputational SPDE texts develop these methods because naive discretization may be inaccurate or unstable. The Cambridge text specifically combines stochastic processes, random fields, SDEs, and computational methods for stochastic PDEs. (Cambridge University Press \u0026 Assessment)\nConnection to diffusion generative models Diffusion generative models are not usually introduced as SPDEs.\nThey are more often introduced as:\ndiscrete-time Markov chains, continuous-time SDEs, probability-flow ODEs, score-based generative models. However, the mathematics overlaps strongly with stochastic PDE ideas because both involve:\nnoise, probability densities, stochastic dynamics, Fokker–Planck equations, numerical simulation, high-dimensional random fields. For image generation:\n$$ x_t \\in \\mathbb{R}^{H\\times W\\times C}. $$For video generation:\n$$ x_t \\in \\mathbb{R}^{T\\times H\\times W\\times C}. $$The diffusion time \\(t\\) is not the same as video time.\nFor video, we may have both:\ndiffusion time: denoising step, physical/video time: frame index. So a video diffusion model may involve tensors like:\n$$ x_{\\tau,t,i,j,c} $$where:\n\\(\\tau\\) is diffusion time, \\(t\\) is video frame time, \\(i,j\\) are spatial coordinates, \\(c\\) is color channel. This is why video generation requires both stochastic process mathematics and tensor mathematics.\nNoise schedules In DDPMs, the amount of noise added at each step is controlled by:\n$$ \\beta_t. $$The forward process is:\n$$ q(x_t\\mid x_{t-1}) {}={} \\mathcal{N} \\left( \\sqrt{1-\\beta_t}x_{t-1}, \\beta_t I \\right). $$If \\(\\beta_t\\) is small, each step adds a little noise.\nIf \\(\\beta_t\\) is large, each step adds more noise.\nThe accumulated signal strength is:\n$$ \\bar{\\alpha}_t {}={} \\prod_{s=1}^{t}(1-\\beta_s). $$The noisy sample is:\n$$ x_t {}={} \\sqrt{\\bar{\\alpha}_t}x_0 + \\sqrt{1-\\bar{\\alpha}_t}\\epsilon. $$As \\(t\\) increases:\n$$ \\bar{\\alpha}_t \\to 0. $$Then:\n$$ x_t \\approx \\epsilon. $$So the data becomes almost pure Gaussian noise.\nDenoising objective A common training objective is:\n$$ \\mathcal{L} {}={} \\mathbb{E}_{x_0,\\epsilon,t} \\left[ |\\epsilon-\\epsilon*\\theta(x_t,t)|^2 \\right]. $$Here:\n\\(x_0\\sim p_{\\text{data}}\\), (\\epsilon\\sim\\mathcal{N}(0,I)), \\(t\\) is a random timestep, \\(x_t\\) is the noisy sample, \\(\\epsilon_\\theta\\) is the neural network’s predicted noise. The model learns to predict the noise that was added.\nOnce it can predict noise, it can remove noise.\nThis is the practical deep-learning version of score estimation.\nProbability flow ODE In score-based models, the reverse stochastic process has an associated deterministic ODE.\nA simplified probability-flow ODE has the form:\n$$ \\frac{dX_t}{dt} {}={} f(X_t,t) - \\frac{1}{2}g(t)^2\\nabla_x\\log p_t(X_t). $$This ODE has the same marginal probability densities as the SDE under suitable conditions.\nSong et al. derive this probability-flow ODE and use it for sampling and likelihood computation. (arXiv)\nThis is why modern diffusion samplers may be viewed as numerical ODE or SDE solvers.\nSection summary We began with uncertainty.\nA noisy measurement can be written:\n$$ Y=x+\\varepsilon. $$A noisy image can be written:\n$$ Y=X+E. $$We introduced random variables:\n$$ X:\\Omega\\to\\mathbb{R}. $$We defined probability distributions, PMFs, PDFs, expectation, and variance.\nWe studied the Gaussian distribution:\n$$ X\\sim\\mathcal{N}(\\mu,\\sigma^2) $$and the multivariate Gaussian:\n$$ X\\sim\\mathcal{N}(\\mu,\\Sigma). $$We introduced white noise:\n$$ \\mathbb{E}[\\varepsilon_t\\varepsilon_s] {}={} \\sigma^2\\delta_{ts} $$and colored noise with nonzero correlations.\nWe introduced Markov chains:\n$$ P(X_{t+1}\\mid X_t,X_{t-1},\\dots,X_0) {}={} P(X_{t+1}\\mid X_t). $$We saw that DDPMs use a Gaussian Markov noising process:\n$$ q(x_t\\mid x_{t-1}) {}={} \\mathcal{N} \\left( \\sqrt{1-\\beta_t}x_{t-1}, \\beta_t I \\right). $$We introduced Brownian motion and SDEs:\n$$ dX_t=a(X_t,t),dt+b(X_t,t),dW_t. $$We introduced the Fokker–Planck equation, which describes how probability densities evolve.\nWe introduced numerical SDE methods such as Euler–Maruyama:\n$$ X_{n+1} {}={} X_n + a(X_n,t_n)\\Delta t + b(X_n,t_n)\\Delta W_n. $$We introduced SPDEs, where the unknown is a random function:\n$$ u(t,x,\\omega). $$Finally, we connected all of this to diffusion generative models, where the model learns how to transform noise into data by reversing a stochastic noising process.\nThe big idea is:\nProbability describes uncertainty. Noise corrupts data. Markov chains and SDEs describe how randomness evolves. Diffusion models learn to reverse that evolution.\nSource anchors used for this section MIT OCW probability material covers distribution functions, common distributions, conditional probability, Bayes’ theorem, joint distributions, law of large numbers, and central limit theorem. (MIT OpenCourseWare) MIT statistics notes distinguish discrete probability functions and continuous probability density functions. (MIT OpenCourseWare) Stanford CS229 probability review discusses Gaussian random variables and closure properties of multivariate Gaussians. (CS229) MIT stochastic-process notes define stochastic processes as collections of random variables indexed by time and introduce Markov chains. (MIT OpenCourseWare) MIT Markov-chain notes state existence of stationary distributions for finite-state Markov chains. (MIT OpenCourseWare) MIT Itô calculus notes explain that Brownian paths are nowhere differentiable with probability 1, motivating stochastic calculus. (MIT OpenCourseWare) Higham’s SIAM Review paper introduces numerical SDE simulation, Euler–Maruyama, Milstein, strong and weak convergence, and stability. (SIAM) Gardiner’s Handbook of Stochastic Methods discusses white noise and nonwhite noise processes. (Deutsche Nationalbibliothek) Lord, Powell, and Shardlow’s Cambridge text covers stochastic processes, random fields, SDEs, SPDEs, Euler–Maruyama, Milstein, strong/weak approximation, Monte Carlo, and stochastic Galerkin finite-element methods. (Cambridge University Press \u0026 Assessment) Hairer’s SPDE notes introduce stochastic PDEs through motivating examples including the stochastic heat equation. (hairer.org) Ho, Jain, and Abbeel’s DDPM paper defines diffusion probabilistic models as latent-variable models with Gaussian Markov noising and learned reverse denoising. (NeurIPS Proceedings) Song et al.’s score-SDE paper formulates generative modeling through forward and reverse stochastic differential equations and connects SDE sampling with probability-flow ODEs. (arXiv) ","wordCount":"5457","inLanguage":"en","datePublished":"2026-04-29T00:00:00Z","dateModified":"2026-04-29T00:00:00Z","author":{"@type":"Person","name":"Anwar Shamim"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/"},"publisher":{"@type":"Organization","name":"Sange Mehrab","logo":{"@type":"ImageObject","url":"https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ accesskey=h title="Sange Mehrab (Alt + H)"><span class=site-flag aria-hidden=true style=display:inline-block;vertical-align:middle;margin-right:.5rem><svg width="22" height="14" viewBox="0 0 22 14" role="img"><rect width="22" height="14" fill="#01411C"/><path d="M9.2 7a3.8 3.8.0 100-.001A3.8 3.8.0 009.2 7z" fill="#fff" transform="translate(0,0)"/><path d="M11.2 6.2c0 .7-.5 1.3-1.2 1.3-.6.0-1.2-.6-1.2-1.3s.6-1.3 1.2-1.3c.7.0 1.2.6 1.2 1.3z" fill="#01411C"/><path d="M10.6 3.3l.5.9.9.1-.7.6.2.9-.8-.5-.8.5.2-.9-.7-.6.9-.1.5-.9z" fill="#fff"/></svg>
+</span>Sange Mehrab</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ title=Home><span>Home</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/posts/ title=Articles><span>Articles</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/ title=Courses><span>Courses</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/research/ title=Research><span>Research</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/categories/ title=Topics><span>Topics</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/series/ title=Collections><span>Collections</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><div class="page-shell article-shell article-shell--course"><section class="page-hero page-hero--article"><div class=page-hero-inner><div class=breadcrumbs><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Home</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/>Courses</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/>Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/>The Language</a></div><p class=page-eyebrow>Course</p><h1 class=page-title>1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs</h1><div class=page-description>A careful introduction to distributions and noise for AI mathematics, starting from real-world uncertainty and moving toward Gaussian random vectors, white and colored noise, Markov chains, Brownian motion, Itô SDEs, Fokker–Planck equations, stochastic PDEs, Euler–Maruyama, Milstein methods, and the mathematical foundation of diffusion generative models.</div></div></section><article class=article-layout><div class=article-main><div class="article-toolbar surface-card"><div class=post-meta><span title='2026-04-29 00:00:00 +0000 UTC'>April 29, 2026</span>&nbsp;·&nbsp;<span>26 min</span>&nbsp;·&nbsp;<span>5457 words</span>&nbsp;·&nbsp;<span>Anwar Shamim</span></div></div><figure class=article-lead-media><img src=/Sang_e_Mehrab/mathematicsforai/mathsforaisecion03.png alt="1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs" loading=eager decoding=async></figure><div class="article-toc surface-card"><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#why-probability-comes-after-tensors>Why probability comes after tensors</a></li><li><a href=#a-real-world-example-measuring-a-house>A real-world example: measuring a house</a></li><li><a href=#a-real-world-example-noisy-images>A real-world example: noisy images</a></li><li><a href=#random-experiments>Random experiments</a></li><li><a href=#random-variables>Random variables</a></li><li><a href=#probability-distributions>Probability distributions</a></li><li><a href=#discrete-distributions>Discrete distributions</a><ul><li><a href=#bernoulli-distribution>Bernoulli distribution</a></li><li><a href=#categorical-distribution>Categorical distribution</a></li></ul></li><li><a href=#continuous-distributions>Continuous distributions</a></li><li><a href=#expectation>Expectation</a></li><li><a href=#variance>Variance</a></li><li><a href=#the-gaussian-distribution>The Gaussian distribution</a><ul><li><a href=#why-the-gaussian-is-important>Why the Gaussian is important</a></li></ul></li><li><a href=#multivariate-gaussian-distribution>Multivariate Gaussian distribution</a></li><li><a href=#covariance>Covariance</a></li><li><a href=#independent-gaussian-noise>Independent Gaussian noise</a></li><li><a href=#white-noise>White noise</a><ul><li><a href=#white-noise-in-images>White noise in images</a></li><li><a href=#white-noise-in-continuous-time>White noise in continuous time</a></li></ul></li><li><a href=#colored-noise>Colored noise</a></li><li><a href=#power-spectrum-intuition>Power spectrum intuition</a></li><li><a href=#random-fields>Random fields</a></li><li><a href=#conditional-probability>Conditional probability</a></li><li><a href=#bayes-theorem>Bayes’ theorem</a></li><li><a href=#data-distributions>Data distributions</a></li><li><a href=#markov-chains>Markov chains</a></li><li><a href=#transition-matrices>Transition matrices</a><ul><li><a href=#numerical-example>Numerical example</a></li></ul></li><li><a href=#stationary-distributions>Stationary distributions</a></li><li><a href=#markov-chains-in-diffusion-models>Markov chains in diffusion models</a></li><li><a href=#closed-form-noising-in-ddpms>Closed-form noising in DDPMs</a></li><li><a href=#brownian-motion>Brownian motion</a></li><li><a href=#stochastic-differential-equations>Stochastic differential equations</a></li><li><a href=#example-pure-brownian-motion>Example: pure Brownian motion</a></li><li><a href=#example-brownian-motion-with-drift>Example: Brownian motion with drift</a></li><li><a href=#example-ornsteinuhlenbeck-process>Example: Ornstein–Uhlenbeck process</a></li><li><a href=#itô-calculus>Itô calculus</a></li><li><a href=#fokkerplanck-equation>Fokker–Planck equation</a></li><li><a href=#score-function>Score function</a></li><li><a href=#reverse-time-sde-in-diffusion-models>Reverse-time SDE in diffusion models</a></li><li><a href=#numerical-methods-for-sdes>Numerical methods for SDEs</a></li><li><a href=#eulermaruyama-method>Euler–Maruyama method</a><ul><li><a href=#numerical-example-1>Numerical example</a></li></ul></li><li><a href=#milstein-method>Milstein method</a></li><li><a href=#strong-and-weak-convergence>Strong and weak convergence</a><ul><li><a href=#strong-convergence>Strong convergence</a></li><li><a href=#weak-convergence>Weak convergence</a></li></ul></li><li><a href=#monte-carlo-simulation>Monte Carlo simulation</a></li><li><a href=#stochastic-pdes>Stochastic PDEs</a></li><li><a href=#why-spdes-are-harder-than-sdes>Why SPDEs are harder than SDEs</a></li><li><a href=#random-coefficient-pdes>Random-coefficient PDEs</a></li><li><a href=#karhunenloève-expansion>Karhunen–Loève expansion</a></li><li><a href=#spatial-discretization-of-spdes>Spatial discretization of SPDEs</a></li><li><a href=#stochastic-heat-equation-semi-discrete-form>Stochastic heat equation: semi-discrete form</a></li><li><a href=#stability-warning-for-stochastic-pdes>Stability warning for stochastic PDEs</a></li><li><a href=#connection-to-diffusion-generative-models>Connection to diffusion generative models</a></li><li><a href=#noise-schedules>Noise schedules</a></li><li><a href=#denoising-objective>Denoising objective</a></li><li><a href=#probability-flow-ode>Probability flow ODE</a></li><li><a href=#section-summary>Section summary</a></li><li><a href=#source-anchors-used-for-this-section>Source anchors used for this section</a></li></ul></nav></div></details></div></div><div class="post-content article-content surface-card"><h2 id=why-probability-comes-after-tensors>Why probability comes after tensors<a hidden class=anchor aria-hidden=true href=#why-probability-comes-after-tensors>#</a></h2><p>In the previous section, we learned that AI data is often stored as vectors, matrices, and tensors.</p><p>A single house may be a vector:</p>$$
+x \in \mathbb{R}^d.
+$$<p>A dataset may be a matrix:</p>$$
+X \in \mathbb{R}^{n \times d}.
+$$<p>An image may be a tensor:</p>$$
+X \in \mathbb{R}^{H \times W \times C}.
+$$<p>A video may be a higher-order tensor:</p>$$
+X \in \mathbb{R}^{T \times H \times W \times C}.
+$$<p>But tensors alone are not enough.</p><p>AI does not only need to store data. It must also reason about uncertainty.</p><p>For example:</p><ul><li>a sensor measurement may be noisy,</li><li>a house price may be uncertain,</li><li>a pixel may be corrupted,</li><li>a video frame may contain motion blur,</li><li>a neural network may output probabilities,</li><li>a generative model may sample many possible images from the same text prompt.</li></ul><p>This means we need probability.</p><p>MIT’s probability and random variables course covers distribution functions, common distributions, conditional probability, Bayes’ theorem, joint distributions, the law of large numbers, and the central limit theorem — exactly the probability foundation used throughout machine learning. (<a href="https://opencw.aprende.org/courses/mathematics/18-440-probability-and-random-variables-spring-2014/this-course-at-mit/?utm_source=chatgpt.com" title="This Course at MIT | Probability and Random Variables">MIT OpenCourseWare</a>)</p><p>In modern generative AI, probability becomes even more central.</p><p>A diffusion model begins with data, adds noise, and then learns how to remove noise.</p><p>So the path is:</p>$$
+\text{data}
+\longrightarrow
+\text{random variables}
+\longrightarrow
+\text{distributions}
+\longrightarrow
+\text{noise}
+\longrightarrow
+\text{stochastic processes}
+\longrightarrow
+\text{diffusion models}.
+$$<aside class="callout callout-note" role=note><div class=callout-title>Main idea</div><div class=callout-body>Probability is the mathematics of uncertainty. Diffusion generative models use probability to describe how clean data becomes noisy and how noisy data can be transformed back into realistic samples.</div></aside><h2 id=a-real-world-example-measuring-a-house>A real-world example: measuring a house<a hidden class=anchor aria-hidden=true href=#a-real-world-example-measuring-a-house>#</a></h2><p>Suppose the true area of a house is:</p>$$
+x = 1200
+$$<p>square feet.</p><p>But a measurement device may not return exactly 1200. It may return:</p>$$
+1198,\quad 1201,\quad 1203,\quad 1197.
+$$<p>The measured value is not fixed. It changes because of measurement noise.</p><p>We may write:</p>$$
+Y = x + \varepsilon
+$$<p>where:</p><ul><li>\(x\) is the true value,</li><li>\(\varepsilon\) is random noise,</li><li>\(Y\) is the observed noisy measurement.</li></ul><p>If the noise is small, the measurement is close to the truth.</p><p>If the noise is large, the measurement may be unreliable.</p><p>This simple equation:</p>$$
+Y = x + \varepsilon
+$$<p>is one of the most important ideas in statistics, machine learning, signal processing, and diffusion models.</p><h2 id=a-real-world-example-noisy-images>A real-world example: noisy images<a hidden class=anchor aria-hidden=true href=#a-real-world-example-noisy-images>#</a></h2><p>A clean grayscale image can be represented as a matrix:</p>$$
+X \in \mathbb{R}^{H \times W}.
+$$<p>A noisy image may be written as:</p>$$
+Y = X + E
+$$<p>where:</p><ul><li>\(X\) is the clean image,</li><li>\(E\) is a noise matrix,</li><li>\(Y\) is the corrupted image.</li></ul><p>Entry by entry:</p>$$
+Y_{ij}=X_{ij}+E_{ij}.
+$$<p>If each noise value \(E_{ij}\) is random, then the whole image is random.</p><p>For a color image:</p>$$
+X \in \mathbb{R}^{H \times W \times C}
+$$<p>and:</p>$$
+Y_{i,j,c}=X_{i,j,c}+E_{i,j,c}.
+$$<p>For a video:</p>$$
+X \in \mathbb{R}^{T \times H \times W \times C}
+$$<p>and:</p>$$
+Y_{t,i,j,c}=X_{t,i,j,c}+E_{t,i,j,c}.
+$$<p>So noise is not only one random number. It may be a random vector, random matrix, random image, random video, or random field.</p><h2 id=random-experiments>Random experiments<a hidden class=anchor aria-hidden=true href=#random-experiments>#</a></h2><p>A random experiment is a process whose outcome is uncertain.</p><p>Examples:</p><ul><li>flipping a coin,</li><li>rolling a die,</li><li>measuring temperature,</li><li>recording a noisy image,</li><li>sampling an image from a diffusion model,</li><li>sampling the next token from a language model.</li></ul><p>The set of all possible outcomes is called the <strong>sample space</strong>.</p><p>It is usually written:</p>$$
+\Omega.
+$$<p>For a coin flip:</p>$$
+\Omega={H,T}.
+$$<p>For a die roll:</p>$$
+\Omega={1,2,3,4,5,6}.
+$$<p>For an image generation model, the sample space is much larger. It may be the space of all possible image tensors:</p>$$
+\Omega \subseteq \mathbb{R}^{H \times W \times C}.
+$$<p>A probability assigns a number between 0 and 1 to events.</p><p>If an event \(A\) is impossible:</p>$$
+P(A)=0.
+$$<p>If an event \(A\) is certain:</p>$$
+P(A)=1.
+$$<h2 id=random-variables>Random variables<a hidden class=anchor aria-hidden=true href=#random-variables>#</a></h2><p>A random variable is a function that assigns a numerical value to the outcome of a random experiment.</p><p>Formally:</p>$$
+X:\Omega \to \mathbb{R}.
+$$<p>For example, if we roll a die, then \(X\) may be the number that appears.</p><p>If:</p>$$
+\omega = \text{the die lands on 4},
+$$<p>then:</p>$$
+X(\omega)=4.
+$$<p>In machine learning, random variables may represent:</p><ul><li>a noisy pixel,</li><li>a class label,</li><li>a house price,</li><li>a token ID,</li><li>a latent variable,</li><li>a model prediction,</li><li>a diffusion timestep,</li><li>a random noise vector.</li></ul><p>A random vector is a vector of random variables:</p>$$
+X =
+\begin{bmatrix}
+X_1 \
+X_2 \
+\vdots \
+X_d
+\end{bmatrix}.
+$$<p>A random image is a tensor-valued random variable:</p>$$
+X:\Omega \to \mathbb{R}^{H \times W \times C}.
+$$<p>This is the correct mathematical way to say:</p><blockquote><p>an image is sampled from a probability distribution.</p></blockquote><h2 id=probability-distributions>Probability distributions<a hidden class=anchor aria-hidden=true href=#probability-distributions>#</a></h2><p>A probability distribution describes how likely different values of a random variable are.</p><p>MIT’s statistics notes describe discrete distributions using probability functions and continuous distributions using probability density functions. (<a href="https://ocw.mit.edu/courses/18-443-statistics-for-applications-fall-2006/46afee1cbe70839c128ef68b2a6b1e16_lecture1.pdf?utm_source=chatgpt.com" title="Lecture 1 Overview of some probability distributions.">MIT OpenCourseWare</a>)</p><p>There are two main cases:</p><ol><li>discrete random variables,</li><li>continuous random variables.</li></ol><h2 id=discrete-distributions>Discrete distributions<a hidden class=anchor aria-hidden=true href=#discrete-distributions>#</a></h2><p>A discrete random variable takes values in a finite or countable set.</p><p>For example, a die roll has values:</p>$$
+1,2,3,4,5,6.
+$$<p>Its probability mass function, or PMF, is:</p>$$
+p_X(x)=P(X=x).
+$$<p>For a fair die:</p>$$
+P(X=1)=P(X=2)=\cdots=P(X=6)=\frac{1}{6}.
+$$<p>The probabilities must satisfy:</p>$$
+p_X(x)\geq 0
+$$<p>and:</p>$$
+\sum_x p_X(x)=1.
+$$<h3 id=bernoulli-distribution>Bernoulli distribution<a hidden class=anchor aria-hidden=true href=#bernoulli-distribution>#</a></h3><p>A Bernoulli random variable has two possible values:</p>$$
+X \in {0,1}.
+$$<p>It is often used for yes/no events.</p><p>If:</p>$$
+P(X=1)=p,
+$$<p>then:</p>$$
+P(X=0)=1-p.
+$$<p>We write:</p>$$
+X \sim \operatorname{Bernoulli}(p).
+$$<p>The PMF is:</p>$$
+P(X=x)=p^x(1-p)^{1-x},
+\qquad x\in{0,1}.
+$$<p>In AI, Bernoulli distributions appear in:</p><ul><li>binary classification,</li><li>dropout masks,</li><li>binary pixels,</li><li>success/failure events.</li></ul><h3 id=categorical-distribution>Categorical distribution<a hidden class=anchor aria-hidden=true href=#categorical-distribution>#</a></h3><p>A categorical random variable takes one of \(K\) possible classes:</p>$$
+X \in {1,2,\dots,K}.
+$$<p>If:</p>$$
+P(X=k)=p_k,
+$$<p>then:</p>$$
+p_k \geq 0
+$$<p>and:</p>$$
+\sum_{k=1}^{K}p_k=1.
+$$<p>A neural network classifier often outputs:</p>$$
+p =
+\begin{bmatrix}
+p_1 \
+p_2 \
+\vdots \
+p_K
+\end{bmatrix}
+$$<p>where \(p_k\) is the predicted probability of class \(k\).</p><p>For example:</p>$$
+p =
+\begin{bmatrix}
+0.1 \
+0.7 \
+0.2
+\end{bmatrix}
+$$<p>means:</p><ul><li>class 1 has probability 0.1,</li><li>class 2 has probability 0.7,</li><li>class 3 has probability 0.2.</li></ul><h2 id=continuous-distributions>Continuous distributions<a hidden class=anchor aria-hidden=true href=#continuous-distributions>#</a></h2><p>A continuous random variable can take infinitely many values.</p><p>For example, temperature, height, time, or measurement noise may be continuous.</p><p>A continuous random variable is described by a probability density function, or PDF:</p>$$
+f_X(x).
+$$<p>The probability that \(X\) lies between \(a\) and \(b\) is:</p>$$
+P(a\leq X\leq b)
+{}={}
+\int_a^b f_X(x),dx.
+$$<p>The density must satisfy:</p>$$
+f_X(x)\geq 0
+$$<p>and:</p>$$
+\int_{-\infty}^{\infty} f_X(x),dx = 1.
+$$<p>For a continuous random variable:</p>$$
+P(X=a)=0
+$$<p>for any exact single value \(a\).</p><p>This does not mean values are impossible. It means probability is measured over intervals.</p><h2 id=expectation>Expectation<a hidden class=anchor aria-hidden=true href=#expectation>#</a></h2><p>The expectation is the average value of a random variable.</p><p>For a discrete random variable:</p>$$
+\mathbb{E}[X]
+{}={}
+\sum_x xP(X=x).
+$$<p>For a continuous random variable:</p>$$
+\mathbb{E}[X]
+{}={}
+\int_{-\infty}^{\infty} x f_X(x),dx.
+$$<p>Expectation is also called the mean.</p><p>For example, if:</p>$$
+X =
+\begin{cases}
+0 & \text{with probability } 0.3,\
+1 & \text{with probability } 0.7,
+\end{cases}
+$$<p>then:</p>$$
+\mathbb{E}[X]
+{}={}
+0(0.3)+1(0.7)=0.7.
+$$<h2 id=variance>Variance<a hidden class=anchor aria-hidden=true href=#variance>#</a></h2><p>Variance measures spread around the mean.</p><p>If:</p>$$
+\mu=\mathbb{E}[X],
+$$<p>then:</p>$$
+\operatorname{Var}(X)
+{}={}
+\mathbb{E}[(X-\mu)^2].
+$$<p>The standard deviation is:</p>$$
+\sigma = \sqrt{\operatorname{Var}(X)}.
+$$<p>Small variance means the values are concentrated near the mean.</p><p>Large variance means the values are spread out.</p><p>In machine learning, variance matters because noise level controls how corrupted the data becomes.</p><h2 id=the-gaussian-distribution>The Gaussian distribution<a hidden class=anchor aria-hidden=true href=#the-gaussian-distribution>#</a></h2><p>The Gaussian distribution is the most important continuous distribution in diffusion models.</p><p>A random variable \(X\) is Gaussian with mean \(\mu\) and variance \(\sigma^2\) if:</p>$$
+X \sim \mathcal{N}(\mu,\sigma^2).
+$$<p>Its density is:</p>$$
+p(x)
+{}={}
+\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp
+\left(
+-\frac{(x-\mu)^2}{2\sigma^2}
+\right).
+$$<p>MIT notes define a normal random variable \(X\sim N(\mu,\sigma^2)\) using this bell-shaped density, with mean \(\mu\) and variance \(\sigma^2\). (<a href="https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/mit18_642_f24_lec04_1.pdf?utm_source=chatgpt.com" title="18.642 (F24): Lecture 04_1: Probability Theory">MIT OpenCourseWare</a>)</p><p>If:</p>$$
+\mu=0,
+\qquad
+\sigma^2=1,
+$$<p>then:</p>$$
+X\sim\mathcal{N}(0,1)
+$$<p>is called a standard normal random variable.</p><h3 id=why-the-gaussian-is-important>Why the Gaussian is important<a hidden class=anchor aria-hidden=true href=#why-the-gaussian-is-important>#</a></h3><p>The Gaussian distribution is important because:</p><ul><li>it appears in measurement noise,</li><li>it is mathematically convenient,</li><li>sums of many small independent effects tend to become approximately Gaussian,</li><li>multivariate Gaussians are easy to manipulate,</li><li>diffusion models usually add Gaussian noise.</li></ul><p>In DDPMs, the forward diffusion process adds Gaussian noise step by step. The original DDPM paper defines diffusion models as latent-variable models with a Markov noising process and connects their training objective to denoising score matching and Langevin dynamics. (<a href="https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf?utm_source=chatgpt.com" title="Denoising Diffusion Probabilistic Models">NeurIPS Proceedings</a>)</p><h2 id=multivariate-gaussian-distribution>Multivariate Gaussian distribution<a hidden class=anchor aria-hidden=true href=#multivariate-gaussian-distribution>#</a></h2><p>A random vector:</p>$$
+X \in \mathbb{R}^{d}
+$$<p>has a multivariate Gaussian distribution if:</p>$$
+X \sim \mathcal{N}(\mu,\Sigma),
+$$<p>where:</p><ul><li>\(\mu \in \mathbb{R}^d\) is the mean vector,</li><li>\(\Sigma \in \mathbb{R}^{d\times d}\) is the covariance matrix.</li></ul><p>The density is:</p>$$
+p(x)
+{}={}
+\frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}}
+\exp
+\left(
+-\frac{1}{2}(x-\mu)^\top\Sigma^{-1}(x-\mu)
+\right).
+$$<p>The covariance matrix describes how components vary together.</p><p>The diagonal entries are variances:</p>$$
+\Sigma_{ii}=\operatorname{Var}(X_i).
+$$<p>The off-diagonal entries are covariances:</p>$$
+\Sigma_{ij}=\operatorname{Cov}(X_i,X_j).
+$$<p>Stanford’s probability review emphasizes useful Gaussian closure properties: sums of independent Gaussian random variables are Gaussian, marginals of joint Gaussians are Gaussian, and conditionals of joint Gaussians are Gaussian. (<a href="https://cs229.stanford.edu/notes2022fall/cs229-probability_review.pdf?utm_source=chatgpt.com" title="Probability Theory Review and Reference">CS229</a>)</p><p>These properties are one reason Gaussian noise is so common in machine learning and diffusion models.</p><h2 id=covariance>Covariance<a hidden class=anchor aria-hidden=true href=#covariance>#</a></h2><p>For two random variables \(X\) and \(Y\), covariance is:</p>$$
+\operatorname{Cov}(X,Y)
+{}={}
+\mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])].
+$$<p>If covariance is positive, \(X\) and \(Y\) tend to increase together.</p><p>If covariance is negative, one tends to increase while the other decreases.</p><p>If covariance is zero, they are uncorrelated.</p><p>For a random vector:</p>$$
+X =
+\begin{bmatrix}
+X_1 \
+X_2 \
+\vdots \
+X_d
+\end{bmatrix},
+$$<p>the covariance matrix is:</p>$$
+\Sigma
+{}={}
+\mathbb{E}[(X-\mu)(X-\mu)^\top].
+$$<p>This is a matrix of all pairwise covariances.</p><h2 id=independent-gaussian-noise>Independent Gaussian noise<a hidden class=anchor aria-hidden=true href=#independent-gaussian-noise>#</a></h2><p>The simplest noise model is independent Gaussian noise:</p>$$
+\varepsilon \sim \mathcal{N}(0,\sigma^2 I).
+$$<p>This means:</p><ul><li>each component has mean 0,</li><li>each component has variance \(\sigma^2\),</li><li>components are independent,</li><li>the covariance matrix is diagonal.</li></ul><p>For a vector:</p>$$
+x \in \mathbb{R}^d,
+$$<p>a noisy version is:</p>$$
+y=x+\varepsilon.
+$$<p>Entrywise:</p>$$
+y_i=x_i+\varepsilon_i,
+\qquad
+\varepsilon_i\sim\mathcal{N}(0,\sigma^2).
+$$<p>This is the basic finite-dimensional version of Gaussian white noise.</p><h2 id=white-noise>White noise<a hidden class=anchor aria-hidden=true href=#white-noise>#</a></h2><p>White noise is noise with no correlation across time or space.</p><p>In discrete time, a white noise sequence is often written:</p>$$
+\varepsilon_1,\varepsilon_2,\dots
+$$<p>with:</p>$$
+\mathbb{E}[\varepsilon_t]=0
+$$<p>and:</p>$$
+\mathbb{E}[\varepsilon_t\varepsilon_s]
+{}={}
+\sigma^2\delta_{ts}.
+$$<p>Here:</p>$$
+\delta_{ts}
+{}={}
+\begin{cases}
+1, & t=s,\
+0, & t\neq s.
+\end{cases}
+$$<p>So different times are uncorrelated.</p><p>If the noise is Gaussian, then:</p>$$
+\varepsilon_t \sim \mathcal{N}(0,\sigma^2)
+$$<p>and the sequence is called <strong>Gaussian white noise</strong>.</p><p>MIT non-equilibrium statistical mechanics notes describe random forces satisfying Gaussian white noise assumptions and express their moment structure using two-time correlations. (<a href="https://ocw.mit.edu/courses/5-72-non-equilibrium-statistical-mechanics-spring-2012/05d10d2e5952f3b91b10ba1305b46500_MIT5_72S12_master1.pdf?utm_source=chatgpt.com" title="Stochastic Processes and Brownian Motion">MIT OpenCourseWare</a>)</p><h3 id=white-noise-in-images>White noise in images<a hidden class=anchor aria-hidden=true href=#white-noise-in-images>#</a></h3><p>For an image:</p>$$
+X \in \mathbb{R}^{H \times W},
+$$<p>white Gaussian noise means:</p>$$
+E_{ij}\sim \mathcal{N}(0,\sigma^2)
+$$<p>independently for each pixel location \(i,j\).</p><p>Then:</p>$$
+Y_{ij}=X_{ij}+E_{ij}.
+$$<p>This produces a noisy image where each pixel is independently perturbed.</p><h3 id=white-noise-in-continuous-time>White noise in continuous time<a hidden class=anchor aria-hidden=true href=#white-noise-in-continuous-time>#</a></h3><p>Continuous-time white noise is more subtle.</p><p>It is often informally written:</p>$$
+\xi(t)
+$$<p>with:</p>$$
+\mathbb{E}[\xi(t)]=0
+$$<p>and:</p>$$
+\mathbb{E}[\xi(t)\xi(s)]
+{}={}
+\sigma^2\delta(t-s).
+$$<p>Here (\delta(t-s)) is the Dirac delta distribution.</p><p>This means continuous white noise is not an ordinary function.</p><p>It is a generalized random distribution.</p><p>A useful way to understand it is:</p>$$
+\xi(t)=\frac{dW_t}{dt},
+$$<p>where \(W_t\) is Brownian motion.</p><p>But Brownian motion is almost surely nowhere differentiable, so this derivative does not exist in the ordinary classical sense. MIT Itô calculus notes emphasize that Brownian sample paths are nowhere differentiable with probability 1, which is why ordinary calculus must be replaced by Itô calculus. (<a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/ef2c66c8079ba656210ad1fd4a5e2fa8_MIT18_S096F13_lecnote18.pdf?utm_source=chatgpt.com" title="Lecture 18 : Itō Calculus">MIT OpenCourseWare</a>)</p><aside class="callout callout-warning" role=note><div class=callout-title>Important mathematical warning</div><div class=callout-body>In continuous time, white noise is not a normal function. It should be treated as a generalized random object, often interpreted through Brownian motion and stochastic integrals.</div></aside><h2 id=colored-noise>Colored noise<a hidden class=anchor aria-hidden=true href=#colored-noise>#</a></h2><p>White noise has no correlation across time.</p><p>Colored noise has correlation.</p><p>For a discrete-time noise sequence:</p>$$
+\varepsilon_t,
+$$<p>white noise satisfies:</p>$$
+\operatorname{Cov}(\varepsilon_t,\varepsilon_s)=0
+\quad
+\text{for } t\neq s.
+$$<p>Colored noise may satisfy:</p>$$
+\operatorname{Cov}(\varepsilon_t,\varepsilon_s)\neq 0
+\quad
+\text{for nearby } t,s.
+$$<p>For example:</p>$$
+\operatorname{Cov}(\varepsilon_t,\varepsilon_s)
+{}={}
+\sigma^2 e^{-|t-s|/\ell}.
+$$<p>Here \(\ell\) is a correlation length.</p><p>If \(\ell\) is small, the noise loses memory quickly.</p><p>If \(\ell\) is large, the noise remains correlated over longer times.</p><p>Gardiner’s stochastic methods text explicitly discusses white noise as a limit of nonwhite noise processes, which is important because many physical systems have finite correlation time rather than ideal delta-correlated noise. (<a href="https://d-nb.info/948236752/04?utm_source=chatgpt.com" title="Handbook of Stochastic Methods">Deutsche Nationalbibliothek</a>)</p><h2 id=power-spectrum-intuition>Power spectrum intuition<a hidden class=anchor aria-hidden=true href=#power-spectrum-intuition>#</a></h2><p>Noise can also be described by frequency content.</p><p>White noise has equal power at all frequencies.</p><p>Colored noise does not.</p><p>Examples:</p><ul><li>white noise: flat spectrum,</li><li>pink noise: power roughly decreases like (1/f),</li><li>brown noise: power roughly decreases like \(1/f^2\).</li></ul><p>In images and video, colored noise often looks smoother because nearby pixels or frames are correlated.</p><p>In diffusion models, the standard assumption is usually Gaussian noise with independent components, but variants can use structured or correlated noise.</p><h2 id=random-fields>Random fields<a hidden class=anchor aria-hidden=true href=#random-fields>#</a></h2><p>A random field is a collection of random variables indexed by space.</p><p>For example:</p>$$
+X(s),
+\qquad s\in D\subseteq\mathbb{R}^2.
+$$<p>This may represent:</p><ul><li>temperature over a 2D region,</li><li>terrain height over a map,</li><li>image intensity over a pixel grid,</li><li>material properties in a physical simulation.</li></ul><p>A random image can be viewed as a discretized random field.</p><p>A random video can be viewed as a random field indexed by time and space:</p>$$
+X(t,s),
+\qquad
+t\in[0,T],
+\quad
+s\in D.
+$$<p>The Cambridge book <em>An Introduction to Computational Stochastic PDEs</em> develops stochastic processes, random fields, stochastic differential equations, and numerical methods together, especially for uncertainty quantification and stochastic PDE computation. (<a href="https://www.cambridge.org/core/books/an-introduction-to-computational-stochastic-pdes/01A784303F5C86644A25BFB138923090?utm_source=chatgpt.com" title="An Introduction to Computational Stochastic PDEs">Cambridge University Press & Assessment</a>)</p><h2 id=conditional-probability>Conditional probability<a hidden class=anchor aria-hidden=true href=#conditional-probability>#</a></h2><p>Conditional probability tells us the probability of one event given another event.</p><p>It is written:</p>$$
+P(A\mid B)
+{}={}
+\frac{P(A\cap B)}{P(B)}
+$$<p>provided:</p>$$
+P(B)>0.
+$$<p>In machine learning, we often model:</p>$$
+p(y\mid x),
+$$<p>the probability of output \(y\) given input \(x\).</p><p>For example:</p>$$
+p(\text{cat}\mid \text{image})
+$$<p>is the probability that an image contains a cat.</p><p>In diffusion models, we often model reverse conditional distributions:</p>$$
+p_\theta(x_{t-1}\mid x_t).
+$$<p>This means:</p><blockquote><p>given a noisy sample \(x_t\), predict a slightly less noisy sample \(x_{t-1}\).</p></blockquote><h2 id=bayes-theorem>Bayes’ theorem<a hidden class=anchor aria-hidden=true href=#bayes-theorem>#</a></h2><p>Bayes’ theorem is:</p>$$
+P(A\mid B)
+{}={}
+\frac{P(B\mid A)P(A)}{P(B)}.
+$$<p>In density notation:</p>$$
+p(z\mid x)
+{}={}
+\frac{p(x\mid z)p(z)}{p(x)}.
+$$<p>This appears throughout latent-variable models.</p><p>Here:</p><ul><li>\(p(z)\) is the prior,</li><li>\(p(x\mid z)\) is the likelihood,</li><li>\(p(z\mid x)\) is the posterior,</li><li>\(p(x)\) is the evidence.</li></ul><p>Diffusion models are often interpreted as latent-variable models, where the noisy states \(x_1,\dots,x_T\) are latent variables between clean data \(x_0\) and pure noise \(x_T\). The DDPM paper explicitly presents diffusion probabilistic models as latent-variable models trained with a variational bound. (<a href="https://arxiv.org/abs/2006.11239?utm_source=chatgpt.com" title="[2006.11239] Denoising Diffusion Probabilistic Models">arXiv</a>)</p><h2 id=data-distributions>Data distributions<a hidden class=anchor aria-hidden=true href=#data-distributions>#</a></h2><p>In machine learning, we assume data comes from an unknown distribution:</p>$$
+x \sim p_{\text{data}}(x).
+$$<p>For images:</p>$$
+x \in \mathbb{R}^{H \times W \times C}.
+$$<p>For videos:</p>$$
+x \in \mathbb{R}^{T \times H \times W \times C}.
+$$<p>A generative model tries to learn a distribution:</p>$$
+p_\theta(x)
+$$<p>that approximates:</p>$$
+p_{\text{data}}(x).
+$$<p>The goal is:</p>$$
+p_\theta(x)\approx p_{\text{data}}(x).
+$$<p>Then we can sample:</p>$$
+x \sim p_\theta(x)
+$$<p>to generate new images, videos, audio, or text.</p><h2 id=markov-chains>Markov chains<a hidden class=anchor aria-hidden=true href=#markov-chains>#</a></h2><p>A Markov chain is a stochastic process where the future depends on the present, not the full past.</p><p>Let:</p>$$
+X_0,X_1,X_2,\dots
+$$<p>be random variables.</p><p>The Markov property is:</p>$$
+P(X_{t+1}=x_{t+1}\mid X_t=x_t,X_{t-1}=x_{t-1},\dots,X_0=x_0)
+{}={}
+P(X_{t+1}=x_{t+1}\mid X_t=x_t).
+$$<p>In words:</p><blockquote><p>once we know the current state, the older history is not needed.</p></blockquote><p>MIT’s stochastic process material introduces stochastic processes as collections of random variables indexed by time and discusses Markov chains as a central example. (<a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/f5784e4facf3de690210d17c97358eba_MIT18_S096F13_lecnote5.pdf?utm_source=chatgpt.com" title="Lecture 5 : Stochastic Processes I">MIT OpenCourseWare</a>)</p><h2 id=transition-matrices>Transition matrices<a hidden class=anchor aria-hidden=true href=#transition-matrices>#</a></h2><p>For a finite-state Markov chain, transition probabilities are stored in a matrix:</p>$$
+P =
+\begin{bmatrix}
+P_{11} & P_{12} & \cdots & P_{1K} \
+P_{21} & P_{22} & \cdots & P_{2K} \
+\vdots & \vdots & \ddots & \vdots \
+P_{K1} & P_{K2} & \cdots & P_{KK}
+\end{bmatrix}.
+$$<p>Here:</p>$$
+P_{ij}=P(X_{t+1}=j\mid X_t=i).
+$$<p>Each row sums to 1:</p>$$
+\sum_{j=1}^K P_{ij}=1.
+$$<h3 id=numerical-example>Numerical example<a hidden class=anchor aria-hidden=true href=#numerical-example>#</a></h3><p>Suppose weather has two states:</p>$$
+0=\text{sunny},
+\qquad
+1=\text{rainy}.
+$$<p>Let:</p>$$
+P=
+\begin{bmatrix}
+0.8 & 0.2 \
+0.4 & 0.6
+\end{bmatrix}.
+$$<p>This means:</p><ul><li>if today is sunny, tomorrow is sunny with probability 0.8,</li><li>if today is sunny, tomorrow is rainy with probability 0.2,</li><li>if today is rainy, tomorrow is sunny with probability 0.4,</li><li>if today is rainy, tomorrow is rainy with probability 0.6.</li></ul><p>If today’s distribution is:</p>$$
+\pi_0=
+\begin{bmatrix}
+1 & 0
+\end{bmatrix},
+$$<p>then tomorrow’s distribution is:</p>$$
+\pi_1=\pi_0P
+{}={}
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+0.8 & 0.2 \
+0.4 & 0.6
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+0.8 & 0.2
+\end{bmatrix}.
+$$<p>After two days:</p>$$
+\pi_2=\pi_1P.
+$$<p>So probability evolves by matrix multiplication.</p><h2 id=stationary-distributions>Stationary distributions<a hidden class=anchor aria-hidden=true href=#stationary-distributions>#</a></h2><p>A stationary distribution is a distribution that does not change after applying the transition matrix.</p><p>It satisfies:</p>$$
+\pi P = \pi.
+$$<p>MIT’s Markov chain notes state that every finite-state Markov chain has at least one stationary distribution. (<a href="https://ocw.mit.edu/courses/6-436j-fundamentals-of-probability-fall-2018/141423989a49375f14f0a44940d81e67_MIT6_436JF18_lec21.pdf?utm_source=chatgpt.com" title="Markov Chains I">MIT OpenCourseWare</a>)</p><p>For the weather example:</p>$$
+P=
+\begin{bmatrix}
+0.8 & 0.2 \
+0.4 & 0.6
+\end{bmatrix}.
+$$<p>Let:</p>$$
+\pi =
+\begin{bmatrix}
+a & b
+\end{bmatrix}.
+$$<p>We need:</p>$$
+\pi P=\pi
+$$<p>and:</p>$$
+a+b=1.
+$$<p>Compute:</p>$$
+\begin{bmatrix}
+a & b
+\end{bmatrix}
+\begin{bmatrix}
+0.8 & 0.2 \
+0.4 & 0.6
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+0.8a+0.4b & 0.2a+0.6b
+\end{bmatrix}.
+$$<p>So:</p>$$
+0.8a+0.4b=a
+$$<p>and:</p>$$
+0.2a+0.6b=b.
+$$<p>From the first equation:</p>$$
+0.4b=0.2a
+$$<p>so:</p>$$
+a=2b.
+$$<p>Using \(a+b=1\):</p>$$
+2b+b=1
+$$<p>so:</p>$$
+b=\frac{1}{3},
+\qquad
+a=\frac{2}{3}.
+$$<p>Thus:</p>$$
+\pi =
+\begin{bmatrix}
+2/3 & 1/3
+\end{bmatrix}.
+$$<p>In the long run, the chain spends about two-thirds of the time sunny and one-third rainy.</p><h2 id=markov-chains-in-diffusion-models>Markov chains in diffusion models<a hidden class=anchor aria-hidden=true href=#markov-chains-in-diffusion-models>#</a></h2><p>Diffusion models use Markov chains.</p><p>The forward diffusion process gradually adds noise:</p>$$
+x_0 \to x_1 \to x_2 \to \cdots \to x_T.
+$$<p>A standard DDPM forward transition is:</p>$$
+q(x_t\mid x_{t-1})
+{}={}
+\mathcal{N}
+\left(
+x_t;
+\sqrt{1-\beta_t}x_{t-1},
+\beta_t I
+\right).
+$$<p>Here:</p><ul><li>\(x_0\) is clean data,</li><li>\(x_t\) is noisy data at time \(t\),</li><li>\(\beta_t\) controls how much noise is added,</li><li>\(I\) is the identity covariance matrix.</li></ul><p>The reverse model learns:</p>$$
+p_\theta(x_{t-1}\mid x_t).
+$$<p>The DDPM paper presents this as a diffusion probabilistic model with a learned reverse denoising process. (<a href="https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf?utm_source=chatgpt.com" title="Denoising Diffusion Probabilistic Models">NeurIPS Proceedings</a>)</p><aside class="callout callout-note" role=note><div class=callout-title>Diffusion-model connection</div><div class=callout-body>In DDPMs, the forward process is a fixed Markov chain that corrupts data with Gaussian noise. The neural network learns the reverse Markov chain that removes noise.</div></aside><h2 id=closed-form-noising-in-ddpms>Closed-form noising in DDPMs<a hidden class=anchor aria-hidden=true href=#closed-form-noising-in-ddpms>#</a></h2><p>Define:</p>$$
+\alpha_t = 1-\beta_t
+$$<p>and:</p>$$
+\bar{\alpha}_t = \prod_{s=1}^{t}\alpha_s.
+$$<p>Then the forward process has a closed form:</p>$$
+q(x_t\mid x_0)
+{}={}
+\mathcal{N}
+\left(
+x_t;
+\sqrt{\bar{\alpha}_t}x_0,
+(1-\bar{\alpha}_t)I
+\right).
+$$<p>Equivalently, we can sample \(x_t\) directly as:</p>$$
+x_t
+{}={}
+\sqrt{\bar{\alpha}_t}x_0
++
+\sqrt{1-\bar{\alpha}_t}\epsilon,
+$$<p>where:</p>$$
+\epsilon\sim\mathcal{N}(0,I).
+$$<p>This formula is central because it allows training at random timesteps without simulating every previous step.</p><h2 id=brownian-motion>Brownian motion<a hidden class=anchor aria-hidden=true href=#brownian-motion>#</a></h2><p>Brownian motion is the mathematical model of continuous random motion.</p><p>A standard Brownian motion \(W_t\) satisfies:</p><ol><li>\(W_0=0\),</li><li>(W_t-W_s\sim\mathcal{N}(0,t-s)) for \(t>s\),</li><li>increments over disjoint intervals are independent,</li><li>paths are continuous,</li><li>paths are almost surely nowhere differentiable.</li></ol><p>Brownian motion is the continuous-time limit of random walks.</p><p>It is also the source of continuous-time Gaussian noise.</p><p>The derivative:</p>$$
+\frac{dW_t}{dt}
+$$<p>does not exist classically, but it is often informally called white noise.</p><p>This is why stochastic calculus is needed.</p><h2 id=stochastic-differential-equations>Stochastic differential equations<a hidden class=anchor aria-hidden=true href=#stochastic-differential-equations>#</a></h2><p>An ordinary differential equation has the form:</p>$$
+\frac{dx}{dt}=f(x,t).
+$$<p>A stochastic differential equation, or SDE, adds random forcing:</p>$$
+dX_t = a(X_t,t),dt + b(X_t,t),dW_t.
+$$<p>Here:</p><ul><li>\(X_t\) is a random process,</li><li>\(a(X_t,t)\) is the drift,</li><li>\(b(X_t,t)\) is the diffusion coefficient,</li><li>\(W_t\) is Brownian motion.</li></ul><p>The term:</p>$$
+a(X_t,t),dt
+$$<p>describes deterministic motion.</p><p>The term:</p>$$
+b(X_t,t),dW_t
+$$<p>describes random motion.</p><p>Higham’s SIAM Review paper gives a practical introduction to numerical SDE simulation and covers stochastic integration, Euler–Maruyama, Milstein, strong and weak convergence, and stability. (<a href="https://epubs.siam.org/doi/10.1137/S0036144500378302?utm_source=chatgpt.com" title="An Algorithmic Introduction to Numerical Simulation of ...">SIAM</a>)</p><h2 id=example-pure-brownian-motion>Example: pure Brownian motion<a hidden class=anchor aria-hidden=true href=#example-pure-brownian-motion>#</a></h2><p>The simplest SDE is:</p>$$
+dX_t=dW_t.
+$$<p>With:</p>$$
+X_0=0,
+$$<p>the solution is:</p>$$
+X_t=W_t.
+$$<p>So Brownian motion itself solves an SDE.</p><h2 id=example-brownian-motion-with-drift>Example: Brownian motion with drift<a hidden class=anchor aria-hidden=true href=#example-brownian-motion-with-drift>#</a></h2><p>Consider:</p>$$
+dX_t = \mu,dt+\sigma,dW_t.
+$$<p>The solution is:</p>$$
+X_t=X_0+\mu t+\sigma W_t.
+$$<p>The mean is:</p>$$
+\mathbb{E}[X_t]=X_0+\mu t.
+$$<p>The variance is:</p>$$
+\operatorname{Var}(X_t)=\sigma^2t.
+$$<p>So the drift controls average motion.</p><p>The diffusion coefficient controls random spread.</p><h2 id=example-ornsteinuhlenbeck-process>Example: Ornstein–Uhlenbeck process<a hidden class=anchor aria-hidden=true href=#example-ornsteinuhlenbeck-process>#</a></h2><p>The Ornstein–Uhlenbeck process is:</p>$$
+dX_t = \theta(\mu-X_t),dt+\sigma,dW_t.
+$$<p>Here:</p><ul><li>\(\mu\) is the long-term mean,</li><li>\(\theta\) controls how strongly the process returns to the mean,</li><li>\(\sigma\) controls noise strength.</li></ul><p>If \(X_t\) is above \(\mu\), then:</p>$$
+\theta(\mu-X_t)<0,
+$$<p>so the drift pulls it downward.</p><p>If \(X_t\) is below \(\mu\), then:</p>$$
+\theta(\mu-X_t)>0,
+$$<p>so the drift pulls it upward.</p><p>This is a mean-reverting stochastic process.</p><p>It is important in physics, finance, stochastic filtering, and generative modeling intuition.</p><h2 id=itô-calculus>Itô calculus<a hidden class=anchor aria-hidden=true href=#itô-calculus>#</a></h2><p>In ordinary calculus:</p>$$
+df(X_t)=f'(X_t)dX_t.
+$$<p>But in stochastic calculus, Brownian motion has quadratic variation:</p>$$
+(dW_t)^2 = dt.
+$$<p>So Itô’s formula includes a second derivative term.</p><p>If:</p>$$
+dX_t=a(X_t,t),dt+b(X_t,t),dW_t,
+$$<p>then:</p>$$
+df(X_t,t)
+{}={}
+\left(
+\frac{\partial f}{\partial t}
++
+a\frac{\partial f}{\partial x}
++
+\frac{1}{2}b^2\frac{\partial^2 f}{\partial x^2}
+\right)dt
++
+b\frac{\partial f}{\partial x}dW_t.
+$$<p>This extra term:</p>$$
+\frac{1}{2}b^2\frac{\partial^2 f}{\partial x^2}
+$$<p>is one of the key differences between deterministic and stochastic calculus.</p><p>MIT’s Itô calculus lecture notes explain that Brownian paths are nowhere differentiable, so expressions involving functions of Brownian motion require Itô calculus rather than ordinary differentiation. (<a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/ef2c66c8079ba656210ad1fd4a5e2fa8_MIT18_S096F13_lecnote18.pdf?utm_source=chatgpt.com" title="Lecture 18 : Itō Calculus">MIT OpenCourseWare</a>)</p><h2 id=fokkerplanck-equation>Fokker–Planck equation<a hidden class=anchor aria-hidden=true href=#fokkerplanck-equation>#</a></h2><p>An SDE describes random sample paths.</p><p>The Fokker–Planck equation describes how the probability density evolves.</p><p>For the SDE:</p>$$
+dX_t=a(X_t,t),dt+b(X_t,t),dW_t,
+$$<p>the density \(p(x,t)\) often satisfies:</p>$$
+\frac{\partial p}{\partial t}
+{}={}
+-\frac{\partial}{\partial x}
+\left(
+a(x,t)p(x,t)
+\right)
++
+\frac{1}{2}
+\frac{\partial^2}{\partial x^2}
+\left(
+b^2(x,t)p(x,t)
+\right).
+$$<p>In higher dimensions:</p>$$
+dX_t=f(X_t,t),dt+G(X_t,t),dW_t,
+$$<p>the Fokker–Planck equation becomes:</p>$$
+\frac{\partial p}{\partial t}
+{}={}
+-\sum_i
+\frac{\partial}{\partial x_i}
+\left(
+f_i p
+\right)
++
+\frac{1}{2}
+\sum_{i,j}
+\frac{\partial^2}{\partial x_i\partial x_j}
+\left(
+D_{ij}p
+\right),
+$$<p>where:</p>$$
+D=GG^\top.
+$$<p>This PDE view is very important in diffusion models because the noising process changes the entire probability distribution over time.</p><h2 id=score-function>Score function<a hidden class=anchor aria-hidden=true href=#score-function>#</a></h2><p>The score function of a probability density is:</p>$$
+s(x,t)=\nabla_x \log p_t(x).
+$$<p>It points in the direction where the log-density increases fastest.</p><p>Score-based generative modeling learns:</p>$$
+s_\theta(x,t)
+\approx
+\nabla_x \log p_t(x).
+$$<p>Song et al. present a framework where an SDE transforms data into a known noise distribution, and the reverse-time SDE transforms noise back into data using the time-dependent score function. (<a href="https://arxiv.org/abs/2011.13456?utm_source=chatgpt.com" title="Score-Based Generative Modeling through Stochastic Differential Equations">arXiv</a>)</p><p>This is the deep mathematical connection between:</p><ul><li>probability distributions,</li><li>gradients,</li><li>SDEs,</li><li>noise,</li><li>generative AI.</li></ul><h2 id=reverse-time-sde-in-diffusion-models>Reverse-time SDE in diffusion models<a hidden class=anchor aria-hidden=true href=#reverse-time-sde-in-diffusion-models>#</a></h2><p>A forward SDE may be written:</p>$$
+dX_t=f(X_t,t),dt+g(t),dW_t.
+$$<p>Under suitable conditions, the reverse-time process has the form:</p>$$
+dX_t=
+\left[
+f(X_t,t) -
+g(t)^2\nabla_x\log p_t(X_t)
+\right]dt
++
+g(t),d\bar{W}_t.
+$$<p>Here:</p><ul><li>\(p_t\) is the density of \(X_t\),</li><li>\(\nabla_x\log p_t(x)\) is the score,</li><li>\(\bar{W}_t\) is reverse-time Brownian motion.</li></ul><p>The neural network estimates the score.</p><p>Then numerical SDE solvers generate samples.</p><p>Song et al. also derive a probability-flow ODE that samples from the same marginal distributions and enables likelihood computation. (<a href="https://arxiv.org/abs/2011.13456?utm_source=chatgpt.com" title="Score-Based Generative Modeling through Stochastic Differential Equations">arXiv</a>)</p><h2 id=numerical-methods-for-sdes>Numerical methods for SDEs<a hidden class=anchor aria-hidden=true href=#numerical-methods-for-sdes>#</a></h2><p>Most SDEs cannot be solved exactly.</p><p>We approximate them numerically.</p><p>Consider:</p>$$
+dX_t=a(X_t,t),dt+b(X_t,t),dW_t.
+$$<p>Choose a timestep:</p>$$
+\Delta t.
+$$<p>Let:</p>$$
+t_n=n\Delta t.
+$$<p>Brownian increments satisfy:</p>$$
+\Delta W_n=W_{t_{n+1}}-W_{t_n}
+\sim
+\mathcal{N}(0,\Delta t).
+$$<p>So we can sample:</p>$$
+\Delta W_n=\sqrt{\Delta t},Z_n,
+\qquad
+Z_n\sim\mathcal{N}(0,1).
+$$<h2 id=eulermaruyama-method>Euler–Maruyama method<a hidden class=anchor aria-hidden=true href=#eulermaruyama-method>#</a></h2><p>The Euler–Maruyama method is the stochastic analogue of Euler’s method.</p><p>It approximates:</p>$$
+dX_t=a(X_t,t),dt+b(X_t,t),dW_t
+$$<p>by:</p>$$
+X_{n+1}
+{}={}
+X_n
++
+a(X_n,t_n)\Delta t
++
+b(X_n,t_n)\Delta W_n.
+$$<p>Since:</p>$$
+\Delta W_n=\sqrt{\Delta t}Z_n,
+$$<p>we can write:</p>$$
+X_{n+1}
+{}={}
+X_n
++
+a(X_n,t_n)\Delta t
++
+b(X_n,t_n)\sqrt{\Delta t}Z_n.
+$$<p>Higham’s article introduces Euler–Maruyama as a core numerical method for SDE simulation and uses practical programs to explain its behavior. (<a href="https://epubs.siam.org/doi/10.1137/S0036144500378302?utm_source=chatgpt.com" title="An Algorithmic Introduction to Numerical Simulation of ...">SIAM</a>)</p><h3 id=numerical-example-1>Numerical example<a hidden class=anchor aria-hidden=true href=#numerical-example-1>#</a></h3><p>Consider:</p>$$
+dX_t = -X_t,dt + 0.5,dW_t.
+$$<p>Let:</p>$$
+X_0=1,
+\qquad
+\Delta t=0.01.
+$$<p>Euler–Maruyama gives:</p>$$
+X_{n+1}
+{}={}
+-X_n\Delta t
++
+0.5\sqrt{\Delta t}Z_n.
+$$<p>Since:</p>$$
+\sqrt{0.01}=0.1,
+$$<p>we get:</p>$$
+X_{n+1}
+{}={}
+0.99X_n+0.05Z_n.
+$$<p>At each step, the process is pulled toward zero but perturbed by random Gaussian noise.</p><h2 id=milstein-method>Milstein method<a hidden class=anchor aria-hidden=true href=#milstein-method>#</a></h2><p>For scalar SDEs, the Milstein method adds a correction term:</p>$$
+X_{n+1}
+{}={}
+X_n
++
+a(X_n,t_n)\Delta t
++
+b(X_n,t_n)\Delta W_n
++
+\frac{1}{2}
+b(X_n,t_n)b_x(X_n,t_n)
+\left[
+(\Delta W_n)^2-\Delta t
+\right].
+$$<p>Here:</p>$$
+b_x=\frac{\partial b}{\partial x}.
+$$<p>If \(b\) is constant, then:</p>$$
+b_x=0
+$$<p>and Milstein reduces to Euler–Maruyama.</p><p>Milstein can achieve better strong convergence for certain SDEs, and Higham’s SIAM Review paper covers both Euler–Maruyama and Milstein methods, including strong and weak convergence. (<a href="https://epubs.siam.org/doi/10.1137/S0036144500378302?utm_source=chatgpt.com" title="An Algorithmic Introduction to Numerical Simulation of ...">SIAM</a>)</p><h2 id=strong-and-weak-convergence>Strong and weak convergence<a hidden class=anchor aria-hidden=true href=#strong-and-weak-convergence>#</a></h2><p>There are two main ways to measure numerical accuracy for SDEs.</p><h3 id=strong-convergence>Strong convergence<a hidden class=anchor aria-hidden=true href=#strong-convergence>#</a></h3><p>Strong convergence measures pathwise accuracy.</p><p>It asks:</p><blockquote><p>Does the simulated path stay close to the true path?</p></blockquote><p>A method has strong order \(\gamma\) if:</p>$$
+\mathbb{E}
+\left[
+|X_T-X_T^{\Delta t}|
+\right]
+\leq
+C(\Delta t)^\gamma.
+$$<p>This matters when individual sample paths are important.</p><h3 id=weak-convergence>Weak convergence<a hidden class=anchor aria-hidden=true href=#weak-convergence>#</a></h3><p>Weak convergence measures accuracy of expectations.</p><p>It asks:</p><blockquote><p>Does the method estimate averages correctly?</p></blockquote><p>A method has weak order \(\gamma\) if:</p>$$
+|
+\mathbb{E}[\phi(X_T)] -
+\mathbb{E}[\phi(X_T^{\Delta t})]
+|
+\leq
+C(\Delta t)^\gamma.
+$$<p>This matters when we care about statistics, distributions, and expected values.</p><p>The Cambridge computational SPDE text explicitly discusses strong approximation of samples and weak approximation of averages, along with Euler–Maruyama, Milstein, and multilevel Monte Carlo. (<a href="https://api.pageplace.de/preview/DT0400.9781139898133_A23869194/preview-9781139898133_A23869194.pdf?utm_source=chatgpt.com" title="An Introduction to Computational Stochastic PDEs">PagePlace</a>)</p><h2 id=monte-carlo-simulation>Monte Carlo simulation<a hidden class=anchor aria-hidden=true href=#monte-carlo-simulation>#</a></h2><p>Monte Carlo means estimating quantities by repeated random sampling.</p><p>Suppose we want:</p>$$
+\mathbb{E}[\phi(X_T)].
+$$<p>We simulate \(M\) independent paths:</p>$$
+X_T^{(1)},X_T^{(2)},\dots,X_T^{(M)}.
+$$<p>Then estimate:</p>$$
+\mathbb{E}[\phi(X_T)]
+\approx
+\frac{1}{M}
+\sum_{m=1}^{M}
+\phi(X_T^{(m)}).
+$$<p>The Monte Carlo error usually decreases like:</p>$$
+\frac{1}{\sqrt{M}}.
+$$<p>This is slow but general.</p><p>Monte Carlo methods are fundamental in stochastic simulation, Bayesian inference, uncertainty quantification, and stochastic PDE computation.</p><h2 id=stochastic-pdes>Stochastic PDEs<a hidden class=anchor aria-hidden=true href=#stochastic-pdes>#</a></h2><p>A deterministic PDE may look like:</p>$$
+\frac{\partial u}{\partial t}
+{}={}
+\Delta u.
+$$<p>This is the heat equation.</p><p>A stochastic PDE adds randomness:</p>$$
+\frac{\partial u}{\partial t}
+{}={}
+\Delta u+\xi.
+$$<p>Here:</p>$$
+\xi
+$$<p>may be space-time white noise.</p><p>More formally, a stochastic heat equation may be written:</p>$$
+du
+{}={}
+\Delta u,dt
++
+\sigma,dW_t.
+$$<p>Here \(W_t\) may be an infinite-dimensional Brownian motion or a cylindrical Wiener process.</p><p>Hairer’s introduction to SPDEs discusses motivating examples such as stochastic heat equations and develops intuition for random evolution equations. (<a href="https://www.hairer.org/SPDEs.pdf?utm_source=chatgpt.com" title="An Introduction to Stochastic PDEs">hairer.org</a>)</p><h2 id=why-spdes-are-harder-than-sdes>Why SPDEs are harder than SDEs<a hidden class=anchor aria-hidden=true href=#why-spdes-are-harder-than-sdes>#</a></h2><p>An SDE evolves a finite-dimensional random variable:</p>$$
+X_t \in \mathbb{R}^d.
+$$<p>An SPDE evolves a random function:</p>$$
+u(t,x).
+$$<p>So the unknown is infinite-dimensional.</p><p>For example:</p>$$
+u(t,\cdot)
+$$<p>is a function over space.</p><p>This means SPDEs combine:</p><ul><li>probability,</li><li>stochastic processes,</li><li>functional analysis,</li><li>PDE theory,</li><li>numerical analysis,</li><li>infinite-dimensional linear algebra.</li></ul><p>This is graduate-level mathematics.</p><h2 id=random-coefficient-pdes>Random-coefficient PDEs<a hidden class=anchor aria-hidden=true href=#random-coefficient-pdes>#</a></h2><p>Not all stochastic PDEs have white-noise forcing.</p><p>Sometimes the PDE has random coefficients.</p><p>For example:</p>$$
+-\nabla\cdot(a(x,\omega)\nabla u(x,\omega))=f(x).
+$$<p>Here:</p><ul><li>\(a(x,\omega)\) is a random field,</li><li>\(u(x,\omega)\) is the random solution,</li><li>\(\omega\) represents randomness.</li></ul><p>This appears in porous media flow, materials science, climate modeling, and uncertainty quantification.</p><p>The Cambridge computational SPDE book discusses elliptic PDEs with correlated random data, Monte Carlo estimation of mean and variance, Karhunen–Loève expansions, and stochastic Galerkin finite-element methods. (<a href="https://eprints.maths.manchester.ac.uk/2232/1/covered/MIMS_ep2015_2.pdf?utm_source=chatgpt.com" title="Preface to ”An Introduction to Computational Stochastic PDEs ...">MIMS EPrints</a>)</p><h2 id=karhunenloève-expansion>Karhunen–Loève expansion<a hidden class=anchor aria-hidden=true href=#karhunenloève-expansion>#</a></h2><p>A random field can often be approximated using a basis expansion.</p><p>Let:</p>$$
+a(x,\omega)
+$$<p>be a random field with mean:</p>$$
+\bar{a}(x)
+$$<p>and covariance function:</p>$$
+C(x,y).
+$$<p>A Karhunen–Loève expansion writes:</p>$$
+a(x,\omega)
+{}={}
+\bar{a}(x)
++
+\sum_{k=1}^{\infty}
+\sqrt{\lambda_k}
+\phi_k(x)
+\xi_k(\omega).
+$$<p>Here:</p><ul><li>\(\lambda_k\) are eigenvalues of the covariance operator,</li><li>\(\phi_k(x)\) are eigenfunctions,</li><li>\(\xi_k\) are uncorrelated random variables.</li></ul><p>A truncated approximation is:</p>$$
+a_M(x,\omega)
+{}={}
+\bar{a}(x)
++
+\sum_{k=1}^{M}
+\sqrt{\lambda_k}
+\phi_k(x)
+\xi_k(\omega).
+$$<p>This converts a random field into finitely many random variables.</p><p>This is important for numerical SPDE methods and uncertainty quantification.</p><h2 id=spatial-discretization-of-spdes>Spatial discretization of SPDEs<a hidden class=anchor aria-hidden=true href=#spatial-discretization-of-spdes>#</a></h2><p>To compute an SPDE, we must discretize space.</p><p>Common methods include:</p><ul><li>finite differences,</li><li>finite elements,</li><li>spectral methods.</li></ul><p>Suppose:</p>$$
+u(t,x)
+$$<p>is approximated at grid points:</p>$$
+x_1,x_2,\dots,x_N.
+$$<p>Then we form a vector:</p>$$
+U(t)
+{}={}
+\begin{bmatrix}
+u(t,x_1)\
+u(t,x_2)\
+\vdots\
+u(t,x_N)
+\end{bmatrix}.
+$$<p>A PDE becomes a large system of SDEs:</p>$$
+dU_t = AU_t,dt + G(U_t),dW_t.
+$$<p>This method is called method of lines.</p><p>Then we can apply SDE time-stepping methods such as Euler–Maruyama.</p><h2 id=stochastic-heat-equation-semi-discrete-form>Stochastic heat equation: semi-discrete form<a hidden class=anchor aria-hidden=true href=#stochastic-heat-equation-semi-discrete-form>#</a></h2><p>Consider:</p>$$
+du = \Delta u,dt + \sigma,dW_t.
+$$<p>After spatial discretization:</p>$$
+dU_t = AU_t,dt+\sigma,dW_t.
+$$<p>Here:</p><ul><li>\(U_t\in\mathbb{R}^N\),</li><li>\(A\in\mathbb{R}^{N\times N}\) approximates the Laplacian,</li><li>\(W_t\in\mathbb{R}^N\) is a vector Brownian motion.</li></ul><p>Euler–Maruyama gives:</p>$$
+U_{n+1}
+{}={}
+U_n
++
+AU_n\Delta t
++
+\sigma\Delta W_n.
+$$<p>Since:</p>$$
+\Delta W_n\sim\mathcal{N}(0,\Delta t I),
+$$<p>we write:</p>$$
+\Delta W_n=\sqrt{\Delta t}Z_n,
+\qquad
+Z_n\sim\mathcal{N}(0,I).
+$$<p>Thus:</p>$$
+U_{n+1}
+{}={}
+U_n
++
+AU_n\Delta t
++
+\sigma\sqrt{\Delta t}Z_n.
+$$<p>This is a finite-dimensional approximation of an infinite-dimensional stochastic equation.</p><h2 id=stability-warning-for-stochastic-pdes>Stability warning for stochastic PDEs<a hidden class=anchor aria-hidden=true href=#stability-warning-for-stochastic-pdes>#</a></h2><p>PDE discretizations can be unstable if the timestep is too large.</p><p>For the heat equation, explicit Euler often requires:</p>$$
+\Delta t \leq C(\Delta x)^2.
+$$<p>With stochastic forcing, stability and accuracy become even more delicate.</p><p>This is why implicit methods, exponential integrators, spectral methods, and carefully designed schemes are often used for SPDEs.</p><p>Computational SPDE texts develop these methods because naive discretization may be inaccurate or unstable. The Cambridge text specifically combines stochastic processes, random fields, SDEs, and computational methods for stochastic PDEs. (<a href="https://www.cambridge.org/core/books/an-introduction-to-computational-stochastic-pdes/01A784303F5C86644A25BFB138923090?utm_source=chatgpt.com" title="An Introduction to Computational Stochastic PDEs">Cambridge University Press & Assessment</a>)</p><h2 id=connection-to-diffusion-generative-models>Connection to diffusion generative models<a hidden class=anchor aria-hidden=true href=#connection-to-diffusion-generative-models>#</a></h2><p>Diffusion generative models are not usually introduced as SPDEs.</p><p>They are more often introduced as:</p><ul><li>discrete-time Markov chains,</li><li>continuous-time SDEs,</li><li>probability-flow ODEs,</li><li>score-based generative models.</li></ul><p>However, the mathematics overlaps strongly with stochastic PDE ideas because both involve:</p><ul><li>noise,</li><li>probability densities,</li><li>stochastic dynamics,</li><li>Fokker–Planck equations,</li><li>numerical simulation,</li><li>high-dimensional random fields.</li></ul><p>For image generation:</p>$$
+x_t \in \mathbb{R}^{H\times W\times C}.
+$$<p>For video generation:</p>$$
+x_t \in \mathbb{R}^{T\times H\times W\times C}.
+$$<p>The diffusion time \(t\) is not the same as video time.</p><p>For video, we may have both:</p><ul><li>diffusion time: denoising step,</li><li>physical/video time: frame index.</li></ul><p>So a video diffusion model may involve tensors like:</p>$$
+x_{\tau,t,i,j,c}
+$$<p>where:</p><ul><li>\(\tau\) is diffusion time,</li><li>\(t\) is video frame time,</li><li>\(i,j\) are spatial coordinates,</li><li>\(c\) is color channel.</li></ul><p>This is why video generation requires both stochastic process mathematics and tensor mathematics.</p><h2 id=noise-schedules>Noise schedules<a hidden class=anchor aria-hidden=true href=#noise-schedules>#</a></h2><p>In DDPMs, the amount of noise added at each step is controlled by:</p>$$
+\beta_t.
+$$<p>The forward process is:</p>$$
+q(x_t\mid x_{t-1})
+{}={}
+\mathcal{N}
+\left(
+\sqrt{1-\beta_t}x_{t-1},
+\beta_t I
+\right).
+$$<p>If \(\beta_t\) is small, each step adds a little noise.</p><p>If \(\beta_t\) is large, each step adds more noise.</p><p>The accumulated signal strength is:</p>$$
+\bar{\alpha}_t
+{}={}
+\prod_{s=1}^{t}(1-\beta_s).
+$$<p>The noisy sample is:</p>$$
+x_t
+{}={}
+\sqrt{\bar{\alpha}_t}x_0
++
+\sqrt{1-\bar{\alpha}_t}\epsilon.
+$$<p>As \(t\) increases:</p>$$
+\bar{\alpha}_t \to 0.
+$$<p>Then:</p>$$
+x_t \approx \epsilon.
+$$<p>So the data becomes almost pure Gaussian noise.</p><h2 id=denoising-objective>Denoising objective<a hidden class=anchor aria-hidden=true href=#denoising-objective>#</a></h2><p>A common training objective is:</p>$$
+\mathcal{L}
+{}={}
+\mathbb{E}_{x_0,\epsilon,t}
+\left[
+|\epsilon-\epsilon*\theta(x_t,t)|^2
+\right].
+$$<p>Here:</p><ul><li>\(x_0\sim p_{\text{data}}\),</li><li>(\epsilon\sim\mathcal{N}(0,I)),</li><li>\(t\) is a random timestep,</li><li>\(x_t\) is the noisy sample,</li><li>\(\epsilon_\theta\) is the neural network’s predicted noise.</li></ul><p>The model learns to predict the noise that was added.</p><p>Once it can predict noise, it can remove noise.</p><p>This is the practical deep-learning version of score estimation.</p><h2 id=probability-flow-ode>Probability flow ODE<a hidden class=anchor aria-hidden=true href=#probability-flow-ode>#</a></h2><p>In score-based models, the reverse stochastic process has an associated deterministic ODE.</p><p>A simplified probability-flow ODE has the form:</p>$$
+\frac{dX_t}{dt}
+{}={}
+f(X_t,t) -
+\frac{1}{2}g(t)^2\nabla_x\log p_t(X_t).
+$$<p>This ODE has the same marginal probability densities as the SDE under suitable conditions.</p><p>Song et al. derive this probability-flow ODE and use it for sampling and likelihood computation. (<a href="https://arxiv.org/abs/2011.13456?utm_source=chatgpt.com" title="Score-Based Generative Modeling through Stochastic Differential Equations">arXiv</a>)</p><p>This is why modern diffusion samplers may be viewed as numerical ODE or SDE solvers.</p><h2 id=section-summary>Section summary<a hidden class=anchor aria-hidden=true href=#section-summary>#</a></h2><p>We began with uncertainty.</p><p>A noisy measurement can be written:</p>$$
+Y=x+\varepsilon.
+$$<p>A noisy image can be written:</p>$$
+Y=X+E.
+$$<p>We introduced random variables:</p>$$
+X:\Omega\to\mathbb{R}.
+$$<p>We defined probability distributions, PMFs, PDFs, expectation, and variance.</p><p>We studied the Gaussian distribution:</p>$$
+X\sim\mathcal{N}(\mu,\sigma^2)
+$$<p>and the multivariate Gaussian:</p>$$
+X\sim\mathcal{N}(\mu,\Sigma).
+$$<p>We introduced white noise:</p>$$
+\mathbb{E}[\varepsilon_t\varepsilon_s]
+{}={}
+\sigma^2\delta_{ts}
+$$<p>and colored noise with nonzero correlations.</p><p>We introduced Markov chains:</p>$$
+P(X_{t+1}\mid X_t,X_{t-1},\dots,X_0)
+{}={}
+P(X_{t+1}\mid X_t).
+$$<p>We saw that DDPMs use a Gaussian Markov noising process:</p>$$
+q(x_t\mid x_{t-1})
+{}={}
+\mathcal{N}
+\left(
+\sqrt{1-\beta_t}x_{t-1},
+\beta_t I
+\right).
+$$<p>We introduced Brownian motion and SDEs:</p>$$
+dX_t=a(X_t,t),dt+b(X_t,t),dW_t.
+$$<p>We introduced the Fokker–Planck equation, which describes how probability densities evolve.</p><p>We introduced numerical SDE methods such as Euler–Maruyama:</p>$$
+X_{n+1}
+{}={}
+X_n
++
+a(X_n,t_n)\Delta t
++
+b(X_n,t_n)\Delta W_n.
+$$<p>We introduced SPDEs, where the unknown is a random function:</p>$$
+u(t,x,\omega).
+$$<p>Finally, we connected all of this to diffusion generative models, where the model learns how to transform noise into data by reversing a stochastic noising process.</p><p>The big idea is:</p><blockquote><p>Probability describes uncertainty. Noise corrupts data. Markov chains and SDEs describe how randomness evolves. Diffusion models learn to reverse that evolution.</p></blockquote><hr><h2 id=source-anchors-used-for-this-section>Source anchors used for this section<a hidden class=anchor aria-hidden=true href=#source-anchors-used-for-this-section>#</a></h2><ul><li>MIT OCW probability material covers distribution functions, common distributions, conditional probability, Bayes’ theorem, joint distributions, law of large numbers, and central limit theorem. (<a href="https://opencw.aprende.org/courses/mathematics/18-440-probability-and-random-variables-spring-2014/this-course-at-mit/?utm_source=chatgpt.com" title="This Course at MIT | Probability and Random Variables">MIT OpenCourseWare</a>)</li><li>MIT statistics notes distinguish discrete probability functions and continuous probability density functions. (<a href="https://ocw.mit.edu/courses/18-443-statistics-for-applications-fall-2006/46afee1cbe70839c128ef68b2a6b1e16_lecture1.pdf?utm_source=chatgpt.com" title="Lecture 1 Overview of some probability distributions.">MIT OpenCourseWare</a>)</li><li>Stanford CS229 probability review discusses Gaussian random variables and closure properties of multivariate Gaussians. (<a href="https://cs229.stanford.edu/notes2022fall/cs229-probability_review.pdf?utm_source=chatgpt.com" title="Probability Theory Review and Reference">CS229</a>)</li><li>MIT stochastic-process notes define stochastic processes as collections of random variables indexed by time and introduce Markov chains. (<a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/f5784e4facf3de690210d17c97358eba_MIT18_S096F13_lecnote5.pdf?utm_source=chatgpt.com" title="Lecture 5 : Stochastic Processes I">MIT OpenCourseWare</a>)</li><li>MIT Markov-chain notes state existence of stationary distributions for finite-state Markov chains. (<a href="https://ocw.mit.edu/courses/6-436j-fundamentals-of-probability-fall-2018/141423989a49375f14f0a44940d81e67_MIT6_436JF18_lec21.pdf?utm_source=chatgpt.com" title="Markov Chains I">MIT OpenCourseWare</a>)</li><li>MIT Itô calculus notes explain that Brownian paths are nowhere differentiable with probability 1, motivating stochastic calculus. (<a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/ef2c66c8079ba656210ad1fd4a5e2fa8_MIT18_S096F13_lecnote18.pdf?utm_source=chatgpt.com" title="Lecture 18 : Itō Calculus">MIT OpenCourseWare</a>)</li><li>Higham’s SIAM Review paper introduces numerical SDE simulation, Euler–Maruyama, Milstein, strong and weak convergence, and stability. (<a href="https://epubs.siam.org/doi/10.1137/S0036144500378302?utm_source=chatgpt.com" title="An Algorithmic Introduction to Numerical Simulation of ...">SIAM</a>)</li><li>Gardiner’s <em>Handbook of Stochastic Methods</em> discusses white noise and nonwhite noise processes. (<a href="https://d-nb.info/948236752/04?utm_source=chatgpt.com" title="Handbook of Stochastic Methods">Deutsche Nationalbibliothek</a>)</li><li>Lord, Powell, and Shardlow’s Cambridge text covers stochastic processes, random fields, SDEs, SPDEs, Euler–Maruyama, Milstein, strong/weak approximation, Monte Carlo, and stochastic Galerkin finite-element methods. (<a href="https://www.cambridge.org/core/books/an-introduction-to-computational-stochastic-pdes/01A784303F5C86644A25BFB138923090?utm_source=chatgpt.com" title="An Introduction to Computational Stochastic PDEs">Cambridge University Press & Assessment</a>)</li><li>Hairer’s SPDE notes introduce stochastic PDEs through motivating examples including the stochastic heat equation. (<a href="https://www.hairer.org/SPDEs.pdf?utm_source=chatgpt.com" title="An Introduction to Stochastic PDEs">hairer.org</a>)</li><li>Ho, Jain, and Abbeel’s DDPM paper defines diffusion probabilistic models as latent-variable models with Gaussian Markov noising and learned reverse denoising. (<a href="https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf?utm_source=chatgpt.com" title="Denoising Diffusion Probabilistic Models">NeurIPS Proceedings</a>)</li><li>Song et al.’s score-SDE paper formulates generative modeling through forward and reverse stochastic differential equations and connects SDE sampling with probability-flow ODEs. (<a href="https://arxiv.org/abs/2011.13456?utm_source=chatgpt.com" title="Score-Based Generative Modeling through Stochastic Differential Equations">arXiv</a>)</li></ul></div><footer class="post-footer article-footer"><ul class=post-tags><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/probability/>Probability</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/distributions/>Distributions</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/gaussian-noise/>Gaussian Noise</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/white-noise/>White Noise</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/colored-noise/>Colored Noise</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/markov-chains/>Markov Chains</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/sde/>SDE</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/spde/>SPDE</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/diffusion-models/>Diffusion Models</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/generative-ai/>Generative AI</a></li></ul><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on x" href="https://x.com/intent/tweet/?text=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f&amp;hashtags=probability%2cdistributions%2cGaussiannoise%2cwhitenoise%2ccolorednoise%2cMarkovchains%2cSDE%2cSPDE%2cdiffusionmodels%2cgenerativeAI"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f&amp;title=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs&amp;summary=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs&amp;source=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f&title=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on whatsapp" href="https://api.whatsapp.com/send?text=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs%20-%20https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on telegram" href="https://telegram.me/share/url?text=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs on ycombinator" href="https://news.ycombinator.com/submitlink?t=1.3%20Probability%20Distributions%2c%20Noise%2c%20Markov%20Chains%2c%20SDEs%2c%20and%20Stochastic%20PDEs&u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-03%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer><script type=application/ld+json>"{\"@context\":\"https://schema.org\",\"@type\":\"ScholarlyArticle\",\"author\":[{\"@type\":\"Person\",\"name\":\"Anwar Shamim\"}],\"datePublished\":\"2026-04-29\",\"headline\":\"1.3 Probability Distributions, Noise, Markov Chains, SDEs, and Stochastic PDEs\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sange Mehrab\"},\"url\":\"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-03/\"}"</script></div></article></div></main><footer class=footer><span>&copy; 2026 <a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Sange Mehrab</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",()=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const t=document.createRange();t.selectNodeContents(e);const n=window.getSelection();n.removeAllRanges(),n.addRange(t);try{document.execCommand("copy"),s()}catch{}n.removeRange(t)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

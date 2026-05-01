@@ -1,0 +1,1150 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure | Sange Mehrab</title><meta name=keywords content="linear algebra,matrices,tensors,multilinear algebra,machine learning,deep learning,data representation"><meta name=description content="A deep introduction to matrices and tensors for AI mathematics: data matrices, images as matrices, color images and batches as tensors, matrix operations, linear maps, rank, norms, eigenvalues, SVD, tensor order, modes, unfolding, n-mode products, tensor contractions, CP decomposition, Tucker decomposition, and the formal tensor-product view."><meta name=author content="Anwar Shamim"><link rel=canonical href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/><link crossorigin=anonymous href=/Sang_e_Mehrab/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as=style><link rel=icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg><link rel=icon type=image/png sizes=16x16 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-32x32.png><link rel=apple-touch-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/apple-touch-icon.png><link rel=mask-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/safari-pinned-tab.svg><meta name=theme-color content="#3d2914"><meta name=msapplication-TileColor content="#3d2914"><link rel=alternate hreflang=en href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel=stylesheet><link rel=stylesheet href=/Sang_e_Mehrab/css/custom.css><link rel=stylesheet href=/Sang_e_Mehrab/css/system.css><style>html{font-family:Inter,system-ui,-apple-system,segoe ui,Roboto,helvetica neue,Arial,sans-serif}.post-content,.post-description,.toc{font-family:eb garamond,Georgia,times new roman,serif;font-size:1.08rem}h1,h2,h3,h4,.dm-hero-title,.dm-section-title,.post-title,.entry-title{font-family:cormorant garamond,Georgia,times new roman,serif}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}</style><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){if(typeof renderMathInElement!="function")return;renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1,strict:!1})})</script><meta property="og:url" content="https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/"><meta property="og:site_name" content="Sange Mehrab"><meta property="og:title" content="1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure"><meta property="og:description" content="A deep introduction to matrices and tensors for AI mathematics: data matrices, images as matrices, color images and batches as tensors, matrix operations, linear maps, rank, norms, eigenvalues, SVD, tensor order, modes, unfolding, n-mode products, tensor contractions, CP decomposition, Tucker decomposition, and the formal tensor-product view."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="courses"><meta property="article:published_time" content="2026-04-28T00:00:00+00:00"><meta property="article:modified_time" content="2026-04-28T00:00:00+00:00"><meta property="article:tag" content="Linear Algebra"><meta property="article:tag" content="Matrices"><meta property="article:tag" content="Tensors"><meta property="article:tag" content="Multilinear Algebra"><meta property="article:tag" content="Machine Learning"><meta property="article:tag" content="Deep Learning"><meta name=twitter:card content="summary"><meta name=twitter:title content="1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure"><meta name=twitter:description content="A deep introduction to matrices and tensors for AI mathematics: data matrices, images as matrices, color images and batches as tensors, matrix operations, linear maps, rank, norms, eigenvalues, SVD, tensor order, modes, unfolding, n-mode products, tensor contractions, CP decomposition, Tucker decomposition, and the formal tensor-product view."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Courses","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/"},{"@type":"ListItem","position":2,"name":"Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/"},{"@type":"ListItem","position":3,"name":"The Language","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/"},{"@type":"ListItem","position":4,"name":"1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure","name":"1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure","description":"A deep introduction to matrices and tensors for AI mathematics: data matrices, images as matrices, color images and batches as tensors, matrix operations, linear maps, rank, norms, eigenvalues, SVD, tensor order, modes, unfolding, n-mode products, tensor contractions, CP decomposition, Tucker decomposition, and the formal tensor-product view.","keywords":["linear algebra","matrices","tensors","multilinear algebra","machine learning","deep learning","data representation"],"articleBody":"Why matrices and tensors come next In the previous section, we learned how one object can become a vector.\nA house became:\n$$ x = \\begin{bmatrix} 1200 \\\\ 3 \\\\ 2 \\\\ 10 \\\\ 3.2 \\end{bmatrix} $$This vector represented one house using several features.\nBut machine learning almost never works with only one object.\nUsually, we have many houses, many images, many words, many patients, many time steps, or many training examples. Once we collect many vectors together, we naturally arrive at a matrix.\nAnd once data has more than two directions — for example height, width, and color channels in an image — we naturally arrive at a tensor.\nMIT’s 18.06 course describes linear algebra as matrix theory with emphasis on systems of equations, vector spaces, determinants, eigenvalues, and positive definite matrices, all of which are foundational for applied mathematics and AI. (MIT OpenCourseWare)\nSo the path is:\n$$ \\text{scalar} \\longrightarrow \\text{vector} \\longrightarrow \\text{matrix} \\longrightarrow \\text{tensor}. $$A scalar is one number.\nA vector is a one-dimensional collection of numbers.\nA matrix is a two-dimensional collection of numbers.\nA tensor, in the machine-learning sense, is a multidimensional array. Kolda and Bader define a tensor as a multidimensional or \\(N\\)-way array, while also noting the more formal view of an \\(N\\)-th order tensor as an element of a tensor product of \\(N\\) vector spaces.\nImportant language noteIn deep learning libraries such as PyTorch and TensorFlow, the word tensor usually means a multidimensional numerical array. In more advanced mathematics, a tensor can mean an element of a tensor product space or a multilinear map. These views are related, but they are not always used with the same level of precision. Real-world example 1: a house dataset as a matrix Suppose we collect data from three houses.\nHouse Area Bedrooms Floors Age Distance Price 1 1200 3 2 10 3.2 9.0 2 850 2 1 18 8.5 6.5 3 1600 4 2 5 1.1 12.0 If price is the target, then the input features are:\n$$ X = \\begin{bmatrix} 1200 \u0026 3 \u0026 2 \u0026 10 \u0026 3.2 \\\\ 850 \u0026 2 \u0026 1 \u0026 18 \u0026 8.5 \\\\ 1600 \u0026 4 \u0026 2 \u0026 5 \u0026 1.1 \\end{bmatrix} $$and the target vector is:\n$$ y = \\begin{bmatrix} 9.0 \\\\ 6.5 \\\\ 12.0 \\end{bmatrix}. $$Here:\n$$ X \\in \\mathbb{R}^{3 \\times 5} $$and:\n$$ y \\in \\mathbb{R}^{3}. $$The matrix \\(X\\) has:\n3 rows, 5 columns, 15 entries. Each row is one house.\nEach column is one feature.\nSo a matrix lets us store many feature vectors in one object.\nIn machine learning, this matrix is often called the design matrix.\nReal-world example 2: a grayscale image as a matrix A grayscale image is also naturally represented as a matrix.\nSuppose we have a tiny \\(4 \\times 5\\) grayscale image. Each number represents pixel intensity.\n$$ I = \\begin{bmatrix} 0 \u0026 20 \u0026 50 \u0026 20 \u0026 0 \\\\ 10 \u0026 80 \u0026 150 \u0026 80 \u0026 10 \\\\ 20 \u0026 120 \u0026 255 \u0026 120 \u0026 20 \\\\ 0 \u0026 30 \u0026 60 \u0026 30 \u0026 0 \\end{bmatrix} $$Here:\n$$ I \\in \\mathbb{R}^{4 \\times 5}. $$The first dimension is height.\nThe second dimension is width.\nThe entry \\(I_{ij}\\) is the brightness of the pixel in row \\(i\\), column \\(j\\).\nFor example:\n$$ I_{3,3} = 255 $$is the brightest pixel in this small image.\nSo a grayscale image is not just a picture. To a model, it is a matrix.\nReal-world example 3: a color image as a tensor A color image has more structure.\nEach pixel usually has three color channels:\n$$ \\text{red},\\quad \\text{green},\\quad \\text{blue}. $$So instead of one number per pixel, we have three numbers per pixel.\nFor a color image with height \\(H\\), width \\(W\\), and 3 color channels, we can write:\n$$ X \\in \\mathbb{R}^{H \\times W \\times 3}. $$This is no longer a matrix.\nIt has three axes:\nheight, width, color channel. So it is a third-order tensor.\nFor a tiny \\(2 \\times 2\\) color image:\n$$ X \\in \\mathbb{R}^{2 \\times 2 \\times 3}. $$One pixel may be:\n$$ X_{1,1,:} {}={} \\begin{bmatrix} 255 \\\\ 0 \\\\ 0 \\end{bmatrix} $$which represents a red pixel.\nAnother pixel may be:\n$$ X_{1,2,:} {}={} \\begin{bmatrix} 0 \\\\ 255 \\\\ 0 \\end{bmatrix} $$which represents a green pixel.\nThe colon notation means:\nkeep all values along that axis.\nSo \\(X_{1,1,:}\\) means:\nrow 1, column 1, all color channels.\nReal-world example 4: a batch of images as a fourth-order tensor Deep learning usually processes many examples at once.\nSuppose we have a batch of 32 color images.\nEach image has size:\n$$ 224 \\times 224 $$and 3 color channels.\nThen the batch may be stored as:\n$$ X \\in \\mathbb{R}^{32 \\times 224 \\times 224 \\times 3}. $$The axes are:\nAxis Meaning 1 batch/example index 2 image height 3 image width 4 color channel So:\n$$ X_{n,i,j,c} $$means:\nthe value of color channel \\(c\\) at pixel row \\(i\\), pixel column \\(j\\), in image \\(n\\).\nThis is a fourth-order tensor.\nIn PyTorch, images are often stored in another layout:\n$$ X \\in \\mathbb{R}^{32 \\times 3 \\times 224 \\times 224} $$where the axes are:\nAxis Meaning 1 batch 2 channel 3 height 4 width The mathematics is the same, but the axis order is different.\nAxis order mattersThe same data can be stored with different axis conventions. For images, TensorFlow often uses batch-height-width-channel format, while PyTorch often uses batch-channel-height-width format. The numerical values may be the same, but the shape interpretation changes. Real-world example 5: language data as tensors In natural language processing, a sentence is often converted into a sequence of token embeddings.\nSuppose:\nbatch size is \\(B\\), sequence length is \\(L\\), embedding dimension is \\(d\\). Then the input to a language model layer may be:\n$$ X \\in \\mathbb{R}^{B \\times L \\times d}. $$For example:\n$$ X \\in \\mathbb{R}^{16 \\times 128 \\times 768}. $$This means:\n16 sentences or text chunks, 128 tokens per sequence, 768 numbers per token embedding. So one token is a vector:\n$$ X_{b,\\ell,:} \\in \\mathbb{R}^{768}. $$One full sentence is a matrix:\n$$ X_{b,:,:} \\in \\mathbb{R}^{128 \\times 768}. $$The full batch is a third-order tensor:\n$$ X \\in \\mathbb{R}^{16 \\times 128 \\times 768}. $$In transformer models, attention scores may have shape:\n$$ A \\in \\mathbb{R}^{B \\times H \\times L \\times L} $$where \\(H\\) is the number of attention heads.\nSo modern AI is full of matrices and tensors.\nWhat is a matrix? A matrix is a rectangular array of numbers.\nIf a matrix has \\(m\\) rows and \\(n\\) columns, we write:\n$$ A \\in \\mathbb{R}^{m \\times n}. $$Stanford CS229 uses this notation: \\(A \\in \\mathbb{R}^{m \\times n}\\) denotes a matrix with \\(m\\) rows and \\(n\\) columns, with real-valued entries. (CS229)\nA general matrix looks like:\n$$ A = \\begin{bmatrix} a_{11} \u0026 a_{12} \u0026 \\cdots \u0026 a_{1n} \\\\ a_{21} \u0026 a_{22} \u0026 \\cdots \u0026 a_{2n} \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ a_{m1} \u0026 a_{m2} \u0026 \\cdots \u0026 a_{mn} \\end{bmatrix}. $$The entry \\(a_{ij}\\) means:\nthe entry in row \\(i\\), column \\(j\\).\nSo:\n$$ a_{23} $$means:\nrow 2, column 3.\nMatrix shape The shape of \\(A\\) is:\n$$ m \\times n. $$The first number counts rows.\nThe second number counts columns.\nFor example:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix} $$has 2 rows and 3 columns, so:\n$$ A \\in \\mathbb{R}^{2 \\times 3}. $$The entry in row 2, column 3 is:\n$$ a_{23} = 6. $$Rows and columns A matrix can be viewed in two complementary ways.\nIt can be viewed as a stack of rows:\n$$ A = \\begin{bmatrix} a_1^\\top \\\\ a_2^\\top \\\\ \\vdots \\\\ a_m^\\top \\end{bmatrix} $$where each row is a row vector.\nIt can also be viewed as a collection of columns:\n$$ A = \\begin{bmatrix} | \u0026 | \u0026 \u0026 | \\\\ a_1 \u0026 a_2 \u0026 \\cdots \u0026 a_n \\\\ | \u0026 | \u0026 \u0026 | \\end{bmatrix} $$where each column is a column vector.\nThis row-column viewpoint is important because matrix multiplication can be understood using rows, columns, dot products, and linear combinations. Stanford CS229 explicitly describes matrix-vector multiplication both as row inner products and as a linear combination of columns.\nMatrix addition Two matrices can be added only when they have the same shape.\nLet:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \\\\ 3 \u0026 4 \\end{bmatrix} $$and:\n$$ B = \\begin{bmatrix} 10 \u0026 20 \\\\ 30 \u0026 40 \\end{bmatrix}. $$Then:\n$$ A+B = \\begin{bmatrix} 1+10 \u0026 2+20 \\\\ 3+30 \u0026 4+40 \\end{bmatrix} {}={} \\begin{bmatrix} 11 \u0026 22 \\\\ 33 \u0026 44 \\end{bmatrix}. $$In general, if:\n$$ A,B \\in \\mathbb{R}^{m \\times n}, $$then:\n$$ (A+B)_{ij} = A_{ij}+B_{ij}. $$But this is not valid:\n$$ \\mathbb{R}^{2 \\times 3} + \\mathbb{R}^{3 \\times 2}. $$The shapes do not match.\nScalar multiplication of a matrix A matrix can be multiplied by a scalar.\nLet:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \\\\ 3 \u0026 4 \\end{bmatrix} $$and:\n$$ \\alpha = 3. $$Then:\n$$ \\alpha A = 3 \\begin{bmatrix} 1 \u0026 2 \\\\ 3 \u0026 4 \\end{bmatrix} {}={} \\begin{bmatrix} 3 \u0026 6 \\\\ 9 \u0026 12 \\end{bmatrix}. $$In general:\n$$ (\\alpha A)_{ij} = \\alpha A_{ij}. $$So scalar multiplication scales every entry.\nMatrix-vector multiplication Matrix-vector multiplication is one of the most important operations in AI.\nLet:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix} $$and:\n$$ x = \\begin{bmatrix} 10 \\\\ 20 \\\\ 30 \\end{bmatrix}. $$The shape of \\(A\\) is:\n$$ 2 \\times 3. $$The shape of \\(x\\) is:\n$$ 3 \\times 1. $$The product (Ax) is valid because the inner dimensions match:\n$$ (2 \\times 3)(3 \\times 1) = 2 \\times 1. $$Now compute:\n$$ Ax = \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix} \\begin{bmatrix} 10 \\\\ 20 \\\\ 30 \\end{bmatrix}. $$The first entry is:\n$$ 1(10)+2(20)+3(30)=10+40+90=140. $$The second entry is:\n$$ 4(10)+5(20)+6(30)=40+100+180=320. $$So:\n$$ Ax = \\begin{bmatrix} 140 \\\\ 320 \\end{bmatrix}. $$Row-dot-product view Each output entry is a dot product between one row of \\(A\\) and the vector \\(x\\).\nThe first row of \\(A\\) is:\n$$ \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\end{bmatrix}. $$The second row is:\n$$ \\begin{bmatrix} 4 \u0026 5 \u0026 6 \\end{bmatrix}. $$So:\n$$ Ax = \\begin{bmatrix} \\text{row}_1(A)\\cdot x \\\\ \\text{row}_2(A)\\cdot x \\end{bmatrix}. $$In general, if:\n$$ A \\in \\mathbb{R}^{m \\times n} $$and:\n$$ x \\in \\mathbb{R}^{n}, $$then:\n$$ y = Ax \\in \\mathbb{R}^{m} $$with:\n$$ y_i = \\sum_{j=1}^{n} A_{ij}x_j. $$Column-linear-combination view The same product can be viewed another way.\nWrite \\(A\\) in columns:\n$$ A = \\begin{bmatrix} | \u0026 | \u0026 | \\\\ a_1 \u0026 a_2 \u0026 a_3 \\\\ | \u0026 | \u0026 | \\end{bmatrix}. $$Then:\n$$ Ax = x_1a_1+x_2a_2+x_3a_3. $$Using our example:\n$$ a_1 = \\begin{bmatrix} 1 \\\\ 4 \\end{bmatrix}, \\quad a_2 = \\begin{bmatrix} 2 \\\\ 5 \\end{bmatrix}, \\quad a_3 = \\begin{bmatrix} 3 \\\\ 6 \\end{bmatrix}. $$Since:\n$$ x = \\begin{bmatrix} 10 \\\\ 20 \\\\ 30 \\end{bmatrix}, $$we get:\n$$ Ax = 10 \\begin{bmatrix} 1 \\\\ 4 \\end{bmatrix} + 20 \\begin{bmatrix} 2 \\\\ 5 \\end{bmatrix} + 30 \\begin{bmatrix} 3 \\\\ 6 \\end{bmatrix}. $$So:\n$$ Ax = \\begin{bmatrix} 10 \\\\ 40 \\end{bmatrix} + \\begin{bmatrix} 40 \\\\ 100 \\end{bmatrix} + \\begin{bmatrix} 90 \\\\ 180 \\end{bmatrix} {}={} \\begin{bmatrix} 140 \\\\ 320 \\end{bmatrix}. $$Two views of AxThe product (Ax) can be seen as row dot products or as a linear combination of the columns of \\(A\\). Both views are correct, and both are important in machine learning. Matrix-matrix multiplication Now suppose:\n$$ A \\in \\mathbb{R}^{m \\times n} $$and:\n$$ B \\in \\mathbb{R}^{n \\times p}. $$Then:\n$$ C = AB \\in \\mathbb{R}^{m \\times p}. $$Stanford CS229 defines the matrix product \\(C=AB\\) entrywise as:\n$$ C_{ij} = \\sum_{k=1}^{n} A_{ik}B_{kj}, $$with the requirement that the number of columns of \\(A\\) equals the number of rows of \\(B\\).\nNumerical example Let:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix} $$and:\n$$ B = \\begin{bmatrix} 1 \u0026 0 \\\\ 0 \u0026 1 \\\\ 1 \u0026 1 \\end{bmatrix}. $$Then:\n$$ A \\in \\mathbb{R}^{2 \\times 3}, \\qquad B \\in \\mathbb{R}^{3 \\times 2}. $$So:\n$$ AB \\in \\mathbb{R}^{2 \\times 2}. $$Now compute:\n$$ AB = \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix} \\begin{bmatrix} 1 \u0026 0 \\\\ 0 \u0026 1 \\\\ 1 \u0026 1 \\end{bmatrix}. $$The entry in row 1, column 1 is:\n$$ 1(1)+2(0)+3(1)=4. $$The entry in row 1, column 2 is:\n$$ 1(0)+2(1)+3(1)=5. $$The entry in row 2, column 1 is:\n$$ 4(1)+5(0)+6(1)=10. $$The entry in row 2, column 2 is:\n$$ 4(0)+5(1)+6(1)=11. $$Therefore:\n$$ AB = \\begin{bmatrix} 4 \u0026 5 \\\\ 10 \u0026 11 \\end{bmatrix}. $$Matrix multiplication is not usually commutative In ordinary arithmetic:\n$$ 2 \\cdot 3 = 3 \\cdot 2. $$But matrices do not usually behave this way.\nUsually:\n$$ AB \\neq BA. $$Sometimes (BA) is not even defined.\nIn the previous example:\n$$ A \\in \\mathbb{R}^{2 \\times 3} $$and:\n$$ B \\in \\mathbb{R}^{3 \\times 2}. $$So:\n$$ AB \\in \\mathbb{R}^{2 \\times 2} $$but:\n$$ BA \\in \\mathbb{R}^{3 \\times 3}. $$The shapes are different.\nSo (AB) and (BA) cannot be equal.\nOrder mattersMatrix multiplication represents structured operations. Changing the order changes the operation. In neural networks, (XW) and (WX) are usually completely different or one of them is invalid. Matrices as linear maps A matrix is not only a table of numbers.\nA matrix can represent a linear transformation.\nLet:\n$$ A \\in \\mathbb{R}^{m \\times n}. $$Then \\(A\\) defines a function:\n$$ A:\\mathbb{R}^{n} \\to \\mathbb{R}^{m} $$by:\n$$ x \\mapsto Ax. $$This means:\nthe input vector has \\(n\\) components, the output vector has \\(m\\) components. For example, let:\n$$ A = \\begin{bmatrix} 2 \u0026 0 \\\\ 0 \u0026 1 \\end{bmatrix}. $$Then:\n$$ A \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix} {}={} \\begin{bmatrix} 6 \\\\ 4 \\end{bmatrix}. $$This matrix stretches the first coordinate by a factor of 2 and leaves the second coordinate unchanged.\nSo a matrix can be understood geometrically.\nIt transforms space.\nLinear maps preserve addition and scalar multiplication A function \\(T:\\mathbb{R}^n \\to \\mathbb{R}^m\\) is linear if:\n$$ T(u+v)=T(u)+T(v) $$and:\n$$ T(\\alpha u)=\\alpha T(u). $$Matrix multiplication satisfies these properties.\nIf:\n$$ T(x)=Ax, $$then:\n$$ T(u+v)=A(u+v)=Au+Av=T(u)+T(v) $$and:\n$$ T(\\alpha u)=A(\\alpha u)=\\alpha Au=\\alpha T(u). $$Therefore every matrix multiplication map is linear.\nThis is why matrices are the natural language of linear models.\nThe identity matrix The identity matrix is the matrix that does nothing.\nFor dimension \\(n\\), it is written:\n$$ I_n. $$For example:\n$$ I_3 = \\begin{bmatrix} 1 \u0026 0 \u0026 0 \\\\ 0 \u0026 1 \u0026 0 \\\\ 0 \u0026 0 \u0026 1 \\end{bmatrix}. $$For any vector \\(x \\in \\mathbb{R}^3\\):\n$$ I_3x=x. $$For example:\n$$ I_3 \\begin{bmatrix} 5 \\\\ -2 \\\\ 7 \\end{bmatrix} {}={} \\begin{bmatrix} 5 \\\\ -2 \\\\ 7 \\end{bmatrix}. $$The identity matrix plays the same role as the number 1 in ordinary multiplication.\nDiagonal matrices A diagonal matrix has nonzero entries only on the main diagonal.\nFor example:\n$$ D = \\begin{bmatrix} 2 \u0026 0 \u0026 0 \\\\ 0 \u0026 5 \u0026 0 \\\\ 0 \u0026 0 \u0026 -1 \\end{bmatrix}. $$Multiplying by \\(D\\) scales each coordinate separately.\nIf:\n$$ x = \\begin{bmatrix} x_1 \\\\ x_2 \\\\ x_3 \\end{bmatrix}, $$then:\n$$ Dx = \\begin{bmatrix} 2x_1 \\\\ 5x_2 \\\\ -x_3 \\end{bmatrix}. $$The Deep Learning book notes that diagonal matrices are computationally efficient because multiplying by a diagonal matrix only scales individual elements.\nIn machine learning, diagonal matrices appear in:\nfeature scaling, covariance approximations, normalization, singular value decomposition, optimization preconditioning. Symmetric matrices A square matrix is symmetric if:\n$$ A = A^\\top. $$For example:\n$$ A = \\begin{bmatrix} 2 \u0026 5 \\\\ 5 \u0026 3 \\end{bmatrix} $$is symmetric.\nThe entries mirror across the main diagonal.\nA distance matrix is often symmetric because the distance from object \\(i\\) to object \\(j\\) is usually the same as the distance from object \\(j\\) to object \\(i\\). The Deep Learning book gives this as a typical example of symmetry in matrices.\nThe trace of a matrix For a square matrix:\n$$ A = \\begin{bmatrix} a_{11} \u0026 a_{12} \u0026 \\cdots \u0026 a_{1n} \\\\ a_{21} \u0026 a_{22} \u0026 \\cdots \u0026 a_{2n} \\\\ \\vdots \u0026 \\vdots \u0026 \\ddots \u0026 \\vdots \\\\ a_{n1} \u0026 a_{n2} \u0026 \\cdots \u0026 a_{nn} \\end{bmatrix}, $$the trace is the sum of diagonal entries:\n$$ \\operatorname{tr}(A)=a_{11}+a_{22}+\\cdots+a_{nn}. $$For example:\n$$ A = \\begin{bmatrix} 2 \u0026 1 \\\\ 4 \u0026 5 \\end{bmatrix}. $$Then:\n$$ \\operatorname{tr}(A)=2+5=7. $$Trace appears frequently in matrix calculus, optimization, covariance analysis, and neural-network derivations.\nMatrix rank The rank of a matrix measures how many independent directions it contains.\nConsider:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \\\\ 2 \u0026 4 \\end{bmatrix}. $$The second column is twice the first column:\n$$ \\begin{bmatrix} 2 \\\\ 4 \\end{bmatrix} {}={} 2 \\begin{bmatrix} 1 \\\\ 2 \\end{bmatrix}. $$So the two columns do not provide two independent directions.\nThe rank is:\n$$ \\operatorname{rank}(A)=1. $$Now consider:\n$$ B = \\begin{bmatrix} 1 \u0026 2 \\\\ 3 \u0026 4 \\end{bmatrix}. $$The columns are not scalar multiples of each other, so:\n$$ \\operatorname{rank}(B)=2. $$Stanford’s 2024 CS229 linear algebra review states that column rank is the largest number of linearly independent columns, row rank is the largest number of linearly independent rows, and these are equal, so both are called the rank of the matrix. (CS229)\nColumn space The column space of a matrix is the set of all linear combinations of its columns.\nIf:\n$$ A = \\begin{bmatrix} | \u0026 | \u0026 | \\\\ a_1 \u0026 a_2 \u0026 a_3 \\\\ | \u0026 | \u0026 | \\end{bmatrix}, $$then:\n$$ \\operatorname{Col}(A) {}={} {c_1a_1+c_2a_2+c_3a_3:; c_1,c_2,c_3 \\in \\mathbb{R}}. $$The column space tells us which outputs are reachable by (Ax).\nIf:\n$$ y = Ax, $$then \\(y\\) must lie in the column space of \\(A\\).\nThis is central in solving linear systems.\nNull space The null space of \\(A\\) is the set of all vectors that are sent to zero:\n$$ \\operatorname{Null}(A) {}={} {x:; Ax=0}. $$For example:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \\\\ 2 \u0026 4 \\end{bmatrix}. $$We want:\n$$ Ax=0. $$Let:\n$$ x = \\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix}. $$Then:\n$$ \\begin{bmatrix} 1 \u0026 2 \\\\ 2 \u0026 4 \\end{bmatrix} \\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix} {}={} \\begin{bmatrix} x_1+2x_2 \\\\ 2x_1+4x_2 \\end{bmatrix} {}={} \\begin{bmatrix} 0 \\\\ 0 \\end{bmatrix}. $$The second equation is just twice the first.\nSo we need:\n$$ x_1+2x_2=0. $$Thus:\n$$ x_1=-2x_2. $$Let:\n$$ x_2=t. $$Then:\n$$ x = \\begin{bmatrix} -2t \\\\ t \\end{bmatrix} {}={} t \\begin{bmatrix} -2 \\\\ 1 \\end{bmatrix}. $$So:\n$$ \\operatorname{Null}(A) {}={} \\operatorname{span} \\left{ \\begin{bmatrix} -2 \\\\ 1 \\end{bmatrix} \\right}. $$The null space tells us which inputs are invisible to the transformation.\nMatrix norms A norm measures size.\nFor a vector, the Euclidean norm is:\n$$ |x|_2 = \\sqrt{x_1^2+x_2^2+\\cdots+x_n^2}. $$For a matrix, a common norm is the Frobenius norm:\n$$ \\|A\\|_F = \\sqrt{\\sum_{i,j} A_{ij}^2}. $$For example:\n$$ A = \\begin{bmatrix} 1 \u0026 2 \\\\ 3 \u0026 4 \\end{bmatrix}. $$Then:\n$$ |A|_F = \\sqrt{1^2+2^2+3^2+4^2} {}={} \\sqrt{30}. $$The Deep Learning book notes that the Frobenius norm is commonly used in deep learning and is analogous to the vector \\(L^2\\) norm.\nMatrix norms are used in:\nregularization, stability analysis, optimization, low-rank approximation, neural-network weight control. Eigenvalues and eigenvectors For a square matrix \\(A\\), an eigenvector is a nonzero vector \\(v\\) such that:\n$$ Av = \\lambda v. $$Here:\n\\(v\\) is the eigenvector, \\(\\lambda\\) is the eigenvalue. This equation says:\napplying \\(A\\) to \\(v\\) only scales \\(v\\); it does not change its direction.\nFor example:\n$$ A = \\begin{bmatrix} 2 \u0026 0 \\\\ 0 \u0026 3 \\end{bmatrix}. $$Then:\n$$ A \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix} {}={} \\begin{bmatrix} 2 \\\\ 0 \\end{bmatrix} {}={} 2 \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix}. $$So:\n$$ v_1 = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix} $$is an eigenvector with eigenvalue:\n$$ \\lambda_1 = 2. $$Similarly:\n$$ A \\begin{bmatrix} 0 \\\\ 1 \\end{bmatrix} {}={} \\begin{bmatrix} 0 \\\\ 3 \\end{bmatrix} {}={} 3 \\begin{bmatrix} 0 \\\\ 1 \\end{bmatrix}. $$So:\n$$ v_2 = \\begin{bmatrix} 0 \\\\ 1 \\end{bmatrix} $$is an eigenvector with eigenvalue:\n$$ \\lambda_2 = 3. $$The Deep Learning book explains eigendecomposition as a way to understand matrices by decomposing them into eigenvectors and eigenvalues.\nSingular value decomposition The singular value decomposition, or SVD, is one of the most important matrix factorizations.\nFor a matrix:\n$$ A \\in \\mathbb{R}^{m \\times n}, $$the SVD writes:\n$$ A = U\\Sigma V^\\top. $$Here:\n\\(U\\) contains left singular vectors, \\(\\Sigma\\) contains singular values, \\(V\\) contains right singular vectors. The Deep Learning book describes SVD as a factorization of a matrix into singular vectors and singular values, with \\(U\\) and \\(V\\) orthogonal and \\(\\Sigma\\) diagonal.\nSVD is used in:\ndimensionality reduction, principal component analysis, low-rank approximation, recommendation systems, image compression, numerical stability, understanding neural-network weight matrices. AI intuitionSVD tells us which directions in the input space are amplified most strongly by a matrix. In machine learning, this helps us understand compression, rank, conditioning, and feature directions. Matrices in a neural network layer A fully connected neural-network layer is a matrix operation.\nSuppose:\n$$ x \\in \\mathbb{R}^{d} $$is one input vector.\nLet:\n$$ W \\in \\mathbb{R}^{d \\times h} $$be the weight matrix.\nLet:\n$$ b \\in \\mathbb{R}^{h} $$be the bias vector.\nThen the layer computes:\n$$ z = x^\\top W + b. $$If \\(x\\) is written as a row vector:\n$$ x^\\top \\in \\mathbb{R}^{1 \\times d}, $$then:\n$$ (1 \\times d)(d \\times h)=1 \\times h. $$So:\n$$ z \\in \\mathbb{R}^{h}. $$For a batch:\n$$ X \\in \\mathbb{R}^{n \\times d}, $$the layer computes:\n$$ Z = XW+b. $$The shape is:\n$$ (n \\times d)(d \\times h)=n \\times h. $$So:\n$$ Z \\in \\mathbb{R}^{n \\times h}. $$This is the matrix form of many neurons computed at once.\nFrom matrices to tensors A matrix has two axes.\nA tensor may have more than two axes.\nExamples:\nObject Shape Mathematical type scalar \\(()\\) order-0 tensor vector \\((d)\\) order-1 tensor matrix \\((m,n)\\) order-2 tensor grayscale image \\((H,W)\\) order-2 tensor color image \\((H,W,3)\\) order-3 tensor batch of color images \\((N,H,W,3)\\) order-4 tensor video \\((T,H,W,3)\\) order-4 tensor batch of videos \\((N,T,H,W,3)\\) order-5 tensor Kolda and Bader state that a first-order tensor is a vector, a second-order tensor is a matrix, and tensors of order three or higher are called higher-order tensors.\nTensor order, modes, and shape The order of a tensor is the number of axes.\nThe axes are often called modes.\nFor example:\n$$ X \\in \\mathbb{R}^{I \\times J \\times K} $$is a third-order tensor.\nIt has three modes:\nmode 1 has size \\(I\\), mode 2 has size \\(J\\), mode 3 has size \\(K\\). An entry is written:\n$$ x_{ijk}. $$This means:\nindex \\(i\\) along mode 1, index \\(j\\) along mode 2, index \\(k\\) along mode 3.\nFor an \\(N\\)-th order tensor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I_1 \\times I_2 \\times \\cdots \\times I_N}. $$An entry is:\n$$ x_{i_1 i_2 \\cdots i_N}. $$The total number of entries is:\n$$ I_1 I_2 \\cdots I_N. $$A small numerical tensor Let:\n$$ \\mathcal{X} \\in \\mathbb{R}^{2 \\times 3 \\times 2}. $$This tensor has:\n2 entries along mode 1, 3 entries along mode 2, 2 entries along mode 3. We can display it using two frontal slices.\nFirst slice:\n$$ X_{:,:,1} {}={} \\begin{bmatrix} 1 \u0026 2 \u0026 3 \\\\ 4 \u0026 5 \u0026 6 \\end{bmatrix}. $$Second slice:\n$$ X_{:,:,2} {}={} \\begin{bmatrix} 7 \u0026 8 \u0026 9 \\\\ 10 \u0026 11 \u0026 12 \\end{bmatrix}. $$Then:\n$$ x_{1,1,1}=1, \\qquad x_{2,3,1}=6, \\qquad x_{1,2,2}=8, \\qquad x_{2,3,2}=12. $$This tensor has:\n$$ 2 \\cdot 3 \\cdot 2 = 12 $$entries.\nTensor slices A slice is obtained by fixing one index.\nFor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{2 \\times 3 \\times 2}, $$the slice:\n$$ X_{:,:,1} $$fixes the third index at 1.\nThe slice:\n$$ X_{:,:,2} $$fixes the third index at 2.\nEach slice is a matrix.\nFor a color image:\n$$ X \\in \\mathbb{R}^{H \\times W \\times 3}, $$the red channel is:\n$$ X_{:,:,1}. $$The green channel is:\n$$ X_{:,:,2}. $$The blue channel is:\n$$ X_{:,:,3}. $$So a color image can be seen as three matrices stacked together.\nTensor fibers A fiber is obtained by fixing all indices except one.\nFor a third-order tensor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I \\times J \\times K}, $$examples of fibers are:\n$$ \\mathcal{X}_{:,j,k}, \\qquad \\mathcal{X}_{i,:,k}, \\qquad \\mathcal{X}_{i,j,:}. $$Each fiber is a vector.\nIn a color image:\n$$ X_{i,j,:} $$is the RGB vector at pixel \\((i,j)\\).\nSo the pixel itself is a vector.\nTensor unfolding or matricization Sometimes we convert a tensor into a matrix.\nThis is called:\nunfolding, flattening, matricization. Kolda and Bader describe matricization as the process of reordering the elements of an \\(N\\)-way array into a matrix and note that the exact ordering convention may vary, as long as it is used consistently.\nFor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{2 \\times 3 \\times 2}, $$one possible mode-1 unfolding is:\n$$ X_{(1)} {}={} \\begin{bmatrix} 1 \u0026 2 \u0026 3 \u0026 7 \u0026 8 \u0026 9 \\\\ 4 \u0026 5 \u0026 6 \u0026 10 \u0026 11 \u0026 12 \\end{bmatrix}. $$This gives:\n$$ X_{(1)} \\in \\mathbb{R}^{2 \\times 6}. $$One possible mode-2 unfolding is:\n$$ X_{(2)} {}={} \\begin{bmatrix} 1 \u0026 4 \u0026 7 \u0026 10 \\\\ 2 \u0026 5 \u0026 8 \u0026 11 \\\\ 3 \u0026 6 \u0026 9 \u0026 12 \\end{bmatrix}. $$This gives:\n$$ X_{(2)} \\in \\mathbb{R}^{3 \\times 4}. $$One possible mode-3 unfolding is:\n$$ X_{(3)} {}={} \\begin{bmatrix} 1 \u0026 2 \u0026 3 \u0026 4 \u0026 5 \u0026 6 \\\\ 7 \u0026 8 \u0026 9 \u0026 10 \u0026 11 \u0026 12 \\end{bmatrix}. $$This gives:\n$$ X_{(3)} \\in \\mathbb{R}^{2 \\times 6}. $$Unfolding conventionDifferent books and libraries may unfold tensors in different orders. The important rule is consistency. Once you choose an unfolding convention, use it consistently across all related calculations. Tensor addition and scalar multiplication Two tensors can be added if they have the same shape.\nIf:\n$$ \\mathcal{X},\\mathcal{Y} \\in \\mathbb{R}^{I_1 \\times I_2 \\times \\cdots \\times I_N}, $$then:\n$$ (\\mathcal{X}+\\mathcal{Y})_{i_1i_2\\cdots i_N} {}={} x_{i_1i_2\\cdots i_N} + y_{i_1i_2\\cdots i_N}. $$A tensor can also be multiplied by a scalar:\n$$ (\\alpha \\mathcal{X})_{i_1i_2\\cdots i_N} {}={} \\alpha x_{i_1i_2\\cdots i_N}. $$So tensors form vector spaces when their shape is fixed.\nFor example, all tensors in:\n$$ \\mathbb{R}^{2 \\times 3 \\times 2} $$can be added and scaled.\nTensor inner product If two tensors have the same shape, their inner product is the sum of elementwise products:\n$$ \\langle \\mathcal{X},\\mathcal{Y} \\rangle {}={} \\sum_{i_1=1}^{I_1} \\sum_{i_2=1}^{I_2} \\cdots \\sum_{i_N=1}^{I_N} x_{i_1i_2\\cdots i_N} y_{i_1i_2\\cdots i_N}. $$For matrices, this becomes:\n$$ \\langle A,B\\rangle {}={} \\sum_{i,j} A_{ij}B_{ij}. $$The Frobenius norm of a tensor is:\n$$ |\\mathcal{X}|_F {}={} \\sqrt{ \\sum_{i_1=1}^{I_1} \\sum_{i_2=1}^{I_2} \\cdots \\sum_{i_N=1}^{I_N} x_{i_1i_2\\cdots i_N}^2 }. $$This generalizes the Euclidean norm of vectors and the Frobenius norm of matrices.\nOuter product The outer product combines vectors to create higher-order objects.\nLet:\n$$ a = \\begin{bmatrix} 1 \\\\ 2 \\end{bmatrix} $$and:\n$$ b = \\begin{bmatrix} 3 \\\\ 4 \\\\ 5 \\end{bmatrix}. $$The outer product is:\n$$ a \\circ b = \\begin{bmatrix} 1 \\cdot 3 \u0026 1 \\cdot 4 \u0026 1 \\cdot 5 \\\\ 2 \\cdot 3 \u0026 2 \\cdot 4 \u0026 2 \\cdot 5 \\end{bmatrix} {}={} \\begin{bmatrix} 3 \u0026 4 \u0026 5 \\\\ 6 \u0026 8 \u0026 10 \\end{bmatrix}. $$This creates a matrix from two vectors.\nNow add a third vector:\n$$ c = \\begin{bmatrix} 10 \\\\ 20 \\end{bmatrix}. $$Then:\n$$ \\mathcal{X}=a\\circ b\\circ c $$is a third-order tensor with entries:\n$$ x_{ijk}=a_i b_j c_k. $$For example:\n$$ x_{1,2,1}=a_1b_2c_1=1(4)(10)=40. $$And:\n$$ x_{2,3,2}=a_2b_3c_2=2(5)(20)=200. $$A tensor formed from the outer product of vectors is called a rank-one tensor.\nTensor rank and CP decomposition For matrices, rank is the minimum number of rank-one matrices needed to add up to the matrix.\nFor higher-order tensors, one important idea is similar:\n$$ \\mathcal{X} \\approx \\sum_{r=1}^{R} a_r^{(1)} \\circ a_r^{(2)} \\circ \\cdots \\circ a_r^{(N)}. $$This is the idea behind CP decomposition, also known as CANDECOMP/PARAFAC.\nKolda and Bader describe CP as decomposing a tensor as a sum of rank-one tensors.\nFor a third-order tensor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I \\times J \\times K}, $$a CP decomposition has the form:\n$$ \\mathcal{X} \\approx \\sum_{r=1}^{R} a_r \\circ b_r \\circ c_r. $$Elementwise:\n$$ x_{ijk} \\approx \\sum_{r=1}^{R} a_{ir} b_{jr} c_{kr}. $$This is useful when a large tensor can be approximated by a small number of structured components.\nThe \\(n\\)-mode product A central tensor operation is the \\(n\\)-mode product.\nLet:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I_1 \\times I_2 \\times \\cdots \\times I_N}. $$Let:\n$$ U \\in \\mathbb{R}^{J \\times I_n}. $$Then the \\(n\\)-mode product is written:\n$$ \\mathcal{Y} {}={} \\mathcal{X} \\times_n U. $$The output shape is:\n$$ \\mathcal{Y} \\in \\mathbb{R}^{I_1 \\times \\cdots \\times I_{n-1} \\times J \\times I_{n+1} \\times \\cdots \\times I_N}. $$So the size of mode \\(n\\) changes from \\(I_n\\) to \\(J\\).\nKolda and Bader define the \\(n\\)-mode matrix product of a tensor with a matrix and give its elementwise formula.\nElementwise:\n$$ (\\mathcal{X}\\times_n U)_{i_1\\cdots i_{n-1}j i_{n+1}\\cdots i_N} {}={} \\sum_{i_n=1}^{I_n} x_{i_1 i_2 \\cdots i_N} u_{j i_n}. $$This means:\nmultiply each mode-\\(n\\) fiber by the matrix \\(U\\).\nIn unfolded form:\n$$ Y_{(n)} = U X_{(n)}. $$This connects tensor multiplication back to matrix multiplication.\nTensor contraction Tensor contraction means summing over one or more shared indices.\nThe dot product is the simplest contraction:\n$$ x^\\top y {}={} \\sum_{i=1}^{d} x_i y_i. $$Matrix multiplication is also a contraction:\n$$ C_{ij} {}={} \\sum_{k=1}^{n} A_{ik}B_{kj}. $$The index \\(k\\) is repeated and summed over.\nA tensor contraction generalizes this idea.\nFor example, suppose:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I \\times J \\times K} $$and:\n$$ v \\in \\mathbb{R}^{K}. $$Then contracting over the third mode gives a matrix:\n$$ Y_{ij} {}={} \\sum_{k=1}^{K} x_{ijk}v_k. $$So:\n$$ Y \\in \\mathbb{R}^{I \\times J}. $$This is exactly what happens when we collapse one tensor dimension by taking weighted sums.\nEinstein summation notation Because tensor formulas can become long, mathematicians and machine-learning libraries often use Einstein summation notation.\nInstead of writing:\n$$ C_{ij} {}={} \\sum_{k=1}^{n} A_{ik}B_{kj}, $$we write:\n$$ C_{ij}=A_{ik}B_{kj}. $$The repeated index \\(k\\) is automatically summed over.\nSimilarly:\n$$ y_i=A_{ij}x_j $$means:\n$$ y_i=\\sum_j A_{ij}x_j. $$In NumPy, PyTorch, and JAX, this idea appears in functions such as einsum.\nFor example:\nimport torch A = torch.randn(2, 3) B = torch.randn(3, 4) C = torch.einsum(\"ik,kj-\u003eij\", A, B) print(C.shape) Output:\ntorch.Size([2, 4]) The notation:\n\"ik,kj-\u003eij\" means:\n\\(A\\) has indices \\(i,k\\), \\(B\\) has indices \\(k,j\\), \\(k\\) is summed, output has indices \\(i,j\\). Tucker decomposition Another major tensor decomposition is the Tucker decomposition.\nFor a third-order tensor:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I \\times J \\times K}, $$the Tucker decomposition writes:\n$$ \\mathcal{X} \\approx \\mathcal{G} \\times_1 A \\times_2 B \\times_3 C. $$Here:\n\\(\\mathcal{G}\\) is the core tensor, \\(A\\), \\(B\\), and \\(C\\) are factor matrices, each factor matrix acts along one tensor mode. Kolda and Bader describe Tucker decomposition as a form of higher-order PCA that decomposes a tensor into a core tensor multiplied or transformed by a matrix along each mode.\nElementwise:\n$$ x_{ijk} \\approx \\sum_{p=1}^{P} \\sum_{q=1}^{Q} \\sum_{r=1}^{R} g_{pqr}a_{ip}b_{jq}c_{kr}. $$For an \\(N\\)-way tensor:\n$$ \\mathcal{X} {}={} \\mathcal{G} \\times_1 A^{(1)} \\times_2 A^{(2)} \\cdots \\times_N A^{(N)}. $$The Tucker decomposition is useful for:\ncompression, denoising, feature extraction, dimensionality reduction, multilinear PCA, multiway data analysis. Formal mathematical view: tensor products So far, we have used the machine-learning view:\na tensor is a multidimensional array.\nNow we move to the more mathematical view.\nLet \\(V\\) and \\(W\\) be vector spaces.\nThe tensor product \\(V \\otimes W\\) is a vector space built from formal products:\n$$ v \\otimes w, \\qquad v \\in V,; w \\in W. $$These formal products satisfy bilinearity:\n$$ (v_1+v_2)\\otimes w {}={} v_1\\otimes w+v_2\\otimes w, $$$$ v\\otimes(w_1+w_2) {}={} v\\otimes w_1+v\\otimes w_2, $$$$ (\\alpha v)\\otimes w {}={} \\alpha(v\\otimes w) v\\otimes(\\alpha w). $$Lerman’s multilinear algebra notes describe two standard ways to think about tensors: as multilinear maps and as elements of tensor products of two or more vector spaces.\nThe tensor product has a universal property: bilinear maps out of \\(V \\times W\\) correspond to linear maps out of \\(V \\otimes W\\). This is the formal reason tensor products convert bilinear structure into linear structure.\nBasis of a tensor product space Let:\n$$ V = \\mathbb{R}^{m} $$with basis:\n$$ e_1,\\dots,e_m. $$Let:\n$$ W = \\mathbb{R}^{n} $$with basis:\n$$ f_1,\\dots,f_n. $$Then a basis for:\n$$ V \\otimes W $$is:\n$$ {e_i \\otimes f_j:; 1\\le i\\le m,;1\\le j\\le n}. $$So:\n$$ \\dim(V\\otimes W)=mn. $$This matches the number of entries in an \\(m \\times n\\) matrix.\nThat is why a matrix can be viewed as coordinates of an element in a tensor product space.\nMore generally, if:\n$$ V_1,\\dots,V_N $$are finite-dimensional vector spaces, then:\n$$ V_1 \\otimes V_2 \\otimes \\cdots \\otimes V_N $$is the natural space for order-\\(N\\) tensors.\nIf:\n$$ \\dim(V_k)=I_k, $$then:\n$$ \\dim(V_1 \\otimes \\cdots \\otimes V_N) {}={} I_1I_2\\cdots I_N. $$This equals the number of entries in an array of shape:\n$$ I_1 \\times I_2 \\times \\cdots \\times I_N. $$Tensors as multilinear maps A multilinear map is a function that is linear in each argument separately.\nFor example, a bilinear map satisfies:\n$$ B(\\alpha u_1+\\beta u_2,v) {}={} \\alpha B(u_1,v)+\\beta B(u_2,v) $$and:\n$$ B(u,\\alpha v_1+\\beta v_2) {}={} \\alpha B(u,v_1)+\\beta B(u,v_2). $$The dot product is bilinear:\n$$ \\langle u,v\\rangle {}={} u^\\top v. $$The determinant is multilinear in the columns of a matrix.\nLerman’s notes give the determinant as an example of an \\(n\\)-linear map when a matrix is viewed as a tuple of column vectors.\nIn this deeper mathematical view, tensors are not just arrays.\nThey encode multilinear relationships.\nWhy matrices are second-order tensors A vector has one index:\n$$ x_i. $$A matrix has two indices:\n$$ A_{ij}. $$A third-order tensor has three indices:\n$$ x_{ijk}. $$An \\(N\\)-th order tensor has \\(N\\) indices:\n$$ x_{i_1i_2\\cdots i_N}. $$So a matrix is naturally a second-order tensor because it requires two indices to identify one entry.\nBut in linear algebra, matrices receive special attention because they represent linear maps:\n$$ A:\\mathbb{R}^{n}\\to\\mathbb{R}^{m}. $$A general higher-order tensor does not automatically represent a simple linear map from one vector space to another.\nInstead, it often represents a multilinear object.\nImportant distinction: array tensor versus geometric tensor In machine learning, we often say:\na tensor is a multidimensional array.\nThis is practical and correct for numerical computing.\nBut in geometry and physics, tensors must obey transformation rules under changes of coordinates.\nKolda and Bader explicitly warn that the tensor-array notion in tensor decomposition literature should not be confused with tensor fields in physics and engineering.\nFor this course, we mainly use tensors in the AI sense:\n$$ \\text{tensor} = \\text{structured multidimensional numerical array}. $$But we also keep the deeper mathematical meaning in mind:\n$$ \\text{tensor} = \\text{element of a tensor product space or multilinear map}. $$Both views matter.\nTensors in convolutional neural networks A convolutional neural network uses tensors everywhere.\nSuppose the input batch is:\n$$ X \\in \\mathbb{R}^{N \\times C_{\\text{in}} \\times H \\times W}. $$Here:\n\\(N\\) is batch size, \\(C_{\\text{in}}\\) is number of input channels, \\(H\\) is height, \\(W\\) is width. A convolution kernel may have shape:\n$$ K \\in \\mathbb{R}^{C_{\\text{out}} \\times C_{\\text{in}} \\times k_H \\times k_W}. $$Here:\n\\(C_{\\text{out}}\\) is number of output channels, \\(C_{\\text{in}}\\) is number of input channels, \\(k_H\\) is kernel height, \\(k_W\\) is kernel width. The output is:\n$$ Y \\in \\mathbb{R}^{N \\times C_{\\text{out}} \\times H' \\times W'}. $$A simplified convolution formula is:\n$$ Y_{n,c_{\\text{out}},i,j} {}={} \\sum_{c_{\\text{in}}} \\sum_{u} \\sum_{v} K_{c_{\\text{out}},c_{\\text{in}},u,v} X_{n,c_{\\text{in}},i+u,j+v}. $$This is a tensor contraction.\nWe multiply kernel entries with input entries and sum over:\ninput channels, kernel height, kernel width. So convolution is not mysterious.\nIt is a structured tensor operation.\nTensors in transformer models Transformers also use tensors heavily.\nSuppose:\n$$ X \\in \\mathbb{R}^{B \\times L \\times d}. $$This is a batch of token embeddings.\nLinear projections produce:\n$$ Q = XW_Q, \\qquad K = XW_K, \\qquad V = XW_V. $$For multi-head attention, these are reshaped into:\n$$ Q,K,V \\in \\mathbb{R}^{B \\times H \\times L \\times d_h}. $$The attention score tensor has shape:\n$$ S \\in \\mathbb{R}^{B \\times H \\times L \\times L}. $$One formula is:\n$$ S_{b,h,i,j} {}={} \\sum_{r=1}^{d_h} Q_{b,h,i,r}K_{b,h,j,r}. $$This means:\nfor each batch item and each attention head, compare token \\(i\\) with token \\(j\\) by taking a dot product over the hidden dimension.\nAgain, this is a tensor contraction.\nThe repeated index \\(r\\) is summed.\nThe hierarchy of objects We can now organize the objects clearly.\nObject Notation Example shape Number of indices scalar \\(x\\) \\(()\\) 0 vector \\(x_i\\) \\((d)\\) 1 matrix \\(A_{ij}\\) \\((m,n)\\) 2 third-order tensor \\(x_{ijk}\\) \\((I,J,K)\\) 3 \\(N\\)-th order tensor \\(x_{i_1\\cdots i_N}\\) \\((I_1,\\dots,I_N)\\) \\(N\\) The key idea is:\neach additional axis adds one more index.\nWhy tensors matter in AI Tensors matter because AI data is naturally multi-axis.\nImages have:\n$$ \\text{height} \\times \\text{width} \\times \\text{channels}. $$Videos have:\n$$ \\text{time} \\times \\text{height} \\times \\text{width} \\times \\text{channels}. $$Text batches have:\n$$ \\text{batch} \\times \\text{sequence} \\times \\text{embedding}. $$Attention has:\n$$ \\text{batch} \\times \\text{heads} \\times \\text{query positions} \\times \\text{key positions}. $$Convolution kernels have:\n$$ \\text{output channels} \\times \\text{input channels} \\times \\text{kernel height} \\times \\text{kernel width}. $$So tensors are not optional in deep learning.\nThey are the native format of modern AI computation.\nCommon mistakes Mistake 1: Calling every array a matrix A matrix has exactly two axes.\nA color image:\n$$ X \\in \\mathbb{R}^{H \\times W \\times 3} $$is not a matrix.\nIt is a third-order tensor.\nMistake 2: Ignoring axis meaning The shape:\n$$ (32,224,224,3) $$means something different from:\n$$ (32,3,224,224). $$The numbers are the same, but the axis meanings are different.\nMistake 3: Confusing matrix multiplication with elementwise multiplication Matrix multiplication:\n$$ C_{ij}=\\sum_k A_{ik}B_{kj} $$is not the same as elementwise multiplication:\n$$ C_{ij}=A_{ij}B_{ij}. $$In Python, these are usually different operations.\nFor example, in NumPy:\nA @ B # matrix multiplication A * B # elementwise multiplication Mistake 4: Forgetting batch dimensions A single image may have shape:\n(224, 224, 3) A batch of images may have shape:\n(32, 224, 224, 3) The extra dimension is the batch dimension.\nMany deep learning errors come from forgetting whether the batch axis is present.\nMistake 5: Thinking tensors are always deep and abstract In machine learning, a tensor can be very practical.\nA tensor may simply be:\na batch of images, a batch of embeddings, a stack of time-series measurements, a collection of attention scores. The abstract mathematics becomes useful because it gives us a precise language for these objects.\nSection summary A matrix is a two-dimensional array:\n$$ A \\in \\mathbb{R}^{m \\times n}. $$Its entries are:\n$$ A_{ij}. $$A matrix can represent:\na data table, a grayscale image, a system of equations, a linear transformation, a neural-network weight layer. Matrix-vector multiplication is:\n$$ y=Ax, $$with:\n$$ y_i=\\sum_j A_{ij}x_j. $$Matrix-matrix multiplication is:\n$$ C=AB, $$with:\n$$ C_{ij}=\\sum_k A_{ik}B_{kj}. $$A tensor generalizes vectors and matrices to more axes:\n$$ \\mathcal{X} \\in \\mathbb{R}^{I_1 \\times I_2 \\times \\cdots \\times I_N}. $$Its entries are:\n$$ x_{i_1i_2\\cdots i_N}. $$A vector is a first-order tensor.\nA matrix is a second-order tensor.\nA color image is often a third-order tensor.\nA batch of color images is often a fourth-order tensor.\nA tensor can be sliced, unfolded, contracted, multiplied along modes, and decomposed.\nThe \\(n\\)-mode product is:\n$$ \\mathcal{Y} {}={} \\mathcal{X} \\times_n U. $$The CP decomposition writes a tensor approximately as a sum of rank-one tensors:\n$$ \\mathcal{X} \\approx \\sum_{r=1}^{R} a_r^{(1)} \\circ a_r^{(2)} \\circ \\cdots \\circ a_r^{(N)}. $$The Tucker decomposition writes:\n$$ \\mathcal{X} \\approx \\mathcal{G} \\times_1 A^{(1)} \\times_2 A^{(2)} \\cdots \\times_N A^{(N)}. $$At the deeper mathematical level, tensors can be understood as elements of tensor product spaces or as multilinear maps.\nSo the conceptual path is:\n$$ \\text{numbers} \\to \\text{vectors} \\to \\text{matrices} \\to \\text{tensors} \\to \\text{multilinear computation}. $$And this is exactly the path modern AI follows.\nSource anchors used for this section MIT OCW 18.06 identifies linear algebra as matrix theory with applications to systems of equations, vector spaces, determinants, eigenvalues, similarity, and positive definite matrices. (MIT OpenCourseWare) Stanford CS229 linear algebra notes define matrix notation, row/column notation, and matrix multiplication using the entrywise summation formula. (CS229) Boyd \u0026 Vandenberghe’s Introduction to Applied Linear Algebra explicitly connects vectors, matrices, least squares, data fitting, machine learning, AI, image processing, and other applied areas. Goodfellow, Bengio, and Courville’s Deep Learning discusses Frobenius norms, diagonal matrices, symmetric matrices, orthogonal matrices, eigendecomposition, and SVD in a deep-learning linear algebra chapter. Kolda \u0026 Bader’s SIAM Review paper defines tensors as multidimensional or \\(N\\)-way arrays, distinguishes first-order vectors and second-order matrices, defines tensor unfolding/matricization, \\(n\\)-mode products, CP decomposition, and Tucker decomposition. Multilinear algebra notes by Lerman and LMU notes give the formal tensor-product and multilinear-map view, including the universal property of tensor products. ","wordCount":"6643","inLanguage":"en","datePublished":"2026-04-28T00:00:00Z","dateModified":"2026-04-28T00:00:00Z","author":{"@type":"Person","name":"Anwar Shamim"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/"},"publisher":{"@type":"Organization","name":"Sange Mehrab","logo":{"@type":"ImageObject","url":"https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ accesskey=h title="Sange Mehrab (Alt + H)"><span class=site-flag aria-hidden=true style=display:inline-block;vertical-align:middle;margin-right:.5rem><svg width="22" height="14" viewBox="0 0 22 14" role="img"><rect width="22" height="14" fill="#01411C"/><path d="M9.2 7a3.8 3.8.0 100-.001A3.8 3.8.0 009.2 7z" fill="#fff" transform="translate(0,0)"/><path d="M11.2 6.2c0 .7-.5 1.3-1.2 1.3-.6.0-1.2-.6-1.2-1.3s.6-1.3 1.2-1.3c.7.0 1.2.6 1.2 1.3z" fill="#01411C"/><path d="M10.6 3.3l.5.9.9.1-.7.6.2.9-.8-.5-.8.5.2-.9-.7-.6.9-.1.5-.9z" fill="#fff"/></svg>
+</span>Sange Mehrab</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ title=Home><span>Home</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/posts/ title=Articles><span>Articles</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/ title=Courses><span>Courses</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/research/ title=Research><span>Research</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/categories/ title=Topics><span>Topics</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/series/ title=Collections><span>Collections</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><div class="page-shell article-shell article-shell--course"><section class="page-hero page-hero--article"><div class=page-hero-inner><div class=breadcrumbs><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Home</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/>Courses</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/>Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/>The Language</a></div><p class=page-eyebrow>Course</p><h1 class=page-title>1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure</h1><div class=page-description>A deep introduction to matrices and tensors for AI mathematics: data matrices, images as matrices, color images and batches as tensors, matrix operations, linear maps, rank, norms, eigenvalues, SVD, tensor order, modes, unfolding, n-mode products, tensor contractions, CP decomposition, Tucker decomposition, and the formal tensor-product view.</div></div></section><article class=article-layout><div class=article-main><div class="article-toolbar surface-card"><div class=post-meta><span title='2026-04-28 00:00:00 +0000 UTC'>April 28, 2026</span>&nbsp;·&nbsp;<span>32 min</span>&nbsp;·&nbsp;<span>6643 words</span>&nbsp;·&nbsp;<span>Anwar Shamim</span></div></div><figure class=article-lead-media><img src=/Sang_e_Mehrab/mathematicsforai/mathsforaisection02.png alt="1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure" loading=eager decoding=async></figure><div class="article-toc surface-card"><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#why-matrices-and-tensors-come-next>Why matrices and tensors come next</a></li><li><a href=#real-world-example-1-a-house-dataset-as-a-matrix>Real-world example 1: a house dataset as a matrix</a></li><li><a href=#real-world-example-2-a-grayscale-image-as-a-matrix>Real-world example 2: a grayscale image as a matrix</a></li><li><a href=#real-world-example-3-a-color-image-as-a-tensor>Real-world example 3: a color image as a tensor</a></li><li><a href=#real-world-example-4-a-batch-of-images-as-a-fourth-order-tensor>Real-world example 4: a batch of images as a fourth-order tensor</a></li><li><a href=#real-world-example-5-language-data-as-tensors>Real-world example 5: language data as tensors</a></li><li><a href=#what-is-a-matrix>What is a matrix?</a><ul><li><a href=#matrix-shape>Matrix shape</a></li></ul></li><li><a href=#rows-and-columns>Rows and columns</a></li><li><a href=#matrix-addition>Matrix addition</a></li><li><a href=#scalar-multiplication-of-a-matrix>Scalar multiplication of a matrix</a></li><li><a href=#matrix-vector-multiplication>Matrix-vector multiplication</a><ul><li><a href=#row-dot-product-view>Row-dot-product view</a></li><li><a href=#column-linear-combination-view>Column-linear-combination view</a></li></ul></li><li><a href=#matrix-matrix-multiplication>Matrix-matrix multiplication</a><ul><li><a href=#numerical-example>Numerical example</a></li></ul></li><li><a href=#matrix-multiplication-is-not-usually-commutative>Matrix multiplication is not usually commutative</a></li><li><a href=#matrices-as-linear-maps>Matrices as linear maps</a></li><li><a href=#linear-maps-preserve-addition-and-scalar-multiplication>Linear maps preserve addition and scalar multiplication</a></li><li><a href=#the-identity-matrix>The identity matrix</a></li><li><a href=#diagonal-matrices>Diagonal matrices</a></li><li><a href=#symmetric-matrices>Symmetric matrices</a></li><li><a href=#the-trace-of-a-matrix>The trace of a matrix</a></li><li><a href=#matrix-rank>Matrix rank</a></li><li><a href=#column-space>Column space</a></li><li><a href=#null-space>Null space</a></li><li><a href=#matrix-norms>Matrix norms</a></li><li><a href=#eigenvalues-and-eigenvectors>Eigenvalues and eigenvectors</a></li><li><a href=#singular-value-decomposition>Singular value decomposition</a></li><li><a href=#matrices-in-a-neural-network-layer>Matrices in a neural network layer</a></li><li><a href=#from-matrices-to-tensors>From matrices to tensors</a></li><li><a href=#tensor-order-modes-and-shape>Tensor order, modes, and shape</a></li><li><a href=#a-small-numerical-tensor>A small numerical tensor</a></li><li><a href=#tensor-slices>Tensor slices</a></li><li><a href=#tensor-fibers>Tensor fibers</a></li><li><a href=#tensor-unfolding-or-matricization>Tensor unfolding or matricization</a></li><li><a href=#tensor-addition-and-scalar-multiplication>Tensor addition and scalar multiplication</a></li><li><a href=#tensor-inner-product>Tensor inner product</a></li><li><a href=#outer-product>Outer product</a></li><li><a href=#tensor-rank-and-cp-decomposition>Tensor rank and CP decomposition</a></li><li><a href=#the--mode-product>The \(n\)-mode product</a></li><li><a href=#tensor-contraction>Tensor contraction</a></li><li><a href=#einstein-summation-notation>Einstein summation notation</a></li><li><a href=#tucker-decomposition>Tucker decomposition</a></li><li><a href=#formal-mathematical-view-tensor-products>Formal mathematical view: tensor products</a></li><li><a href=#basis-of-a-tensor-product-space>Basis of a tensor product space</a></li><li><a href=#tensors-as-multilinear-maps>Tensors as multilinear maps</a></li><li><a href=#why-matrices-are-second-order-tensors>Why matrices are second-order tensors</a></li><li><a href=#important-distinction-array-tensor-versus-geometric-tensor>Important distinction: array tensor versus geometric tensor</a></li><li><a href=#tensors-in-convolutional-neural-networks>Tensors in convolutional neural networks</a></li><li><a href=#tensors-in-transformer-models>Tensors in transformer models</a></li><li><a href=#the-hierarchy-of-objects>The hierarchy of objects</a></li><li><a href=#why-tensors-matter-in-ai>Why tensors matter in AI</a></li><li><a href=#common-mistakes>Common mistakes</a><ul><li><a href=#mistake-1-calling-every-array-a-matrix>Mistake 1: Calling every array a matrix</a></li><li><a href=#mistake-2-ignoring-axis-meaning>Mistake 2: Ignoring axis meaning</a></li><li><a href=#mistake-3-confusing-matrix-multiplication-with-elementwise-multiplication>Mistake 3: Confusing matrix multiplication with elementwise multiplication</a></li><li><a href=#mistake-4-forgetting-batch-dimensions>Mistake 4: Forgetting batch dimensions</a></li><li><a href=#mistake-5-thinking-tensors-are-always-deep-and-abstract>Mistake 5: Thinking tensors are always deep and abstract</a></li></ul></li><li><a href=#section-summary>Section summary</a><ul><li><a href=#source-anchors-used-for-this-section>Source anchors used for this section</a></li></ul></li></ul></nav></div></details></div></div><div class="post-content article-content surface-card"><h2 id=why-matrices-and-tensors-come-next>Why matrices and tensors come next<a hidden class=anchor aria-hidden=true href=#why-matrices-and-tensors-come-next>#</a></h2><p>In the previous section, we learned how one object can become a vector.</p><p>A house became:</p>$$
+x =
+\begin{bmatrix}
+1200 \\
+3 \\
+2 \\
+10 \\
+3.2
+\end{bmatrix}
+$$<p>This vector represented one house using several features.</p><p>But machine learning almost never works with only one object.</p><p>Usually, we have many houses, many images, many words, many patients, many time steps, or many training examples. Once we collect many vectors together, we naturally arrive at a <strong>matrix</strong>.</p><p>And once data has more than two directions — for example height, width, and color channels in an image — we naturally arrive at a <strong>tensor</strong>.</p><p>MIT’s 18.06 course describes linear algebra as matrix theory with emphasis on systems of equations, vector spaces, determinants, eigenvalues, and positive definite matrices, all of which are foundational for applied mathematics and AI. (<a href=https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/ title="Linear Algebra | Mathematics | MIT OpenCourseWare">MIT OpenCourseWare</a>)</p><p>So the path is:</p>$$
+\text{scalar}
+\longrightarrow
+\text{vector}
+\longrightarrow
+\text{matrix}
+\longrightarrow
+\text{tensor}.
+$$<p>A scalar is one number.</p><p>A vector is a one-dimensional collection of numbers.</p><p>A matrix is a two-dimensional collection of numbers.</p><p>A tensor, in the machine-learning sense, is a multidimensional array. Kolda and Bader define a tensor as a multidimensional or \(N\)-way array, while also noting the more formal view of an \(N\)-th order tensor as an element of a tensor product of \(N\) vector spaces.</p><aside class="callout callout-note" role=note><div class=callout-title>Important language note</div><div class=callout-body>In deep learning libraries such as PyTorch and TensorFlow, the word tensor usually means a multidimensional numerical array. In more advanced mathematics, a tensor can mean an element of a tensor product space or a multilinear map. These views are related, but they are not always used with the same level of precision.</div></aside><h2 id=real-world-example-1-a-house-dataset-as-a-matrix>Real-world example 1: a house dataset as a matrix<a hidden class=anchor aria-hidden=true href=#real-world-example-1-a-house-dataset-as-a-matrix>#</a></h2><p>Suppose we collect data from three houses.</p><table><thead><tr><th style=text-align:right>House</th><th style=text-align:right>Area</th><th style=text-align:right>Bedrooms</th><th style=text-align:right>Floors</th><th style=text-align:right>Age</th><th style=text-align:right>Distance</th><th style=text-align:right>Price</th></tr></thead><tbody><tr><td style=text-align:right>1</td><td style=text-align:right>1200</td><td style=text-align:right>3</td><td style=text-align:right>2</td><td style=text-align:right>10</td><td style=text-align:right>3.2</td><td style=text-align:right>9.0</td></tr><tr><td style=text-align:right>2</td><td style=text-align:right>850</td><td style=text-align:right>2</td><td style=text-align:right>1</td><td style=text-align:right>18</td><td style=text-align:right>8.5</td><td style=text-align:right>6.5</td></tr><tr><td style=text-align:right>3</td><td style=text-align:right>1600</td><td style=text-align:right>4</td><td style=text-align:right>2</td><td style=text-align:right>5</td><td style=text-align:right>1.1</td><td style=text-align:right>12.0</td></tr></tbody></table><p>If price is the target, then the input features are:</p>$$
+X =
+\begin{bmatrix}
+1200 & 3 & 2 & 10 & 3.2 \\
+850 & 2 & 1 & 18 & 8.5 \\
+1600 & 4 & 2 & 5 & 1.1
+\end{bmatrix}
+$$<p>and the target vector is:</p>$$
+y =
+\begin{bmatrix}
+9.0 \\
+6.5 \\
+12.0
+\end{bmatrix}.
+$$<p>Here:</p>$$
+X \in \mathbb{R}^{3 \times 5}
+$$<p>and:</p>$$
+y \in \mathbb{R}^{3}.
+$$<p>The matrix \(X\) has:</p><ul><li>3 rows,</li><li>5 columns,</li><li>15 entries.</li></ul><p>Each row is one house.</p><p>Each column is one feature.</p><p>So a matrix lets us store many feature vectors in one object.</p><p>In machine learning, this matrix is often called the <strong>design matrix</strong>.</p><h2 id=real-world-example-2-a-grayscale-image-as-a-matrix>Real-world example 2: a grayscale image as a matrix<a hidden class=anchor aria-hidden=true href=#real-world-example-2-a-grayscale-image-as-a-matrix>#</a></h2><p>A grayscale image is also naturally represented as a matrix.</p><p>Suppose we have a tiny \(4 \times 5\) grayscale image. Each number represents pixel intensity.</p>$$
+I =
+\begin{bmatrix}
+0 & 20 & 50 & 20 & 0 \\
+10 & 80 & 150 & 80 & 10 \\
+20 & 120 & 255 & 120 & 20 \\
+0 & 30 & 60 & 30 & 0
+\end{bmatrix}
+$$<p>Here:</p>$$
+I \in \mathbb{R}^{4 \times 5}.
+$$<p>The first dimension is height.</p><p>The second dimension is width.</p><p>The entry \(I_{ij}\) is the brightness of the pixel in row \(i\), column \(j\).</p><p>For example:</p>$$
+I_{3,3} = 255
+$$<p>is the brightest pixel in this small image.</p><p>So a grayscale image is not just a picture. To a model, it is a matrix.</p><h2 id=real-world-example-3-a-color-image-as-a-tensor>Real-world example 3: a color image as a tensor<a hidden class=anchor aria-hidden=true href=#real-world-example-3-a-color-image-as-a-tensor>#</a></h2><p>A color image has more structure.</p><p>Each pixel usually has three color channels:</p>$$
+\text{red},\quad \text{green},\quad \text{blue}.
+$$<p>So instead of one number per pixel, we have three numbers per pixel.</p><p>For a color image with height \(H\), width \(W\), and 3 color channels, we can write:</p>$$
+X \in \mathbb{R}^{H \times W \times 3}.
+$$<p>This is no longer a matrix.</p><p>It has three axes:</p><ol><li>height,</li><li>width,</li><li>color channel.</li></ol><p>So it is a third-order tensor.</p><p>For a tiny \(2 \times 2\) color image:</p>$$
+X \in \mathbb{R}^{2 \times 2 \times 3}.
+$$<p>One pixel may be:</p>$$
+X_{1,1,:}
+{}={}
+\begin{bmatrix}
+255 \\
+0 \\
+0
+\end{bmatrix}
+$$<p>which represents a red pixel.</p><p>Another pixel may be:</p>$$
+X_{1,2,:}
+{}={}
+\begin{bmatrix}
+0 \\
+255 \\
+0
+\end{bmatrix}
+$$<p>which represents a green pixel.</p><p>The colon notation means:</p><blockquote><p>keep all values along that axis.</p></blockquote><p>So \(X_{1,1,:}\) means:</p><blockquote><p>row 1, column 1, all color channels.</p></blockquote><h2 id=real-world-example-4-a-batch-of-images-as-a-fourth-order-tensor>Real-world example 4: a batch of images as a fourth-order tensor<a hidden class=anchor aria-hidden=true href=#real-world-example-4-a-batch-of-images-as-a-fourth-order-tensor>#</a></h2><p>Deep learning usually processes many examples at once.</p><p>Suppose we have a batch of 32 color images.</p><p>Each image has size:</p>$$
+224 \times 224
+$$<p>and 3 color channels.</p><p>Then the batch may be stored as:</p>$$
+X \in \mathbb{R}^{32 \times 224 \times 224 \times 3}.
+$$<p>The axes are:</p><table><thead><tr><th style=text-align:right>Axis</th><th>Meaning</th></tr></thead><tbody><tr><td style=text-align:right>1</td><td>batch/example index</td></tr><tr><td style=text-align:right>2</td><td>image height</td></tr><tr><td style=text-align:right>3</td><td>image width</td></tr><tr><td style=text-align:right>4</td><td>color channel</td></tr></tbody></table><p>So:</p>$$
+X_{n,i,j,c}
+$$<p>means:</p><blockquote><p>the value of color channel \(c\) at pixel row \(i\), pixel column \(j\), in image \(n\).</p></blockquote><p>This is a fourth-order tensor.</p><p>In PyTorch, images are often stored in another layout:</p>$$
+X \in \mathbb{R}^{32 \times 3 \times 224 \times 224}
+$$<p>where the axes are:</p><table><thead><tr><th style=text-align:right>Axis</th><th>Meaning</th></tr></thead><tbody><tr><td style=text-align:right>1</td><td>batch</td></tr><tr><td style=text-align:right>2</td><td>channel</td></tr><tr><td style=text-align:right>3</td><td>height</td></tr><tr><td style=text-align:right>4</td><td>width</td></tr></tbody></table><p>The mathematics is the same, but the axis order is different.</p><aside class="callout callout-warning" role=note><div class=callout-title>Axis order matters</div><div class=callout-body>The same data can be stored with different axis conventions. For images, TensorFlow often uses batch-height-width-channel format, while PyTorch often uses batch-channel-height-width format. The numerical values may be the same, but the shape interpretation changes.</div></aside><h2 id=real-world-example-5-language-data-as-tensors>Real-world example 5: language data as tensors<a hidden class=anchor aria-hidden=true href=#real-world-example-5-language-data-as-tensors>#</a></h2><p>In natural language processing, a sentence is often converted into a sequence of token embeddings.</p><p>Suppose:</p><ul><li>batch size is \(B\),</li><li>sequence length is \(L\),</li><li>embedding dimension is \(d\).</li></ul><p>Then the input to a language model layer may be:</p>$$
+X \in \mathbb{R}^{B \times L \times d}.
+$$<p>For example:</p>$$
+X \in \mathbb{R}^{16 \times 128 \times 768}.
+$$<p>This means:</p><ul><li>16 sentences or text chunks,</li><li>128 tokens per sequence,</li><li>768 numbers per token embedding.</li></ul><p>So one token is a vector:</p>$$
+X_{b,\ell,:} \in \mathbb{R}^{768}.
+$$<p>One full sentence is a matrix:</p>$$
+X_{b,:,:} \in \mathbb{R}^{128 \times 768}.
+$$<p>The full batch is a third-order tensor:</p>$$
+X \in \mathbb{R}^{16 \times 128 \times 768}.
+$$<p>In transformer models, attention scores may have shape:</p>$$
+A \in \mathbb{R}^{B \times H \times L \times L}
+$$<p>where \(H\) is the number of attention heads.</p><p>So modern AI is full of matrices and tensors.</p><h2 id=what-is-a-matrix>What is a matrix?<a hidden class=anchor aria-hidden=true href=#what-is-a-matrix>#</a></h2><p>A matrix is a rectangular array of numbers.</p><p>If a matrix has \(m\) rows and \(n\) columns, we write:</p>$$
+A \in \mathbb{R}^{m \times n}.
+$$<p>Stanford CS229 uses this notation: \(A \in \mathbb{R}^{m \times n}\) denotes a matrix with \(m\) rows and \(n\) columns, with real-valued entries. (<a href=https://cs229.stanford.edu/section/cs229-linalg.pdf title=/Users/jqin/Downloads/.texpadtmp/linalg2.dvi>CS229</a>)</p><p>A general matrix looks like:</p>$$
+A =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}.
+$$<p>The entry \(a_{ij}\) means:</p><blockquote><p>the entry in row \(i\), column \(j\).</p></blockquote><p>So:</p>$$
+a_{23}
+$$<p>means:</p><blockquote><p>row 2, column 3.</p></blockquote><h3 id=matrix-shape>Matrix shape<a hidden class=anchor aria-hidden=true href=#matrix-shape>#</a></h3><p>The shape of \(A\) is:</p>$$
+m \times n.
+$$<p>The first number counts rows.</p><p>The second number counts columns.</p><p>For example:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}
+$$<p>has 2 rows and 3 columns, so:</p>$$
+A \in \mathbb{R}^{2 \times 3}.
+$$<p>The entry in row 2, column 3 is:</p>$$
+a_{23} = 6.
+$$<h2 id=rows-and-columns>Rows and columns<a hidden class=anchor aria-hidden=true href=#rows-and-columns>#</a></h2><p>A matrix can be viewed in two complementary ways.</p><p>It can be viewed as a stack of rows:</p>$$
+A =
+\begin{bmatrix}
+a_1^\top \\
+a_2^\top \\
+\vdots \\
+a_m^\top
+\end{bmatrix}
+$$<p>where each row is a row vector.</p><p>It can also be viewed as a collection of columns:</p>$$
+A =
+\begin{bmatrix}
+| & | & & | \\
+a_1 & a_2 & \cdots & a_n \\
+| & | & & |
+\end{bmatrix}
+$$<p>where each column is a column vector.</p><p>This row-column viewpoint is important because matrix multiplication can be understood using rows, columns, dot products, and linear combinations. Stanford CS229 explicitly describes matrix-vector multiplication both as row inner products and as a linear combination of columns.</p><h2 id=matrix-addition>Matrix addition<a hidden class=anchor aria-hidden=true href=#matrix-addition>#</a></h2><p>Two matrices can be added only when they have the same shape.</p><p>Let:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+$$<p>and:</p>$$
+B =
+\begin{bmatrix}
+10 & 20 \\
+30 & 40
+\end{bmatrix}.
+$$<p>Then:</p>$$
+A+B =
+\begin{bmatrix}
+1+10 & 2+20 \\
+3+30 & 4+40
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+11 & 22 \\
+33 & 44
+\end{bmatrix}.
+$$<p>In general, if:</p>$$
+A,B \in \mathbb{R}^{m \times n},
+$$<p>then:</p>$$
+(A+B)_{ij} = A_{ij}+B_{ij}.
+$$<p>But this is not valid:</p>$$
+\mathbb{R}^{2 \times 3} + \mathbb{R}^{3 \times 2}.
+$$<p>The shapes do not match.</p><h2 id=scalar-multiplication-of-a-matrix>Scalar multiplication of a matrix<a hidden class=anchor aria-hidden=true href=#scalar-multiplication-of-a-matrix>#</a></h2><p>A matrix can be multiplied by a scalar.</p><p>Let:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+$$<p>and:</p>$$
+\alpha = 3.
+$$<p>Then:</p>$$
+\alpha A =
+3
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+3 & 6 \\
+9 & 12
+\end{bmatrix}.
+$$<p>In general:</p>$$
+(\alpha A)_{ij} = \alpha A_{ij}.
+$$<p>So scalar multiplication scales every entry.</p><h2 id=matrix-vector-multiplication>Matrix-vector multiplication<a hidden class=anchor aria-hidden=true href=#matrix-vector-multiplication>#</a></h2><p>Matrix-vector multiplication is one of the most important operations in AI.</p><p>Let:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}
+$$<p>and:</p>$$
+x =
+\begin{bmatrix}
+10 \\
+20 \\
+30
+\end{bmatrix}.
+$$<p>The shape of \(A\) is:</p>$$
+2 \times 3.
+$$<p>The shape of \(x\) is:</p>$$
+3 \times 1.
+$$<p>The product (Ax) is valid because the inner dimensions match:</p>$$
+(2 \times 3)(3 \times 1) = 2 \times 1.
+$$<p>Now compute:</p>$$
+Ax =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}
+\begin{bmatrix}
+10 \\
+20 \\
+30
+\end{bmatrix}.
+$$<p>The first entry is:</p>$$
+1(10)+2(20)+3(30)=10+40+90=140.
+$$<p>The second entry is:</p>$$
+4(10)+5(20)+6(30)=40+100+180=320.
+$$<p>So:</p>$$
+Ax =
+\begin{bmatrix}
+140 \\
+320
+\end{bmatrix}.
+$$<h3 id=row-dot-product-view>Row-dot-product view<a hidden class=anchor aria-hidden=true href=#row-dot-product-view>#</a></h3><p>Each output entry is a dot product between one row of \(A\) and the vector \(x\).</p><p>The first row of \(A\) is:</p>$$
+\begin{bmatrix}
+1 & 2 & 3
+\end{bmatrix}.
+$$<p>The second row is:</p>$$
+\begin{bmatrix}
+4 & 5 & 6
+\end{bmatrix}.
+$$<p>So:</p>$$
+Ax =
+\begin{bmatrix}
+\text{row}_1(A)\cdot x \\
+\text{row}_2(A)\cdot x
+\end{bmatrix}.
+$$<p>In general, if:</p>$$
+A \in \mathbb{R}^{m \times n}
+$$<p>and:</p>$$
+x \in \mathbb{R}^{n},
+$$<p>then:</p>$$
+y = Ax \in \mathbb{R}^{m}
+$$<p>with:</p>$$
+y_i = \sum_{j=1}^{n} A_{ij}x_j.
+$$<h3 id=column-linear-combination-view>Column-linear-combination view<a hidden class=anchor aria-hidden=true href=#column-linear-combination-view>#</a></h3><p>The same product can be viewed another way.</p><p>Write \(A\) in columns:</p>$$
+A =
+\begin{bmatrix}
+| & | & | \\
+a_1 & a_2 & a_3 \\
+| & | & |
+\end{bmatrix}.
+$$<p>Then:</p>$$
+Ax = x_1a_1+x_2a_2+x_3a_3.
+$$<p>Using our example:</p>$$
+a_1 =
+\begin{bmatrix}
+1 \\
+4
+\end{bmatrix},
+\quad
+a_2 =
+\begin{bmatrix}
+2 \\
+5
+\end{bmatrix},
+\quad
+a_3 =
+\begin{bmatrix}
+3 \\
+6
+\end{bmatrix}.
+$$<p>Since:</p>$$
+x =
+\begin{bmatrix}
+10 \\
+20 \\
+30
+\end{bmatrix},
+$$<p>we get:</p>$$
+Ax =
+10
+\begin{bmatrix}
+1 \\
+4
+\end{bmatrix}
++
+20
+\begin{bmatrix}
+2 \\
+5
+\end{bmatrix}
++
+30
+\begin{bmatrix}
+3 \\
+6
+\end{bmatrix}.
+$$<p>So:</p>$$
+Ax =
+\begin{bmatrix}
+10 \\
+40
+\end{bmatrix}
++
+\begin{bmatrix}
+40 \\
+100
+\end{bmatrix}
++
+\begin{bmatrix}
+90 \\
+180
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+140 \\
+320
+\end{bmatrix}.
+$$<aside class="callout callout-note" role=note><div class=callout-title>Two views of Ax</div><div class=callout-body>The product (Ax) can be seen as row dot products or as a linear combination of the columns of \(A\). Both views are correct, and both are important in machine learning.</div></aside><h2 id=matrix-matrix-multiplication>Matrix-matrix multiplication<a hidden class=anchor aria-hidden=true href=#matrix-matrix-multiplication>#</a></h2><p>Now suppose:</p>$$
+A \in \mathbb{R}^{m \times n}
+$$<p>and:</p>$$
+B \in \mathbb{R}^{n \times p}.
+$$<p>Then:</p>$$
+C = AB \in \mathbb{R}^{m \times p}.
+$$<p>Stanford CS229 defines the matrix product \(C=AB\) entrywise as:</p>$$
+C_{ij} = \sum_{k=1}^{n} A_{ik}B_{kj},
+$$<p>with the requirement that the number of columns of \(A\) equals the number of rows of \(B\).</p><h3 id=numerical-example>Numerical example<a hidden class=anchor aria-hidden=true href=#numerical-example>#</a></h3><p>Let:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}
+$$<p>and:</p>$$
+B =
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 \\
+1 & 1
+\end{bmatrix}.
+$$<p>Then:</p>$$
+A \in \mathbb{R}^{2 \times 3},
+\qquad
+B \in \mathbb{R}^{3 \times 2}.
+$$<p>So:</p>$$
+AB \in \mathbb{R}^{2 \times 2}.
+$$<p>Now compute:</p>$$
+AB =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 \\
+1 & 1
+\end{bmatrix}.
+$$<p>The entry in row 1, column 1 is:</p>$$
+1(1)+2(0)+3(1)=4.
+$$<p>The entry in row 1, column 2 is:</p>$$
+1(0)+2(1)+3(1)=5.
+$$<p>The entry in row 2, column 1 is:</p>$$
+4(1)+5(0)+6(1)=10.
+$$<p>The entry in row 2, column 2 is:</p>$$
+4(0)+5(1)+6(1)=11.
+$$<p>Therefore:</p>$$
+AB =
+\begin{bmatrix}
+4 & 5 \\
+10 & 11
+\end{bmatrix}.
+$$<h2 id=matrix-multiplication-is-not-usually-commutative>Matrix multiplication is not usually commutative<a hidden class=anchor aria-hidden=true href=#matrix-multiplication-is-not-usually-commutative>#</a></h2><p>In ordinary arithmetic:</p>$$
+2 \cdot 3 = 3 \cdot 2.
+$$<p>But matrices do not usually behave this way.</p><p>Usually:</p>$$
+AB \neq BA.
+$$<p>Sometimes (BA) is not even defined.</p><p>In the previous example:</p>$$
+A \in \mathbb{R}^{2 \times 3}
+$$<p>and:</p>$$
+B \in \mathbb{R}^{3 \times 2}.
+$$<p>So:</p>$$
+AB \in \mathbb{R}^{2 \times 2}
+$$<p>but:</p>$$
+BA \in \mathbb{R}^{3 \times 3}.
+$$<p>The shapes are different.</p><p>So (AB) and (BA) cannot be equal.</p><aside class="callout callout-warning" role=note><div class=callout-title>Order matters</div><div class=callout-body>Matrix multiplication represents structured operations. Changing the order changes the operation. In neural networks, (XW) and (WX) are usually completely different or one of them is invalid.</div></aside><h2 id=matrices-as-linear-maps>Matrices as linear maps<a hidden class=anchor aria-hidden=true href=#matrices-as-linear-maps>#</a></h2><p>A matrix is not only a table of numbers.</p><p>A matrix can represent a <strong>linear transformation</strong>.</p><p>Let:</p>$$
+A \in \mathbb{R}^{m \times n}.
+$$<p>Then \(A\) defines a function:</p>$$
+A:\mathbb{R}^{n} \to \mathbb{R}^{m}
+$$<p>by:</p>$$
+x \mapsto Ax.
+$$<p>This means:</p><ul><li>the input vector has \(n\) components,</li><li>the output vector has \(m\) components.</li></ul><p>For example, let:</p>$$
+A =
+\begin{bmatrix}
+2 & 0 \\
+0 & 1
+\end{bmatrix}.
+$$<p>Then:</p>$$
+A
+\begin{bmatrix}
+3 \\
+4
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+6 \\
+4
+\end{bmatrix}.
+$$<p>This matrix stretches the first coordinate by a factor of 2 and leaves the second coordinate unchanged.</p><p>So a matrix can be understood geometrically.</p><p>It transforms space.</p><h2 id=linear-maps-preserve-addition-and-scalar-multiplication>Linear maps preserve addition and scalar multiplication<a hidden class=anchor aria-hidden=true href=#linear-maps-preserve-addition-and-scalar-multiplication>#</a></h2><p>A function \(T:\mathbb{R}^n \to \mathbb{R}^m\) is linear if:</p>$$
+T(u+v)=T(u)+T(v)
+$$<p>and:</p>$$
+T(\alpha u)=\alpha T(u).
+$$<p>Matrix multiplication satisfies these properties.</p><p>If:</p>$$
+T(x)=Ax,
+$$<p>then:</p>$$
+T(u+v)=A(u+v)=Au+Av=T(u)+T(v)
+$$<p>and:</p>$$
+T(\alpha u)=A(\alpha u)=\alpha Au=\alpha T(u).
+$$<p>Therefore every matrix multiplication map is linear.</p><p>This is why matrices are the natural language of linear models.</p><h2 id=the-identity-matrix>The identity matrix<a hidden class=anchor aria-hidden=true href=#the-identity-matrix>#</a></h2><p>The identity matrix is the matrix that does nothing.</p><p>For dimension \(n\), it is written:</p>$$
+I_n.
+$$<p>For example:</p>$$
+I_3 =
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}.
+$$<p>For any vector \(x \in \mathbb{R}^3\):</p>$$
+I_3x=x.
+$$<p>For example:</p>$$
+I_3
+\begin{bmatrix}
+5 \\
+-2 \\
+7
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+5 \\
+-2 \\
+7
+\end{bmatrix}.
+$$<p>The identity matrix plays the same role as the number 1 in ordinary multiplication.</p><h2 id=diagonal-matrices>Diagonal matrices<a hidden class=anchor aria-hidden=true href=#diagonal-matrices>#</a></h2><p>A diagonal matrix has nonzero entries only on the main diagonal.</p><p>For example:</p>$$
+D =
+\begin{bmatrix}
+2 & 0 & 0 \\
+0 & 5 & 0 \\
+0 & 0 & -1
+\end{bmatrix}.
+$$<p>Multiplying by \(D\) scales each coordinate separately.</p><p>If:</p>$$
+x =
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3
+\end{bmatrix},
+$$<p>then:</p>$$
+Dx =
+\begin{bmatrix}
+2x_1 \\
+5x_2 \\
+-x_3
+\end{bmatrix}.
+$$<p>The <em>Deep Learning</em> book notes that diagonal matrices are computationally efficient because multiplying by a diagonal matrix only scales individual elements.</p><p>In machine learning, diagonal matrices appear in:</p><ul><li>feature scaling,</li><li>covariance approximations,</li><li>normalization,</li><li>singular value decomposition,</li><li>optimization preconditioning.</li></ul><h2 id=symmetric-matrices>Symmetric matrices<a hidden class=anchor aria-hidden=true href=#symmetric-matrices>#</a></h2><p>A square matrix is symmetric if:</p>$$
+A = A^\top.
+$$<p>For example:</p>$$
+A =
+\begin{bmatrix}
+2 & 5 \\
+5 & 3
+\end{bmatrix}
+$$<p>is symmetric.</p><p>The entries mirror across the main diagonal.</p><p>A distance matrix is often symmetric because the distance from object \(i\) to object \(j\) is usually the same as the distance from object \(j\) to object \(i\). The <em>Deep Learning</em> book gives this as a typical example of symmetry in matrices.</p><h2 id=the-trace-of-a-matrix>The trace of a matrix<a hidden class=anchor aria-hidden=true href=#the-trace-of-a-matrix>#</a></h2><p>For a square matrix:</p>$$
+A =
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{bmatrix},
+$$<p>the trace is the sum of diagonal entries:</p>$$
+\operatorname{tr}(A)=a_{11}+a_{22}+\cdots+a_{nn}.
+$$<p>For example:</p>$$
+A =
+\begin{bmatrix}
+2 & 1 \\
+4 & 5
+\end{bmatrix}.
+$$<p>Then:</p>$$
+\operatorname{tr}(A)=2+5=7.
+$$<p>Trace appears frequently in matrix calculus, optimization, covariance analysis, and neural-network derivations.</p><h2 id=matrix-rank>Matrix rank<a hidden class=anchor aria-hidden=true href=#matrix-rank>#</a></h2><p>The rank of a matrix measures how many independent directions it contains.</p><p>Consider:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+2 & 4
+\end{bmatrix}.
+$$<p>The second column is twice the first column:</p>$$
+\begin{bmatrix}
+2 \\
+4
+\end{bmatrix}
+{}={}
+2
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix}.
+$$<p>So the two columns do not provide two independent directions.</p><p>The rank is:</p>$$
+\operatorname{rank}(A)=1.
+$$<p>Now consider:</p>$$
+B =
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}.
+$$<p>The columns are not scalar multiples of each other, so:</p>$$
+\operatorname{rank}(B)=2.
+$$<p>Stanford’s 2024 CS229 linear algebra review states that column rank is the largest number of linearly independent columns, row rank is the largest number of linearly independent rows, and these are equal, so both are called the rank of the matrix. (<a href="https://cs229.stanford.edu/notes2024summer/cs229-linear_algebra.pdf?utm_source=chatgpt.com" title="Linear Algebra">CS229</a>)</p><h2 id=column-space>Column space<a hidden class=anchor aria-hidden=true href=#column-space>#</a></h2><p>The column space of a matrix is the set of all linear combinations of its columns.</p><p>If:</p>$$
+A =
+\begin{bmatrix}
+| & | & | \\
+a_1 & a_2 & a_3 \\
+| & | & |
+\end{bmatrix},
+$$<p>then:</p>$$
+\operatorname{Col}(A)
+{}={}
+{c_1a_1+c_2a_2+c_3a_3:; c_1,c_2,c_3 \in \mathbb{R}}.
+$$<p>The column space tells us which outputs are reachable by (Ax).</p><p>If:</p>$$
+y = Ax,
+$$<p>then \(y\) must lie in the column space of \(A\).</p><p>This is central in solving linear systems.</p><h2 id=null-space>Null space<a hidden class=anchor aria-hidden=true href=#null-space>#</a></h2><p>The null space of \(A\) is the set of all vectors that are sent to zero:</p>$$
+\operatorname{Null}(A)
+{}={}
+{x:; Ax=0}.
+$$<p>For example:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+2 & 4
+\end{bmatrix}.
+$$<p>We want:</p>$$
+Ax=0.
+$$<p>Let:</p>$$
+x =
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}.
+$$<p>Then:</p>$$
+\begin{bmatrix}
+1 & 2 \\
+2 & 4
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+x_1+2x_2 \\
+2x_1+4x_2
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}.
+$$<p>The second equation is just twice the first.</p><p>So we need:</p>$$
+x_1+2x_2=0.
+$$<p>Thus:</p>$$
+x_1=-2x_2.
+$$<p>Let:</p>$$
+x_2=t.
+$$<p>Then:</p>$$
+x =
+\begin{bmatrix}
+-2t \\
+t
+\end{bmatrix}
+{}={}
+t
+\begin{bmatrix}
+-2 \\
+1
+\end{bmatrix}.
+$$<p>So:</p>$$
+\operatorname{Null}(A)
+{}={}
+\operatorname{span}
+\left{
+\begin{bmatrix}
+-2 \\
+1
+\end{bmatrix}
+\right}.
+$$<p>The null space tells us which inputs are invisible to the transformation.</p><h2 id=matrix-norms>Matrix norms<a hidden class=anchor aria-hidden=true href=#matrix-norms>#</a></h2><p>A norm measures size.</p><p>For a vector, the Euclidean norm is:</p>$$
+|x|_2 =
+\sqrt{x_1^2+x_2^2+\cdots+x_n^2}.
+$$<p>For a matrix, a common norm is the Frobenius norm:</p>$$
+\|A\|_F =
+\sqrt{\sum_{i,j} A_{ij}^2}.
+$$<p>For example:</p>$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}.
+$$<p>Then:</p>$$
+|A|_F =
+\sqrt{1^2+2^2+3^2+4^2}
+{}={}
+\sqrt{30}.
+$$<p>The <em>Deep Learning</em> book notes that the Frobenius norm is commonly used in deep learning and is analogous to the vector \(L^2\) norm.</p><p>Matrix norms are used in:</p><ul><li>regularization,</li><li>stability analysis,</li><li>optimization,</li><li>low-rank approximation,</li><li>neural-network weight control.</li></ul><h2 id=eigenvalues-and-eigenvectors>Eigenvalues and eigenvectors<a hidden class=anchor aria-hidden=true href=#eigenvalues-and-eigenvectors>#</a></h2><p>For a square matrix \(A\), an eigenvector is a nonzero vector \(v\) such that:</p>$$
+Av = \lambda v.
+$$<p>Here:</p><ul><li>\(v\) is the eigenvector,</li><li>\(\lambda\) is the eigenvalue.</li></ul><p>This equation says:</p><blockquote><p>applying \(A\) to \(v\) only scales \(v\); it does not change its direction.</p></blockquote><p>For example:</p>$$
+A =
+\begin{bmatrix}
+2 & 0 \\
+0 & 3
+\end{bmatrix}.
+$$<p>Then:</p>$$
+A
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+2 \\
+0
+\end{bmatrix}
+{}={}
+2
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+$$<p>So:</p>$$
+v_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+$$<p>is an eigenvector with eigenvalue:</p>$$
+\lambda_1 = 2.
+$$<p>Similarly:</p>$$
+A
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+0 \\
+3
+\end{bmatrix}
+{}={}
+3
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}.
+$$<p>So:</p>$$
+v_2 =
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
+$$<p>is an eigenvector with eigenvalue:</p>$$
+\lambda_2 = 3.
+$$<p>The <em>Deep Learning</em> book explains eigendecomposition as a way to understand matrices by decomposing them into eigenvectors and eigenvalues.</p><h2 id=singular-value-decomposition>Singular value decomposition<a hidden class=anchor aria-hidden=true href=#singular-value-decomposition>#</a></h2><p>The singular value decomposition, or SVD, is one of the most important matrix factorizations.</p><p>For a matrix:</p>$$
+A \in \mathbb{R}^{m \times n},
+$$<p>the SVD writes:</p>$$
+A = U\Sigma V^\top.
+$$<p>Here:</p><ul><li>\(U\) contains left singular vectors,</li><li>\(\Sigma\) contains singular values,</li><li>\(V\) contains right singular vectors.</li></ul><p>The <em>Deep Learning</em> book describes SVD as a factorization of a matrix into singular vectors and singular values, with \(U\) and \(V\) orthogonal and \(\Sigma\) diagonal.</p><p>SVD is used in:</p><ul><li>dimensionality reduction,</li><li>principal component analysis,</li><li>low-rank approximation,</li><li>recommendation systems,</li><li>image compression,</li><li>numerical stability,</li><li>understanding neural-network weight matrices.</li></ul><aside class="callout callout-tip" role=note><div class=callout-title>AI intuition</div><div class=callout-body>SVD tells us which directions in the input space are amplified most strongly by a matrix. In machine learning, this helps us understand compression, rank, conditioning, and feature directions.</div></aside><h2 id=matrices-in-a-neural-network-layer>Matrices in a neural network layer<a hidden class=anchor aria-hidden=true href=#matrices-in-a-neural-network-layer>#</a></h2><p>A fully connected neural-network layer is a matrix operation.</p><p>Suppose:</p>$$
+x \in \mathbb{R}^{d}
+$$<p>is one input vector.</p><p>Let:</p>$$
+W \in \mathbb{R}^{d \times h}
+$$<p>be the weight matrix.</p><p>Let:</p>$$
+b \in \mathbb{R}^{h}
+$$<p>be the bias vector.</p><p>Then the layer computes:</p>$$
+z = x^\top W + b.
+$$<p>If \(x\) is written as a row vector:</p>$$
+x^\top \in \mathbb{R}^{1 \times d},
+$$<p>then:</p>$$
+(1 \times d)(d \times h)=1 \times h.
+$$<p>So:</p>$$
+z \in \mathbb{R}^{h}.
+$$<p>For a batch:</p>$$
+X \in \mathbb{R}^{n \times d},
+$$<p>the layer computes:</p>$$
+Z = XW+b.
+$$<p>The shape is:</p>$$
+(n \times d)(d \times h)=n \times h.
+$$<p>So:</p>$$
+Z \in \mathbb{R}^{n \times h}.
+$$<p>This is the matrix form of many neurons computed at once.</p><h2 id=from-matrices-to-tensors>From matrices to tensors<a hidden class=anchor aria-hidden=true href=#from-matrices-to-tensors>#</a></h2><p>A matrix has two axes.</p><p>A tensor may have more than two axes.</p><p>Examples:</p><table><thead><tr><th>Object</th><th style=text-align:right>Shape</th><th>Mathematical type</th></tr></thead><tbody><tr><td>scalar</td><td style=text-align:right>\(()\)</td><td>order-0 tensor</td></tr><tr><td>vector</td><td style=text-align:right>\((d)\)</td><td>order-1 tensor</td></tr><tr><td>matrix</td><td style=text-align:right>\((m,n)\)</td><td>order-2 tensor</td></tr><tr><td>grayscale image</td><td style=text-align:right>\((H,W)\)</td><td>order-2 tensor</td></tr><tr><td>color image</td><td style=text-align:right>\((H,W,3)\)</td><td>order-3 tensor</td></tr><tr><td>batch of color images</td><td style=text-align:right>\((N,H,W,3)\)</td><td>order-4 tensor</td></tr><tr><td>video</td><td style=text-align:right>\((T,H,W,3)\)</td><td>order-4 tensor</td></tr><tr><td>batch of videos</td><td style=text-align:right>\((N,T,H,W,3)\)</td><td>order-5 tensor</td></tr></tbody></table><p>Kolda and Bader state that a first-order tensor is a vector, a second-order tensor is a matrix, and tensors of order three or higher are called higher-order tensors.</p><h2 id=tensor-order-modes-and-shape>Tensor order, modes, and shape<a hidden class=anchor aria-hidden=true href=#tensor-order-modes-and-shape>#</a></h2><p>The <strong>order</strong> of a tensor is the number of axes.</p><p>The axes are often called <strong>modes</strong>.</p><p>For example:</p>$$
+X \in \mathbb{R}^{I \times J \times K}
+$$<p>is a third-order tensor.</p><p>It has three modes:</p><ol><li>mode 1 has size \(I\),</li><li>mode 2 has size \(J\),</li><li>mode 3 has size \(K\).</li></ol><p>An entry is written:</p>$$
+x_{ijk}.
+$$<p>This means:</p><blockquote><p>index \(i\) along mode 1, index \(j\) along mode 2, index \(k\) along mode 3.</p></blockquote><p>For an \(N\)-th order tensor:</p>$$
+\mathcal{X} \in \mathbb{R}^{I_1 \times I_2 \times \cdots \times I_N}.
+$$<p>An entry is:</p>$$
+x_{i_1 i_2 \cdots i_N}.
+$$<p>The total number of entries is:</p>$$
+I_1 I_2 \cdots I_N.
+$$<h2 id=a-small-numerical-tensor>A small numerical tensor<a hidden class=anchor aria-hidden=true href=#a-small-numerical-tensor>#</a></h2><p>Let:</p>$$
+\mathcal{X} \in \mathbb{R}^{2 \times 3 \times 2}.
+$$<p>This tensor has:</p><ul><li>2 entries along mode 1,</li><li>3 entries along mode 2,</li><li>2 entries along mode 3.</li></ul><p>We can display it using two frontal slices.</p><p>First slice:</p>$$
+X_{:,:,1}
+{}={}
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}.
+$$<p>Second slice:</p>$$
+X_{:,:,2}
+{}={}
+\begin{bmatrix}
+7 & 8 & 9 \\
+10 & 11 & 12
+\end{bmatrix}.
+$$<p>Then:</p>$$
+x_{1,1,1}=1,
+\qquad
+x_{2,3,1}=6,
+\qquad
+x_{1,2,2}=8,
+\qquad
+x_{2,3,2}=12.
+$$<p>This tensor has:</p>$$
+2 \cdot 3 \cdot 2 = 12
+$$<p>entries.</p><h2 id=tensor-slices>Tensor slices<a hidden class=anchor aria-hidden=true href=#tensor-slices>#</a></h2><p>A slice is obtained by fixing one index.</p><p>For:</p>$$
+\mathcal{X} \in \mathbb{R}^{2 \times 3 \times 2},
+$$<p>the slice:</p>$$
+X_{:,:,1}
+$$<p>fixes the third index at 1.</p><p>The slice:</p>$$
+X_{:,:,2}
+$$<p>fixes the third index at 2.</p><p>Each slice is a matrix.</p><p>For a color image:</p>$$
+X \in \mathbb{R}^{H \times W \times 3},
+$$<p>the red channel is:</p>$$
+X_{:,:,1}.
+$$<p>The green channel is:</p>$$
+X_{:,:,2}.
+$$<p>The blue channel is:</p>$$
+X_{:,:,3}.
+$$<p>So a color image can be seen as three matrices stacked together.</p><h2 id=tensor-fibers>Tensor fibers<a hidden class=anchor aria-hidden=true href=#tensor-fibers>#</a></h2><p>A fiber is obtained by fixing all indices except one.</p><p>For a third-order tensor:</p>$$
+\mathcal{X} \in \mathbb{R}^{I \times J \times K},
+$$<p>examples of fibers are:</p>$$
+\mathcal{X}_{:,j,k},
+\qquad
+\mathcal{X}_{i,:,k},
+\qquad
+\mathcal{X}_{i,j,:}.
+$$<p>Each fiber is a vector.</p><p>In a color image:</p>$$
+X_{i,j,:}
+$$<p>is the RGB vector at pixel \((i,j)\).</p><p>So the pixel itself is a vector.</p><h2 id=tensor-unfolding-or-matricization>Tensor unfolding or matricization<a hidden class=anchor aria-hidden=true href=#tensor-unfolding-or-matricization>#</a></h2><p>Sometimes we convert a tensor into a matrix.</p><p>This is called:</p><ul><li>unfolding,</li><li>flattening,</li><li>matricization.</li></ul><p>Kolda and Bader describe matricization as the process of reordering the elements of an \(N\)-way array into a matrix and note that the exact ordering convention may vary, as long as it is used consistently.</p><p>For:</p>$$
+\mathcal{X} \in \mathbb{R}^{2 \times 3 \times 2},
+$$<p>one possible mode-1 unfolding is:</p>$$
+X_{(1)}
+{}={}
+\begin{bmatrix}
+1 & 2 & 3 & 7 & 8 & 9 \\
+4 & 5 & 6 & 10 & 11 & 12
+\end{bmatrix}.
+$$<p>This gives:</p>$$
+X_{(1)} \in \mathbb{R}^{2 \times 6}.
+$$<p>One possible mode-2 unfolding is:</p>$$
+X_{(2)}
+{}={}
+\begin{bmatrix}
+1 & 4 & 7 & 10 \\
+2 & 5 & 8 & 11 \\
+3 & 6 & 9 & 12
+\end{bmatrix}.
+$$<p>This gives:</p>$$
+X_{(2)} \in \mathbb{R}^{3 \times 4}.
+$$<p>One possible mode-3 unfolding is:</p>$$
+X_{(3)}
+{}={}
+\begin{bmatrix}
+1 & 2 & 3 & 4 & 5 & 6 \\
+7 & 8 & 9 & 10 & 11 & 12
+\end{bmatrix}.
+$$<p>This gives:</p>$$
+X_{(3)} \in \mathbb{R}^{2 \times 6}.
+$$<aside class="callout callout-warning" role=note><div class=callout-title>Unfolding convention</div><div class=callout-body>Different books and libraries may unfold tensors in different orders. The important rule is consistency. Once you choose an unfolding convention, use it consistently across all related calculations.</div></aside><h2 id=tensor-addition-and-scalar-multiplication>Tensor addition and scalar multiplication<a hidden class=anchor aria-hidden=true href=#tensor-addition-and-scalar-multiplication>#</a></h2><p>Two tensors can be added if they have the same shape.</p><p>If:</p>$$
+\mathcal{X},\mathcal{Y}
+\in
+\mathbb{R}^{I_1 \times I_2 \times \cdots \times I_N},
+$$<p>then:</p>$$
+(\mathcal{X}+\mathcal{Y})_{i_1i_2\cdots i_N}
+{}={}
+x_{i_1i_2\cdots i_N}
++
+y_{i_1i_2\cdots i_N}.
+$$<p>A tensor can also be multiplied by a scalar:</p>$$
+(\alpha \mathcal{X})_{i_1i_2\cdots i_N}
+{}={}
+\alpha x_{i_1i_2\cdots i_N}.
+$$<p>So tensors form vector spaces when their shape is fixed.</p><p>For example, all tensors in:</p>$$
+\mathbb{R}^{2 \times 3 \times 2}
+$$<p>can be added and scaled.</p><h2 id=tensor-inner-product>Tensor inner product<a hidden class=anchor aria-hidden=true href=#tensor-inner-product>#</a></h2><p>If two tensors have the same shape, their inner product is the sum of elementwise products:</p>$$
+\langle \mathcal{X},\mathcal{Y} \rangle
+{}={}
+\sum_{i_1=1}^{I_1}
+\sum_{i_2=1}^{I_2}
+\cdots
+\sum_{i_N=1}^{I_N}
+x_{i_1i_2\cdots i_N}
+y_{i_1i_2\cdots i_N}.
+$$<p>For matrices, this becomes:</p>$$
+\langle A,B\rangle
+{}={}
+\sum_{i,j} A_{ij}B_{ij}.
+$$<p>The Frobenius norm of a tensor is:</p>$$
+|\mathcal{X}|_F
+{}={}
+\sqrt{
+\sum_{i_1=1}^{I_1}
+\sum_{i_2=1}^{I_2}
+\cdots
+\sum_{i_N=1}^{I_N}
+x_{i_1i_2\cdots i_N}^2
+}.
+$$<p>This generalizes the Euclidean norm of vectors and the Frobenius norm of matrices.</p><h2 id=outer-product>Outer product<a hidden class=anchor aria-hidden=true href=#outer-product>#</a></h2><p>The outer product combines vectors to create higher-order objects.</p><p>Let:</p>$$
+a =
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix}
+$$<p>and:</p>$$
+b =
+\begin{bmatrix}
+3 \\
+4 \\
+5
+\end{bmatrix}.
+$$<p>The outer product is:</p>$$
+a \circ b =
+\begin{bmatrix}
+1 \cdot 3 & 1 \cdot 4 & 1 \cdot 5 \\
+2 \cdot 3 & 2 \cdot 4 & 2 \cdot 5
+\end{bmatrix}
+{}={}
+\begin{bmatrix}
+3 & 4 & 5 \\
+6 & 8 & 10
+\end{bmatrix}.
+$$<p>This creates a matrix from two vectors.</p><p>Now add a third vector:</p>$$
+c =
+\begin{bmatrix}
+10 \\
+20
+\end{bmatrix}.
+$$<p>Then:</p>$$
+\mathcal{X}=a\circ b\circ c
+$$<p>is a third-order tensor with entries:</p>$$
+x_{ijk}=a_i b_j c_k.
+$$<p>For example:</p>$$
+x_{1,2,1}=a_1b_2c_1=1(4)(10)=40.
+$$<p>And:</p>$$
+x_{2,3,2}=a_2b_3c_2=2(5)(20)=200.
+$$<p>A tensor formed from the outer product of vectors is called a <strong>rank-one tensor</strong>.</p><h2 id=tensor-rank-and-cp-decomposition>Tensor rank and CP decomposition<a hidden class=anchor aria-hidden=true href=#tensor-rank-and-cp-decomposition>#</a></h2><p>For matrices, rank is the minimum number of rank-one matrices needed to add up to the matrix.</p><p>For higher-order tensors, one important idea is similar:</p>$$
+\mathcal{X}
+\approx
+\sum_{r=1}^{R}
+a_r^{(1)}
+\circ
+a_r^{(2)}
+\circ
+\cdots
+\circ
+a_r^{(N)}.
+$$<p>This is the idea behind CP decomposition, also known as CANDECOMP/PARAFAC.</p><p>Kolda and Bader describe CP as decomposing a tensor as a sum of rank-one tensors.</p><p>For a third-order tensor:</p>$$
+\mathcal{X} \in \mathbb{R}^{I \times J \times K},
+$$<p>a CP decomposition has the form:</p>$$
+\mathcal{X}
+\approx
+\sum_{r=1}^{R}
+a_r \circ b_r \circ c_r.
+$$<p>Elementwise:</p>$$
+x_{ijk}
+\approx
+\sum_{r=1}^{R}
+a_{ir} b_{jr} c_{kr}.
+$$<p>This is useful when a large tensor can be approximated by a small number of structured components.</p><h2 id=the--mode-product>The \(n\)-mode product<a hidden class=anchor aria-hidden=true href=#the--mode-product>#</a></h2><p>A central tensor operation is the \(n\)-mode product.</p><p>Let:</p>$$
+\mathcal{X}
+\in
+\mathbb{R}^{I_1 \times I_2 \times \cdots \times I_N}.
+$$<p>Let:</p>$$
+U \in \mathbb{R}^{J \times I_n}.
+$$<p>Then the \(n\)-mode product is written:</p>$$
+\mathcal{Y}
+{}={}
+\mathcal{X}
+\times_n
+U.
+$$<p>The output shape is:</p>$$
+\mathcal{Y}
+\in
+\mathbb{R}^{I_1 \times \cdots \times I_{n-1} \times J \times I_{n+1} \times \cdots \times I_N}.
+$$<p>So the size of mode \(n\) changes from \(I_n\) to \(J\).</p><p>Kolda and Bader define the \(n\)-mode matrix product of a tensor with a matrix and give its elementwise formula.</p><p>Elementwise:</p>$$
+(\mathcal{X}\times_n U)_{i_1\cdots i_{n-1}j i_{n+1}\cdots i_N}
+{}={}
+\sum_{i_n=1}^{I_n}
+x_{i_1 i_2 \cdots i_N}
+u_{j i_n}.
+$$<p>This means:</p><blockquote><p>multiply each mode-\(n\) fiber by the matrix \(U\).</p></blockquote><p>In unfolded form:</p>$$
+Y_{(n)} = U X_{(n)}.
+$$<p>This connects tensor multiplication back to matrix multiplication.</p><h2 id=tensor-contraction>Tensor contraction<a hidden class=anchor aria-hidden=true href=#tensor-contraction>#</a></h2><p>Tensor contraction means summing over one or more shared indices.</p><p>The dot product is the simplest contraction:</p>$$
+x^\top y
+{}={}
+\sum_{i=1}^{d} x_i y_i.
+$$<p>Matrix multiplication is also a contraction:</p>$$
+C_{ij}
+{}={}
+\sum_{k=1}^{n}
+A_{ik}B_{kj}.
+$$<p>The index \(k\) is repeated and summed over.</p><p>A tensor contraction generalizes this idea.</p><p>For example, suppose:</p>$$
+\mathcal{X} \in \mathbb{R}^{I \times J \times K}
+$$<p>and:</p>$$
+v \in \mathbb{R}^{K}.
+$$<p>Then contracting over the third mode gives a matrix:</p>$$
+Y_{ij}
+{}={}
+\sum_{k=1}^{K}
+x_{ijk}v_k.
+$$<p>So:</p>$$
+Y \in \mathbb{R}^{I \times J}.
+$$<p>This is exactly what happens when we collapse one tensor dimension by taking weighted sums.</p><h2 id=einstein-summation-notation>Einstein summation notation<a hidden class=anchor aria-hidden=true href=#einstein-summation-notation>#</a></h2><p>Because tensor formulas can become long, mathematicians and machine-learning libraries often use Einstein summation notation.</p><p>Instead of writing:</p>$$
+C_{ij}
+{}={}
+\sum_{k=1}^{n}
+A_{ik}B_{kj},
+$$<p>we write:</p>$$
+C_{ij}=A_{ik}B_{kj}.
+$$<p>The repeated index \(k\) is automatically summed over.</p><p>Similarly:</p>$$
+y_i=A_{ij}x_j
+$$<p>means:</p>$$
+y_i=\sum_j A_{ij}x_j.
+$$<p>In NumPy, PyTorch, and JAX, this idea appears in functions such as <code>einsum</code>.</p><p>For example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>A <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>randn(<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>)
+</span></span><span style=display:flex><span>B <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>randn(<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>C <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>einsum(<span style=color:#e6db74>&#34;ik,kj-&gt;ij&#34;</span>, A, B)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print(C<span style=color:#f92672>.</span>shape)
+</span></span></code></pre></div><p>Output:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>torch.Size([2, 4])
+</span></span></code></pre></div><p>The notation:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>&#34;ik,kj-&gt;ij&#34;
+</span></span></code></pre></div><p>means:</p><ul><li>\(A\) has indices \(i,k\),</li><li>\(B\) has indices \(k,j\),</li><li>\(k\) is summed,</li><li>output has indices \(i,j\).</li></ul><h2 id=tucker-decomposition>Tucker decomposition<a hidden class=anchor aria-hidden=true href=#tucker-decomposition>#</a></h2><p>Another major tensor decomposition is the Tucker decomposition.</p><p>For a third-order tensor:</p>$$
+\mathcal{X} \in \mathbb{R}^{I \times J \times K},
+$$<p>the Tucker decomposition writes:</p>$$
+\mathcal{X}
+\approx
+\mathcal{G}
+\times_1 A
+\times_2 B
+\times_3 C.
+$$<p>Here:</p><ul><li>\(\mathcal{G}\) is the core tensor,</li><li>\(A\), \(B\), and \(C\) are factor matrices,</li><li>each factor matrix acts along one tensor mode.</li></ul><p>Kolda and Bader describe Tucker decomposition as a form of higher-order PCA that decomposes a tensor into a core tensor multiplied or transformed by a matrix along each mode.</p><p>Elementwise:</p>$$
+x_{ijk}
+\approx
+\sum_{p=1}^{P}
+\sum_{q=1}^{Q}
+\sum_{r=1}^{R}
+g_{pqr}a_{ip}b_{jq}c_{kr}.
+$$<p>For an \(N\)-way tensor:</p>$$
+\mathcal{X}
+{}={}
+\mathcal{G}
+\times_1 A^{(1)}
+\times_2 A^{(2)}
+\cdots
+\times_N A^{(N)}.
+$$<p>The Tucker decomposition is useful for:</p><ul><li>compression,</li><li>denoising,</li><li>feature extraction,</li><li>dimensionality reduction,</li><li>multilinear PCA,</li><li>multiway data analysis.</li></ul><h2 id=formal-mathematical-view-tensor-products>Formal mathematical view: tensor products<a hidden class=anchor aria-hidden=true href=#formal-mathematical-view-tensor-products>#</a></h2><p>So far, we have used the machine-learning view:</p><blockquote><p>a tensor is a multidimensional array.</p></blockquote><p>Now we move to the more mathematical view.</p><p>Let \(V\) and \(W\) be vector spaces.</p><p>The tensor product \(V \otimes W\) is a vector space built from formal products:</p>$$
+v \otimes w,
+\qquad
+v \in V,; w \in W.
+$$<p>These formal products satisfy bilinearity:</p>$$
+(v_1+v_2)\otimes w
+{}={}
+v_1\otimes w+v_2\otimes w,
+$$$$
+v\otimes(w_1+w_2)
+{}={}
+v\otimes w_1+v\otimes w_2,
+$$$$
+(\alpha v)\otimes w
+{}={}
+\alpha(v\otimes w)
+v\otimes(\alpha w).
+$$<p>Lerman’s multilinear algebra notes describe two standard ways to think about tensors: as multilinear maps and as elements of tensor products of two or more vector spaces.</p><p>The tensor product has a universal property: bilinear maps out of \(V \times W\) correspond to linear maps out of \(V \otimes W\). This is the formal reason tensor products convert bilinear structure into linear structure.</p><h2 id=basis-of-a-tensor-product-space>Basis of a tensor product space<a hidden class=anchor aria-hidden=true href=#basis-of-a-tensor-product-space>#</a></h2><p>Let:</p>$$
+V = \mathbb{R}^{m}
+$$<p>with basis:</p>$$
+e_1,\dots,e_m.
+$$<p>Let:</p>$$
+W = \mathbb{R}^{n}
+$$<p>with basis:</p>$$
+f_1,\dots,f_n.
+$$<p>Then a basis for:</p>$$
+V \otimes W
+$$<p>is:</p>$$
+{e_i \otimes f_j:; 1\le i\le m,;1\le j\le n}.
+$$<p>So:</p>$$
+\dim(V\otimes W)=mn.
+$$<p>This matches the number of entries in an \(m \times n\) matrix.</p><p>That is why a matrix can be viewed as coordinates of an element in a tensor product space.</p><p>More generally, if:</p>$$
+V_1,\dots,V_N
+$$<p>are finite-dimensional vector spaces, then:</p>$$
+V_1 \otimes V_2 \otimes \cdots \otimes V_N
+$$<p>is the natural space for order-\(N\) tensors.</p><p>If:</p>$$
+\dim(V_k)=I_k,
+$$<p>then:</p>$$
+\dim(V_1 \otimes \cdots \otimes V_N)
+{}={}
+I_1I_2\cdots I_N.
+$$<p>This equals the number of entries in an array of shape:</p>$$
+I_1 \times I_2 \times \cdots \times I_N.
+$$<h2 id=tensors-as-multilinear-maps>Tensors as multilinear maps<a hidden class=anchor aria-hidden=true href=#tensors-as-multilinear-maps>#</a></h2><p>A multilinear map is a function that is linear in each argument separately.</p><p>For example, a bilinear map satisfies:</p>$$
+B(\alpha u_1+\beta u_2,v)
+{}={}
+\alpha B(u_1,v)+\beta B(u_2,v)
+$$<p>and:</p>$$
+B(u,\alpha v_1+\beta v_2)
+{}={}
+\alpha B(u,v_1)+\beta B(u,v_2).
+$$<p>The dot product is bilinear:</p>$$
+\langle u,v\rangle
+{}={}
+u^\top v.
+$$<p>The determinant is multilinear in the columns of a matrix.</p><p>Lerman’s notes give the determinant as an example of an \(n\)-linear map when a matrix is viewed as a tuple of column vectors.</p><p>In this deeper mathematical view, tensors are not just arrays.</p><p>They encode multilinear relationships.</p><h2 id=why-matrices-are-second-order-tensors>Why matrices are second-order tensors<a hidden class=anchor aria-hidden=true href=#why-matrices-are-second-order-tensors>#</a></h2><p>A vector has one index:</p>$$
+x_i.
+$$<p>A matrix has two indices:</p>$$
+A_{ij}.
+$$<p>A third-order tensor has three indices:</p>$$
+x_{ijk}.
+$$<p>An \(N\)-th order tensor has \(N\) indices:</p>$$
+x_{i_1i_2\cdots i_N}.
+$$<p>So a matrix is naturally a second-order tensor because it requires two indices to identify one entry.</p><p>But in linear algebra, matrices receive special attention because they represent linear maps:</p>$$
+A:\mathbb{R}^{n}\to\mathbb{R}^{m}.
+$$<p>A general higher-order tensor does not automatically represent a simple linear map from one vector space to another.</p><p>Instead, it often represents a multilinear object.</p><h2 id=important-distinction-array-tensor-versus-geometric-tensor>Important distinction: array tensor versus geometric tensor<a hidden class=anchor aria-hidden=true href=#important-distinction-array-tensor-versus-geometric-tensor>#</a></h2><p>In machine learning, we often say:</p><blockquote><p>a tensor is a multidimensional array.</p></blockquote><p>This is practical and correct for numerical computing.</p><p>But in geometry and physics, tensors must obey transformation rules under changes of coordinates.</p><p>Kolda and Bader explicitly warn that the tensor-array notion in tensor decomposition literature should not be confused with tensor fields in physics and engineering.</p><p>For this course, we mainly use tensors in the AI sense:</p>$$
+\text{tensor} = \text{structured multidimensional numerical array}.
+$$<p>But we also keep the deeper mathematical meaning in mind:</p>$$
+\text{tensor} = \text{element of a tensor product space or multilinear map}.
+$$<p>Both views matter.</p><h2 id=tensors-in-convolutional-neural-networks>Tensors in convolutional neural networks<a hidden class=anchor aria-hidden=true href=#tensors-in-convolutional-neural-networks>#</a></h2><p>A convolutional neural network uses tensors everywhere.</p><p>Suppose the input batch is:</p>$$
+X \in \mathbb{R}^{N \times C_{\text{in}} \times H \times W}.
+$$<p>Here:</p><ul><li>\(N\) is batch size,</li><li>\(C_{\text{in}}\) is number of input channels,</li><li>\(H\) is height,</li><li>\(W\) is width.</li></ul><p>A convolution kernel may have shape:</p>$$
+K \in \mathbb{R}^{C_{\text{out}} \times C_{\text{in}} \times k_H \times k_W}.
+$$<p>Here:</p><ul><li>\(C_{\text{out}}\) is number of output channels,</li><li>\(C_{\text{in}}\) is number of input channels,</li><li>\(k_H\) is kernel height,</li><li>\(k_W\) is kernel width.</li></ul><p>The output is:</p>$$
+Y \in \mathbb{R}^{N \times C_{\text{out}} \times H' \times W'}.
+$$<p>A simplified convolution formula is:</p>$$
+Y_{n,c_{\text{out}},i,j}
+{}={}
+\sum_{c_{\text{in}}}
+\sum_{u}
+\sum_{v}
+K_{c_{\text{out}},c_{\text{in}},u,v}
+X_{n,c_{\text{in}},i+u,j+v}.
+$$<p>This is a tensor contraction.</p><p>We multiply kernel entries with input entries and sum over:</p><ul><li>input channels,</li><li>kernel height,</li><li>kernel width.</li></ul><p>So convolution is not mysterious.</p><p>It is a structured tensor operation.</p><h2 id=tensors-in-transformer-models>Tensors in transformer models<a hidden class=anchor aria-hidden=true href=#tensors-in-transformer-models>#</a></h2><p>Transformers also use tensors heavily.</p><p>Suppose:</p>$$
+X \in \mathbb{R}^{B \times L \times d}.
+$$<p>This is a batch of token embeddings.</p><p>Linear projections produce:</p>$$
+Q = XW_Q,
+\qquad
+K = XW_K,
+\qquad
+V = XW_V.
+$$<p>For multi-head attention, these are reshaped into:</p>$$
+Q,K,V \in \mathbb{R}^{B \times H \times L \times d_h}.
+$$<p>The attention score tensor has shape:</p>$$
+S \in \mathbb{R}^{B \times H \times L \times L}.
+$$<p>One formula is:</p>$$
+S_{b,h,i,j}
+{}={}
+\sum_{r=1}^{d_h}
+Q_{b,h,i,r}K_{b,h,j,r}.
+$$<p>This means:</p><blockquote><p>for each batch item and each attention head, compare token \(i\) with token \(j\) by taking a dot product over the hidden dimension.</p></blockquote><p>Again, this is a tensor contraction.</p><p>The repeated index \(r\) is summed.</p><h2 id=the-hierarchy-of-objects>The hierarchy of objects<a hidden class=anchor aria-hidden=true href=#the-hierarchy-of-objects>#</a></h2><p>We can now organize the objects clearly.</p><table><thead><tr><th>Object</th><th>Notation</th><th style=text-align:right>Example shape</th><th style=text-align:right>Number of indices</th></tr></thead><tbody><tr><td>scalar</td><td>\(x\)</td><td style=text-align:right>\(()\)</td><td style=text-align:right>0</td></tr><tr><td>vector</td><td>\(x_i\)</td><td style=text-align:right>\((d)\)</td><td style=text-align:right>1</td></tr><tr><td>matrix</td><td>\(A_{ij}\)</td><td style=text-align:right>\((m,n)\)</td><td style=text-align:right>2</td></tr><tr><td>third-order tensor</td><td>\(x_{ijk}\)</td><td style=text-align:right>\((I,J,K)\)</td><td style=text-align:right>3</td></tr><tr><td>\(N\)-th order tensor</td><td>\(x_{i_1\cdots i_N}\)</td><td style=text-align:right>\((I_1,\dots,I_N)\)</td><td style=text-align:right>\(N\)</td></tr></tbody></table><p>The key idea is:</p><blockquote><p>each additional axis adds one more index.</p></blockquote><h2 id=why-tensors-matter-in-ai>Why tensors matter in AI<a hidden class=anchor aria-hidden=true href=#why-tensors-matter-in-ai>#</a></h2><p>Tensors matter because AI data is naturally multi-axis.</p><p>Images have:</p>$$
+\text{height} \times \text{width} \times \text{channels}.
+$$<p>Videos have:</p>$$
+\text{time} \times \text{height} \times \text{width} \times \text{channels}.
+$$<p>Text batches have:</p>$$
+\text{batch} \times \text{sequence} \times \text{embedding}.
+$$<p>Attention has:</p>$$
+\text{batch} \times \text{heads} \times \text{query positions} \times \text{key positions}.
+$$<p>Convolution kernels have:</p>$$
+\text{output channels} \times \text{input channels} \times \text{kernel height} \times \text{kernel width}.
+$$<p>So tensors are not optional in deep learning.</p><p>They are the native format of modern AI computation.</p><h2 id=common-mistakes>Common mistakes<a hidden class=anchor aria-hidden=true href=#common-mistakes>#</a></h2><h3 id=mistake-1-calling-every-array-a-matrix>Mistake 1: Calling every array a matrix<a hidden class=anchor aria-hidden=true href=#mistake-1-calling-every-array-a-matrix>#</a></h3><p>A matrix has exactly two axes.</p><p>A color image:</p>$$
+X \in \mathbb{R}^{H \times W \times 3}
+$$<p>is not a matrix.</p><p>It is a third-order tensor.</p><h3 id=mistake-2-ignoring-axis-meaning>Mistake 2: Ignoring axis meaning<a hidden class=anchor aria-hidden=true href=#mistake-2-ignoring-axis-meaning>#</a></h3><p>The shape:</p>$$
+(32,224,224,3)
+$$<p>means something different from:</p>$$
+(32,3,224,224).
+$$<p>The numbers are the same, but the axis meanings are different.</p><h3 id=mistake-3-confusing-matrix-multiplication-with-elementwise-multiplication>Mistake 3: Confusing matrix multiplication with elementwise multiplication<a hidden class=anchor aria-hidden=true href=#mistake-3-confusing-matrix-multiplication-with-elementwise-multiplication>#</a></h3><p>Matrix multiplication:</p>$$
+C_{ij}=\sum_k A_{ik}B_{kj}
+$$<p>is not the same as elementwise multiplication:</p>$$
+C_{ij}=A_{ij}B_{ij}.
+$$<p>In Python, these are usually different operations.</p><p>For example, in NumPy:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span>A <span style=color:#f92672>@</span> B       <span style=color:#75715e># matrix multiplication</span>
+</span></span><span style=display:flex><span>A <span style=color:#f92672>*</span> B       <span style=color:#75715e># elementwise multiplication</span>
+</span></span></code></pre></div><h3 id=mistake-4-forgetting-batch-dimensions>Mistake 4: Forgetting batch dimensions<a hidden class=anchor aria-hidden=true href=#mistake-4-forgetting-batch-dimensions>#</a></h3><p>A single image may have shape:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>(224, 224, 3)
+</span></span></code></pre></div><p>A batch of images may have shape:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>(32, 224, 224, 3)
+</span></span></code></pre></div><p>The extra dimension is the batch dimension.</p><p>Many deep learning errors come from forgetting whether the batch axis is present.</p><h3 id=mistake-5-thinking-tensors-are-always-deep-and-abstract>Mistake 5: Thinking tensors are always deep and abstract<a hidden class=anchor aria-hidden=true href=#mistake-5-thinking-tensors-are-always-deep-and-abstract>#</a></h3><p>In machine learning, a tensor can be very practical.</p><p>A tensor may simply be:</p><ul><li>a batch of images,</li><li>a batch of embeddings,</li><li>a stack of time-series measurements,</li><li>a collection of attention scores.</li></ul><p>The abstract mathematics becomes useful because it gives us a precise language for these objects.</p><h2 id=section-summary>Section summary<a hidden class=anchor aria-hidden=true href=#section-summary>#</a></h2><p>A matrix is a two-dimensional array:</p>$$
+A \in \mathbb{R}^{m \times n}.
+$$<p>Its entries are:</p>$$
+A_{ij}.
+$$<p>A matrix can represent:</p><ul><li>a data table,</li><li>a grayscale image,</li><li>a system of equations,</li><li>a linear transformation,</li><li>a neural-network weight layer.</li></ul><p>Matrix-vector multiplication is:</p>$$
+y=Ax,
+$$<p>with:</p>$$
+y_i=\sum_j A_{ij}x_j.
+$$<p>Matrix-matrix multiplication is:</p>$$
+C=AB,
+$$<p>with:</p>$$
+C_{ij}=\sum_k A_{ik}B_{kj}.
+$$<p>A tensor generalizes vectors and matrices to more axes:</p>$$
+\mathcal{X}
+\in
+\mathbb{R}^{I_1 \times I_2 \times \cdots \times I_N}.
+$$<p>Its entries are:</p>$$
+x_{i_1i_2\cdots i_N}.
+$$<p>A vector is a first-order tensor.</p><p>A matrix is a second-order tensor.</p><p>A color image is often a third-order tensor.</p><p>A batch of color images is often a fourth-order tensor.</p><p>A tensor can be sliced, unfolded, contracted, multiplied along modes, and decomposed.</p><p>The \(n\)-mode product is:</p>$$
+\mathcal{Y}
+{}={}
+\mathcal{X}
+\times_n
+U.
+$$<p>The CP decomposition writes a tensor approximately as a sum of rank-one tensors:</p>$$
+\mathcal{X}
+\approx
+\sum_{r=1}^{R}
+a_r^{(1)}
+\circ
+a_r^{(2)}
+\circ
+\cdots
+\circ
+a_r^{(N)}.
+$$<p>The Tucker decomposition writes:</p>$$
+\mathcal{X}
+\approx
+\mathcal{G}
+\times_1 A^{(1)}
+\times_2 A^{(2)}
+\cdots
+\times_N A^{(N)}.
+$$<p>At the deeper mathematical level, tensors can be understood as elements of tensor product spaces or as multilinear maps.</p><p>So the conceptual path is:</p>$$
+\text{numbers}
+\to
+\text{vectors}
+\to
+\text{matrices}
+\to
+\text{tensors}
+\to
+\text{multilinear computation}.
+$$<p>And this is exactly the path modern AI follows.</p><hr><h3 id=source-anchors-used-for-this-section>Source anchors used for this section<a hidden class=anchor aria-hidden=true href=#source-anchors-used-for-this-section>#</a></h3><ul><li>MIT OCW 18.06 identifies linear algebra as matrix theory with applications to systems of equations, vector spaces, determinants, eigenvalues, similarity, and positive definite matrices. (<a href=https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/ title="Linear Algebra | Mathematics | MIT OpenCourseWare">MIT OpenCourseWare</a>)</li><li>Stanford CS229 linear algebra notes define matrix notation, row/column notation, and matrix multiplication using the entrywise summation formula. (<a href=https://cs229.stanford.edu/section/cs229-linalg.pdf title=/Users/jqin/Downloads/.texpadtmp/linalg2.dvi>CS229</a>)</li><li>Boyd & Vandenberghe’s <em>Introduction to Applied Linear Algebra</em> explicitly connects vectors, matrices, least squares, data fitting, machine learning, AI, image processing, and other applied areas.</li><li>Goodfellow, Bengio, and Courville’s <em>Deep Learning</em> discusses Frobenius norms, diagonal matrices, symmetric matrices, orthogonal matrices, eigendecomposition, and SVD in a deep-learning linear algebra chapter.</li><li>Kolda & Bader’s SIAM Review paper defines tensors as multidimensional or \(N\)-way arrays, distinguishes first-order vectors and second-order matrices, defines tensor unfolding/matricization, \(n\)-mode products, CP decomposition, and Tucker decomposition.</li><li>Multilinear algebra notes by Lerman and LMU notes give the formal tensor-product and multilinear-map view, including the universal property of tensor products.</li></ul></div><footer class="post-footer article-footer"><ul class=post-tags><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/linear-algebra/>Linear Algebra</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/matrices/>Matrices</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/tensors/>Tensors</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/multilinear-algebra/>Multilinear Algebra</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/machine-learning/>Machine Learning</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/deep-learning/>Deep Learning</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/data-representation/>Data Representation</a></li></ul><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on x" href="https://x.com/intent/tweet/?text=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f&amp;hashtags=linearalgebra%2cmatrices%2ctensors%2cmultilinearalgebra%2cmachinelearning%2cdeeplearning%2cdatarepresentation"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f&amp;title=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure&amp;summary=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure&amp;source=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f&title=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on whatsapp" href="https://api.whatsapp.com/send?text=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure%20-%20https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on telegram" href="https://telegram.me/share/url?text=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure on ycombinator" href="https://news.ycombinator.com/submitlink?t=1.2%20From%20Matrices%20to%20Tensors%3a%20Tables%2c%20Images%2c%20Batches%2c%20and%20Multilinear%20Structure&u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-02%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer><script type=application/ld+json>"{\"@context\":\"https://schema.org\",\"@type\":\"ScholarlyArticle\",\"author\":[{\"@type\":\"Person\",\"name\":\"Anwar Shamim\"}],\"datePublished\":\"2026-04-28\",\"headline\":\"1.2 From Matrices to Tensors: Tables, Images, Batches, and Multilinear Structure\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sange Mehrab\"},\"url\":\"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-02/\"}"</script></div></article></div></main><footer class=footer><span>&copy; 2026 <a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Sange Mehrab</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",()=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const t=document.createRange();t.selectNodeContents(e);const n=window.getSelection();n.removeAllRanges(),n.addRange(t);try{document.execCommand("copy"),s()}catch{}n.removeRange(t)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

@@ -1,0 +1,813 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment | Sange Mehrab</title><meta name=keywords content="large language models,transformers,attention,language modeling,optimization,scaling laws,inference,alignment,RLHF,DPO,MoE"><meta name=description content="A beginner-to-advanced mathematical introduction to LLMs, covering autoregressive language modeling, tokenization, vector embeddings, positional encodings, transformer blocks, attention, softmax, cross-entropy, maximum likelihood, backpropagation, AdamW, scaling laws, compute-optimal training, MoE, efficient attention, KV caching, speculative decoding, quantization, LoRA, RLHF, DPO, PPO, and inference-time reasoning."><meta name=author content="Anwar Shamim"><link rel=canonical href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/><link crossorigin=anonymous href=/Sang_e_Mehrab/assets/css/stylesheet.199042e659bc7245f5609d333d6c044eb554a0640849bb874e1dff8eb0f57209.css integrity="sha256-GZBC5lm8ckX1YJ0zPWwETrVUoGQISbuHTh3/jrD1cgk=" rel="preload stylesheet" as=style><link rel=icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg><link rel=icon type=image/png sizes=16x16 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://anwarshamim01.github.io/Sang_e_Mehrab/favicon-32x32.png><link rel=apple-touch-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/apple-touch-icon.png><link rel=mask-icon href=https://anwarshamim01.github.io/Sang_e_Mehrab/safari-pinned-tab.svg><meta name=theme-color content="#3d2914"><meta name=msapplication-TileColor content="#3d2914"><link rel=alternate hreflang=en href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel=stylesheet><link rel=stylesheet href=/Sang_e_Mehrab/css/custom.css><link rel=stylesheet href=/Sang_e_Mehrab/css/system.css><style>html{font-family:Inter,system-ui,-apple-system,segoe ui,Roboto,helvetica neue,Arial,sans-serif}.post-content,.post-description,.toc{font-family:eb garamond,Georgia,times new roman,serif;font-size:1.08rem}h1,h2,h3,h4,.dm-hero-title,.dm-section-title,.post-title,.entry-title{font-family:cormorant garamond,Georgia,times new roman,serif}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}</style><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js></script><script>document.addEventListener("DOMContentLoaded",function(){if(typeof renderMathInElement!="function")return;renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1,strict:!1})})</script><meta property="og:url" content="https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/"><meta property="og:site_name" content="Sange Mehrab"><meta property="og:title" content="1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment"><meta property="og:description" content="A beginner-to-advanced mathematical introduction to LLMs, covering autoregressive language modeling, tokenization, vector embeddings, positional encodings, transformer blocks, attention, softmax, cross-entropy, maximum likelihood, backpropagation, AdamW, scaling laws, compute-optimal training, MoE, efficient attention, KV caching, speculative decoding, quantization, LoRA, RLHF, DPO, PPO, and inference-time reasoning."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="courses"><meta property="article:published_time" content="2026-05-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-01T00:00:00+00:00"><meta property="article:tag" content="Large Language Models"><meta property="article:tag" content="Transformers"><meta property="article:tag" content="Attention"><meta property="article:tag" content="Language Modeling"><meta property="article:tag" content="Optimization"><meta property="article:tag" content="Scaling Laws"><meta name=twitter:card content="summary"><meta name=twitter:title content="1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment"><meta name=twitter:description content="A beginner-to-advanced mathematical introduction to LLMs, covering autoregressive language modeling, tokenization, vector embeddings, positional encodings, transformer blocks, attention, softmax, cross-entropy, maximum likelihood, backpropagation, AdamW, scaling laws, compute-optimal training, MoE, efficient attention, KV caching, speculative decoding, quantization, LoRA, RLHF, DPO, PPO, and inference-time reasoning."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Courses","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/"},{"@type":"ListItem","position":2,"name":"Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/"},{"@type":"ListItem","position":3,"name":"The Language","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/"},{"@type":"ListItem","position":4,"name":"1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment","item":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment","name":"1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment","description":"A beginner-to-advanced mathematical introduction to LLMs, covering autoregressive language modeling, tokenization, vector embeddings, positional encodings, transformer blocks, attention, softmax, cross-entropy, maximum likelihood, backpropagation, AdamW, scaling laws, compute-optimal training, MoE, efficient attention, KV caching, speculative decoding, quantization, LoRA, RLHF, DPO, PPO, and inference-time reasoning.","keywords":["large language models","transformers","attention","language modeling","optimization","scaling laws","inference","alignment","RLHF","DPO","MoE"],"articleBody":"Why LLM mathematics comes after probability and tensors In the previous sections, we studied:\n$$ \\text{vectors},\\quad \\text{matrices},\\quad \\text{tensors}, $$then probability distributions, Gaussian noise, Markov chains, stochastic processes, and diffusion models.\nLarge language models use all of these ideas.\nAn LLM is not just a “text generator.” Mathematically, it is a large parameterized probability model over sequences of tokens.\nA sentence becomes a sequence:\n$$ x_1,x_2,\\dots,x_T. $$Each token becomes a vector:\n$$ e_t \\in \\mathbb{R}^{d_{\\text{model}}}. $$A full sequence becomes a matrix:\n$$ X \\in \\mathbb{R}^{T \\times d_{\\text{model}}}. $$A batch becomes a tensor:\n$$ X \\in \\mathbb{R}^{B \\times T \\times d_{\\text{model}}}. $$A transformer maps this tensor into another tensor, and the final layer produces a probability distribution over the next token.\nThe key mathematical goal is:\n$$ p_\\theta(x_{t+1}\\mid x_1,\\dots,x_t). $$That means:\ngiven previous tokens, predict the probability distribution of the next token.\nModern LLMs are built on the Transformer architecture, introduced in Attention Is All You Need, which replaced recurrence and convolution with attention mechanisms and enabled much more parallel training. (arXiv)\nMain ideaAn LLM is a high-dimensional conditional probability model. It reads a sequence of tokens and predicts a probability distribution over the next token. Part I — Text as mathematics From words to numbers A computer cannot directly process the sentence:\nMathematics is the language of AI.\nIt must first convert text into numbers.\nA simple but bad idea is to assign one number to each word:\nWord Number Mathematics 1 is 2 the 3 language 4 of 5 AI 6 Then the sentence becomes:\n$$ [1,2,3,4,5,6]. $$But this has a problem.\nThe number 6 is not “larger” than the number 1 in any meaningful semantic way. These numbers are just identifiers.\nSo we need a better representation.\nThe usual pipeline is:\n$$ \\text{text} \\longrightarrow \\text{tokens} \\longrightarrow \\text{token IDs} \\longrightarrow \\text{embedding vectors} \\longrightarrow \\text{transformer computation} \\longrightarrow \\text{next-token probabilities}. $$Tokens A token is a unit of text used by the model.\nA token may be:\na word, part of a word, punctuation, a space, a byte sequence, or another subword unit. For example, the word:\nmathematics may be one token in one tokenizer, but split into subwords in another tokenizer.\nSubword tokenization became important because natural language has rare words, new words, names, code symbols, numbers, and multilingual forms. BPE-based subword modeling was introduced for neural machine translation to handle rare and unknown words by encoding them as subword units rather than relying on a fixed word vocabulary. (arXiv)\nSentencePiece later provided a language-independent tokenizer/detokenizer that can train directly from raw sentences, without assuming pre-tokenized word sequences. (arXiv)\nVocabulary Let the vocabulary be:\n$$ \\mathcal{V} {}={} {1,2,\\dots,V}. $$Here:\n\\(V\\) is the vocabulary size, each token is represented by an integer ID, \\(x_t \\in \\mathcal{V}\\) is the token at position \\(t\\). For example:\n$$ x = [x_1,x_2,x_3,x_4] {}={} [1542,89,301,7721]. $$This is a sequence of token IDs.\nThe model does not yet understand meaning. These are still just integers.\nOne-hot representation A token ID can be represented as a one-hot vector.\nIf:\n$$ V=5 $$and the token ID is:\n$$ x_t=3, $$then the one-hot vector is:\n$$ o_t = \\begin{bmatrix} 0\\ 0\\ 1\\ 0\\ 0 \\end{bmatrix}. $$So:\n$$ o_t \\in \\mathbb{R}^{V}. $$But one-hot vectors are huge and sparse.\nIf:\n$$ V=100{,}000, $$then every token would be a 100,000-dimensional vector with only one nonzero entry.\nSo LLMs use embeddings.\nEmbedding matrix An embedding matrix is:\n$$ E \\in \\mathbb{R}^{V \\times d}. $$Here:\n\\(V\\) is vocabulary size, \\(d=d_{\\text{model}}\\) is embedding dimension. Each row of \\(E\\) is a learned vector for one token.\nIf token \\(x_t\\) has ID \\(i\\), then its embedding is:\n$$ e_t = E_i. $$Equivalently, using a one-hot vector:\n$$ e_t = o_t^\\top E. $$Shape-wise:\n$$ (1\\times V)(V\\times d)=1\\times d. $$So a token ID becomes a dense vector:\n$$ e_t \\in \\mathbb{R}^{d}. $$This is the first major mathematical transformation:\n$$ \\text{discrete token} \\longrightarrow \\text{continuous vector}. $$Sequence embedding matrix For a sequence of \\(T\\) tokens:\n$$ x_1,x_2,\\dots,x_T, $$we get embeddings:\n$$ e_1,e_2,\\dots,e_T. $$Stack them row by row:\n$$ X = \\begin{bmatrix} e_1^\\top\\ e_2^\\top\\ \\vdots\\ e_T^\\top \\end{bmatrix} \\in \\mathbb{R}^{T\\times d}. $$For a batch of \\(B\\) sequences:\n$$ X \\in \\mathbb{R}^{B\\times T\\times d}. $$This is the tensor that enters the transformer.\nPart II — Language modeling as probability The language-modeling problem A language model assigns probabilities to token sequences.\nGiven:\n$$ x_1,x_2,\\dots,x_T, $$the model wants:\n$$ p_\\theta(x_1,x_2,\\dots,x_T). $$Using the chain rule of probability:\n$$ p_\\theta(x_1,\\dots,x_T) {}={} \\prod_{t=1}^{T} p_\\theta(x_t\\mid x_1,\\dots,x_{t-1}). $$This is the central factorization of autoregressive language modeling.\nThe model predicts each token using the previous tokens.\nFor example:\n$$ p_\\theta(\\text{`AI''}\\mid \\text{`Mathematics for''}). $$Autoregressive modeling An autoregressive model generates tokens one at a time.\nAt step \\(t\\), it computes:\n$$ p_\\theta(x_{t+1}\\mid x_1,\\dots,x_t). $$Then it chooses or samples the next token.\nAfter generating \\(x_{t+1}\\), it repeats:\n$$ p_\\theta(x_{t+2}\\mid x_1,\\dots,x_t,x_{t+1}). $$So generation is sequential:\n$$ x_1 \\rightarrow x_2 \\rightarrow x_3 \\rightarrow \\cdots. $$This sequential nature is one reason inference is expensive: generating \\(K\\) new tokens usually requires \\(K\\) decoding steps. Speculative decoding papers explicitly identify autoregressive token-by-token decoding as a major latency bottleneck. (arXiv)\nLog-likelihood Suppose the training dataset contains sequences:\n$$ \\mathcal{D}={x^{(1)},x^{(2)},\\dots,x^{(N)}}. $$The likelihood is:\n$$ L(\\theta) {}={} \\prod_{n=1}^{N} p_\\theta(x^{(n)}). $$Because products of many probabilities become extremely small, we use log-likelihood:\n$$ \\log L(\\theta) {}={} \\sum_{n=1}^{N} \\log p_\\theta(x^{(n)}). $$For autoregressive models:\n$$ \\log p_\\theta(x^{(n)}) {}={} \\sum_{t=1}^{T_n} \\log p_\\theta(x_t^{(n)}\\mid x_{","wordCount":"882","inLanguage":"en","datePublished":"2026-05-01T00:00:00Z","dateModified":"2026-05-01T00:00:00Z","author":{"@type":"Person","name":"Anwar Shamim"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/"},"publisher":{"@type":"Organization","name":"Sange Mehrab","logo":{"@type":"ImageObject","url":"https://anwarshamim01.github.io/Sang_e_Mehrab/favicon.svg"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ accesskey=h title="Sange Mehrab (Alt + H)"><span class=site-flag aria-hidden=true style=display:inline-block;vertical-align:middle;margin-right:.5rem><svg width="22" height="14" viewBox="0 0 22 14" role="img"><rect width="22" height="14" fill="#01411C"/><path d="M9.2 7a3.8 3.8.0 100-.001A3.8 3.8.0 009.2 7z" fill="#fff" transform="translate(0,0)"/><path d="M11.2 6.2c0 .7-.5 1.3-1.2 1.3-.6.0-1.2-.6-1.2-1.3s.6-1.3 1.2-1.3c.7.0 1.2.6 1.2 1.3z" fill="#01411C"/><path d="M10.6 3.3l.5.9.9.1-.7.6.2.9-.8-.5-.8.5.2-.9-.7-.6.9-.1.5-.9z" fill="#fff"/></svg>
+</span>Sange Mehrab</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/ title=Home><span>Home</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/posts/ title=Articles><span>Articles</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/ title=Courses><span>Courses</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/research/ title=Research><span>Research</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/categories/ title=Topics><span>Topics</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/series/ title=Collections><span>Collections</span></a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><div class="page-shell article-shell article-shell--course"><section class="page-hero page-hero--article"><div class=page-hero-inner><div class=breadcrumbs><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Home</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/>Courses</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/>Advance Course in Machine Learning and Deep Learning, Conceptual Approach to Artificial Intelligence</a>&nbsp;»&nbsp;<a href=https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/>The Language</a></div><p class=page-eyebrow>Course</p><h1 class=page-title>1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment</h1><div class=page-description>A beginner-to-advanced mathematical introduction to LLMs, covering autoregressive language modeling, tokenization, vector embeddings, positional encodings, transformer blocks, attention, softmax, cross-entropy, maximum likelihood, backpropagation, AdamW, scaling laws, compute-optimal training, MoE, efficient attention, KV caching, speculative decoding, quantization, LoRA, RLHF, DPO, PPO, and inference-time reasoning.</div></div></section><article class=article-layout><div class=article-main><div class="article-toolbar surface-card"><div class=post-meta><span title='2026-05-01 00:00:00 +0000 UTC'>May 1, 2026</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>882 words</span>&nbsp;·&nbsp;<span>Anwar Shamim</span></div></div><figure class=article-lead-media><img src=/Sang_e_Mehrab/mathematicsforai/Chapter_01_Language_illustrative_image.png alt="1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment" loading=eager decoding=async></figure><div class="article-toc surface-card"><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#why-llm-mathematics-comes-after-probability-and-tensors>Why LLM mathematics comes after probability and tensors</a></li><li><a href=#part-i--text-as-mathematics>Part I — Text as mathematics</a></li><li><a href=#from-words-to-numbers>From words to numbers</a></li><li><a href=#tokens>Tokens</a></li><li><a href=#vocabulary>Vocabulary</a></li><li><a href=#one-hot-representation>One-hot representation</a></li><li><a href=#embedding-matrix>Embedding matrix</a></li><li><a href=#sequence-embedding-matrix>Sequence embedding matrix</a></li><li><a href=#part-ii--language-modeling-as-probability>Part II — Language modeling as probability</a></li><li><a href=#the-language-modeling-problem>The language-modeling problem</a></li><li><a href=#autoregressive-modeling>Autoregressive modeling</a></li><li><a href=#log-likelihood>Log-likelihood</a></li><li><a href=#softmax-distribution-over-vocabulary>Softmax distribution over vocabulary</a></li><li><a href=#cross-entropy-loss>Cross-entropy loss</a></li><li><a href=#perplexity>Perplexity</a></li><li><a href=#part-iii--the-transformer-block>Part III — The Transformer block</a></li><li><a href=#why-transformers-changed-language-modeling>Why transformers changed language modeling</a></li><li><a href=#input-tensor>Input tensor</a></li><li><a href=#linear-projections-queries-keys-and-values>Linear projections: queries, keys, and values</a></li><li><a href=#dot-product-attention>Dot-product attention</a></li><li><a href=#scaled-dot-product-attention>Scaled dot-product attention</a></li><li><a href=#attention-weights>Attention weights</a></li><li><a href=#causal-masking>Causal masking</a></li><li><a href=#multi-head-attention>Multi-head attention</a></li><li><a href=#attention-complexity>Attention complexity</a></li><li><a href=#part-iv--positional-information>Part IV — Positional information</a></li><li><a href=#why-position-matters>Why position matters</a></li><li><a href=#absolute-positional-embeddings>Absolute positional embeddings</a></li><li><a href=#sinusoidal-positional-encoding>Sinusoidal positional encoding</a></li><li><a href=#rotary-position-embedding>Rotary position embedding</a></li><li><a href=#part-v--normalization-residuals-and-feed-forward-networks>Part V — Normalization, residuals, and feed-forward networks</a></li><li><a href=#residual-connections>Residual connections</a></li><li><a href=#layer-normalization>Layer normalization</a></li><li><a href=#rmsnorm>RMSNorm</a></li><li><a href=#feed-forward-network>Feed-forward network</a></li><li><a href=#gated-feed-forward-networks>Gated feed-forward networks</a></li><li><a href=#part-vi--the-full-decoder-only-transformer>Part VI — The full decoder-only transformer</a></li><li><a href=#one-transformer-block>One transformer block</a></li><li><a href=#weight-tying>Weight tying</a></li><li><a href=#part-vii--backpropagation-and-optimization>Part VII — Backpropagation and optimization</a></li><li><a href=#parameters>Parameters</a></li><li><a href=#gradient-descent>Gradient descent</a></li><li><a href=#backpropagation>Backpropagation</a></li><li><a href=#adam-optimizer>Adam optimizer</a></li><li><a href=#adamw>AdamW</a></li><li><a href=#learning-rate-schedules>Learning-rate schedules</a></li><li><a href=#gradient-clipping>Gradient clipping</a></li><li><a href=#part-viii--scaling-laws-and-compute-optimal-training>Part VIII — Scaling laws and compute-optimal training</a></li><li><a href=#why-scaling-laws-matter>Why scaling laws matter</a></li><li><a href=#power-law-form>Power-law form</a></li><li><a href=#compute-optimal-training>Compute-optimal training</a></li><li><a href=#part-ix--mixture-of-experts-mathematics>Part IX — Mixture-of-Experts mathematics</a></li><li><a href=#dense-versus-sparse-models>Dense versus sparse models</a></li><li><a href=#why-moe-is-mathematical>Why MoE is mathematical</a></li><li><a href=#part-x--efficient-attention-and-inference-mathematics>Part X — Efficient attention and inference mathematics</a></li><li><a href=#kv-cache>KV cache</a></li><li><a href=#kv-cache-size>KV cache size</a></li><li><a href=#multi-query-attention>Multi-query attention</a></li><li><a href=#grouped-query-attention>Grouped-query attention</a></li><li><a href=#low-rank-kv-compression>Low-rank KV compression</a></li><li><a href=#flashattention-mathematics>FlashAttention mathematics</a></li><li><a href=#part-xi--sampling-and-decoding>Part XI — Sampling and decoding</a></li><li><a href=#greedy-decoding>Greedy decoding</a></li><li><a href=#temperature-sampling>Temperature sampling</a></li><li><a href=#top-k-sampling>Top-k sampling</a></li><li><a href=#nucleus-sampling>Nucleus sampling</a></li><li><a href=#beam-search>Beam search</a></li><li><a href=#speculative-decoding>Speculative decoding</a></li><li><a href=#part-xii--quantization-mathematics>Part XII — Quantization mathematics</a></li><li><a href=#why-quantization-matters>Why quantization matters</a></li><li><a href=#uniform-quantization>Uniform quantization</a></li><li><a href=#gptq-style-second-order-quantization>GPTQ-style second-order quantization</a></li><li><a href=#activation-aware-quantization>Activation-aware quantization</a></li><li><a href=#part-xiii--parameter-efficient-fine-tuning>Part XIII — Parameter-efficient fine-tuning</a></li><li><a href=#full-fine-tuning>Full fine-tuning</a></li><li><a href=#lora>LoRA</a></li><li><a href=#part-xiv--alignment-mathematics>Part XIV — Alignment mathematics</a></li><li><a href=#why-pretraining-is-not-enough>Why pretraining is not enough</a></li><li><a href=#supervised-fine-tuning>Supervised fine-tuning</a></li><li><a href=#reward-modeling>Reward modeling</a></li><li><a href=#rlhf-objective>RLHF objective</a></li><li><a href=#heading>$$ \max_\theta \mathbb{E}<em>{y\sim \pi</em>\theta(\cdot\mid x)} [ r_\phi(x,y) ]</a></li><li><a href=#ppo>PPO</a></li><li><a href=#direct-preference-optimization>Direct Preference Optimization</a></li><li><a href=#heading-1>$$
+\mathcal{L}_{\text{DPO}}
+{}=</a></li><li><a href=#part-xv--reasoning-time-and-multi-token-objectives>Part XV — Reasoning-time and multi-token objectives</a></li><li><a href=#test-time-computation>Test-time computation</a></li><li><a href=#self-consistency>Self-consistency</a></li><li><a href=#multi-token-prediction>Multi-token prediction</a></li><li><a href=#reinforcement-learning-for-reasoning>Reinforcement learning for reasoning</a></li><li><a href=#part-xvi--distributed-training-mathematics>Part XVI — Distributed training mathematics</a></li><li><a href=#why-distributed-training-is-needed>Why distributed training is needed</a></li><li><a href=#data-parallelism>Data parallelism</a></li><li><a href=#tensor-parallelism>Tensor parallelism</a></li><li><a href=#pipeline-parallelism>Pipeline parallelism</a></li><li><a href=#zero-style-optimizer-sharding>ZeRO-style optimizer sharding</a></li><li><a href=#part-xvii--alternative-sequence-models>Part XVII — Alternative sequence models</a></li><li><a href=#why-alternatives-exist>Why alternatives exist</a></li><li><a href=#state-space-models>State-space models</a></li><li><a href=#recurrent-transformer-hybrids>Recurrent-transformer hybrids</a></li><li><a href=#part-xviii--the-complete-mathematical-map>Part XVIII — The complete mathematical map</a></li><li><a href=#section-summary>Section summary</a></li><li><a href=#source-anchors-used-for-this-section>Source anchors used for this section</a></li></ul></nav></div></details></div></div><div class="post-content article-content surface-card"><h2 id=why-llm-mathematics-comes-after-probability-and-tensors>Why LLM mathematics comes after probability and tensors<a hidden class=anchor aria-hidden=true href=#why-llm-mathematics-comes-after-probability-and-tensors>#</a></h2><p>In the previous sections, we studied:</p>$$
+\text{vectors},\quad \text{matrices},\quad \text{tensors},
+$$<p>then probability distributions, Gaussian noise, Markov chains, stochastic processes, and diffusion models.</p><p>Large language models use all of these ideas.</p><p>An LLM is not just a “text generator.” Mathematically, it is a large parameterized probability model over sequences of tokens.</p><p>A sentence becomes a sequence:</p>$$
+x_1,x_2,\dots,x_T.
+$$<p>Each token becomes a vector:</p>$$
+e_t \in \mathbb{R}^{d_{\text{model}}}.
+$$<p>A full sequence becomes a matrix:</p>$$
+X \in \mathbb{R}^{T \times d_{\text{model}}}.
+$$<p>A batch becomes a tensor:</p>$$
+X \in \mathbb{R}^{B \times T \times d_{\text{model}}}.
+$$<p>A transformer maps this tensor into another tensor, and the final layer produces a probability distribution over the next token.</p><p>The key mathematical goal is:</p>$$
+p_\theta(x_{t+1}\mid x_1,\dots,x_t).
+$$<p>That means:</p><blockquote><p>given previous tokens, predict the probability distribution of the next token.</p></blockquote><p>Modern LLMs are built on the Transformer architecture, introduced in <em>Attention Is All You Need</em>, which replaced recurrence and convolution with attention mechanisms and enabled much more parallel training. (<a href="https://arxiv.org/abs/1706.03762?utm_source=chatgpt.com" title="Attention Is All You Need">arXiv</a>)</p><aside class="callout callout-note" role=note><div class=callout-title>Main idea</div><div class=callout-body>An LLM is a high-dimensional conditional probability model. It reads a sequence of tokens and predicts a probability distribution over the next token.</div></aside><h2 id=part-i--text-as-mathematics>Part I — Text as mathematics<a hidden class=anchor aria-hidden=true href=#part-i--text-as-mathematics>#</a></h2><h2 id=from-words-to-numbers>From words to numbers<a hidden class=anchor aria-hidden=true href=#from-words-to-numbers>#</a></h2><p>A computer cannot directly process the sentence:</p><blockquote><p>Mathematics is the language of AI.</p></blockquote><p>It must first convert text into numbers.</p><p>A simple but bad idea is to assign one number to each word:</p><table><thead><tr><th>Word</th><th style=text-align:right>Number</th></tr></thead><tbody><tr><td>Mathematics</td><td style=text-align:right>1</td></tr><tr><td>is</td><td style=text-align:right>2</td></tr><tr><td>the</td><td style=text-align:right>3</td></tr><tr><td>language</td><td style=text-align:right>4</td></tr><tr><td>of</td><td style=text-align:right>5</td></tr><tr><td>AI</td><td style=text-align:right>6</td></tr></tbody></table><p>Then the sentence becomes:</p>$$
+[1,2,3,4,5,6].
+$$<p>But this has a problem.</p><p>The number 6 is not “larger” than the number 1 in any meaningful semantic way. These numbers are just identifiers.</p><p>So we need a better representation.</p><p>The usual pipeline is:</p>$$
+\text{text}
+\longrightarrow
+\text{tokens}
+\longrightarrow
+\text{token IDs}
+\longrightarrow
+\text{embedding vectors}
+\longrightarrow
+\text{transformer computation}
+\longrightarrow
+\text{next-token probabilities}.
+$$<h2 id=tokens>Tokens<a hidden class=anchor aria-hidden=true href=#tokens>#</a></h2><p>A token is a unit of text used by the model.</p><p>A token may be:</p><ul><li>a word,</li><li>part of a word,</li><li>punctuation,</li><li>a space,</li><li>a byte sequence,</li><li>or another subword unit.</li></ul><p>For example, the word:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>mathematics
+</span></span></code></pre></div><p>may be one token in one tokenizer, but split into subwords in another tokenizer.</p><p>Subword tokenization became important because natural language has rare words, new words, names, code symbols, numbers, and multilingual forms. BPE-based subword modeling was introduced for neural machine translation to handle rare and unknown words by encoding them as subword units rather than relying on a fixed word vocabulary. (<a href="https://arxiv.org/abs/1508.07909?utm_source=chatgpt.com" title="Neural Machine Translation of Rare Words with Subword Units">arXiv</a>)</p><p>SentencePiece later provided a language-independent tokenizer/detokenizer that can train directly from raw sentences, without assuming pre-tokenized word sequences. (<a href="https://arxiv.org/abs/1808.06226?utm_source=chatgpt.com" title="[1808.06226] SentencePiece: A simple and language ...">arXiv</a>)</p><h2 id=vocabulary>Vocabulary<a hidden class=anchor aria-hidden=true href=#vocabulary>#</a></h2><p>Let the vocabulary be:</p>$$
+\mathcal{V}
+{}={}
+{1,2,\dots,V}.
+$$<p>Here:</p><ul><li>\(V\) is the vocabulary size,</li><li>each token is represented by an integer ID,</li><li>\(x_t \in \mathcal{V}\) is the token at position \(t\).</li></ul><p>For example:</p>$$
+x =
+[x_1,x_2,x_3,x_4]
+{}={}
+[1542,89,301,7721].
+$$<p>This is a sequence of token IDs.</p><p>The model does not yet understand meaning. These are still just integers.</p><h2 id=one-hot-representation>One-hot representation<a hidden class=anchor aria-hidden=true href=#one-hot-representation>#</a></h2><p>A token ID can be represented as a one-hot vector.</p><p>If:</p>$$
+V=5
+$$<p>and the token ID is:</p>$$
+x_t=3,
+$$<p>then the one-hot vector is:</p>$$
+o_t =
+\begin{bmatrix}
+0\
+0\
+1\
+0\
+0
+\end{bmatrix}.
+$$<p>So:</p>$$
+o_t \in \mathbb{R}^{V}.
+$$<p>But one-hot vectors are huge and sparse.</p><p>If:</p>$$
+V=100{,}000,
+$$<p>then every token would be a 100,000-dimensional vector with only one nonzero entry.</p><p>So LLMs use embeddings.</p><h2 id=embedding-matrix>Embedding matrix<a hidden class=anchor aria-hidden=true href=#embedding-matrix>#</a></h2><p>An embedding matrix is:</p>$$
+E \in \mathbb{R}^{V \times d}.
+$$<p>Here:</p><ul><li>\(V\) is vocabulary size,</li><li>\(d=d_{\text{model}}\) is embedding dimension.</li></ul><p>Each row of \(E\) is a learned vector for one token.</p><p>If token \(x_t\) has ID \(i\), then its embedding is:</p>$$
+e_t = E_i.
+$$<p>Equivalently, using a one-hot vector:</p>$$
+e_t = o_t^\top E.
+$$<p>Shape-wise:</p>$$
+(1\times V)(V\times d)=1\times d.
+$$<p>So a token ID becomes a dense vector:</p>$$
+e_t \in \mathbb{R}^{d}.
+$$<p>This is the first major mathematical transformation:</p>$$
+\text{discrete token}
+\longrightarrow
+\text{continuous vector}.
+$$<h2 id=sequence-embedding-matrix>Sequence embedding matrix<a hidden class=anchor aria-hidden=true href=#sequence-embedding-matrix>#</a></h2><p>For a sequence of \(T\) tokens:</p>$$
+x_1,x_2,\dots,x_T,
+$$<p>we get embeddings:</p>$$
+e_1,e_2,\dots,e_T.
+$$<p>Stack them row by row:</p>$$
+X =
+\begin{bmatrix}
+e_1^\top\
+e_2^\top\
+\vdots\
+e_T^\top
+\end{bmatrix}
+\in
+\mathbb{R}^{T\times d}.
+$$<p>For a batch of \(B\) sequences:</p>$$
+X \in \mathbb{R}^{B\times T\times d}.
+$$<p>This is the tensor that enters the transformer.</p><h2 id=part-ii--language-modeling-as-probability>Part II — Language modeling as probability<a hidden class=anchor aria-hidden=true href=#part-ii--language-modeling-as-probability>#</a></h2><h2 id=the-language-modeling-problem>The language-modeling problem<a hidden class=anchor aria-hidden=true href=#the-language-modeling-problem>#</a></h2><p>A language model assigns probabilities to token sequences.</p><p>Given:</p>$$
+x_1,x_2,\dots,x_T,
+$$<p>the model wants:</p>$$
+p_\theta(x_1,x_2,\dots,x_T).
+$$<p>Using the chain rule of probability:</p>$$
+p_\theta(x_1,\dots,x_T)
+{}={}
+\prod_{t=1}^{T}
+p_\theta(x_t\mid x_1,\dots,x_{t-1}).
+$$<p>This is the central factorization of autoregressive language modeling.</p><p>The model predicts each token using the previous tokens.</p><p>For example:</p>$$
+p_\theta(\text{`AI''}\mid \text{`Mathematics for''}).
+$$<h2 id=autoregressive-modeling>Autoregressive modeling<a hidden class=anchor aria-hidden=true href=#autoregressive-modeling>#</a></h2><p>An autoregressive model generates tokens one at a time.</p><p>At step \(t\), it computes:</p>$$
+p_\theta(x_{t+1}\mid x_1,\dots,x_t).
+$$<p>Then it chooses or samples the next token.</p><p>After generating \(x_{t+1}\), it repeats:</p>$$
+p_\theta(x_{t+2}\mid x_1,\dots,x_t,x_{t+1}).
+$$<p>So generation is sequential:</p>$$
+x_1
+\rightarrow
+x_2
+\rightarrow
+x_3
+\rightarrow
+\cdots.
+$$<p>This sequential nature is one reason inference is expensive: generating \(K\) new tokens usually requires \(K\) decoding steps. Speculative decoding papers explicitly identify autoregressive token-by-token decoding as a major latency bottleneck. (<a href="https://arxiv.org/abs/2211.17192?utm_source=chatgpt.com" title="Fast Inference from Transformers via Speculative Decoding">arXiv</a>)</p><h2 id=log-likelihood>Log-likelihood<a hidden class=anchor aria-hidden=true href=#log-likelihood>#</a></h2><p>Suppose the training dataset contains sequences:</p>$$
+\mathcal{D}={x^{(1)},x^{(2)},\dots,x^{(N)}}.
+$$<p>The likelihood is:</p>$$
+L(\theta)
+{}={}
+\prod_{n=1}^{N}
+p_\theta(x^{(n)}).
+$$<p>Because products of many probabilities become extremely small, we use log-likelihood:</p>$$
+\log L(\theta)
+{}={}
+\sum_{n=1}^{N}
+\log p_\theta(x^{(n)}).
+$$<p>For autoregressive models:</p>$$
+\log p_\theta(x^{(n)})
+{}={}
+\sum_{t=1}^{T_n}
+\log p_\theta(x_t^{(n)}\mid x_{<t}^{(n)}). $$<p>Training tries to maximize this quantity.</p><p>Equivalently, we minimize negative log-likelihood:</p>$$
+\mathcal{L}(\theta)
+{}={}
+*
+\sum_{n=1}^{N}
+\sum_{t=1}^{T_n}
+\log p_\theta(x_t^{(n)}\mid x_{<t}^{(n)}). $$<p>This is the basic pretraining objective.</p><p>The <em>Deep Learning</em> book connects maximum likelihood learning with cross-entropy loss for neural networks. (<a href="https://www.deeplearningbook.org/contents/mlp.html?utm_source=chatgpt.com" title="Deep Learning Book - Chapter 6">Deep Learning Book</a>)</p><h2 id=softmax-distribution-over-vocabulary>Softmax distribution over vocabulary<a hidden class=anchor aria-hidden=true href=#softmax-distribution-over-vocabulary>#</a></h2><p>At each position \(t\), the model outputs logits:</p>$$
+z_t \in \mathbb{R}^{V}.
+$$<p>Each component \(z_{t,i}\) is a score for token \(i\).</p><p>To convert logits into probabilities, use softmax:</p>$$
+p_{t,i}
+{}={}
+\frac{\exp(z_{t,i})}
+{\sum_{j=1}^{V}\exp(z_{t,j})}.
+$$<p>The output vector is:</p>$$
+p_t =
+\operatorname{softmax}(z_t)
+\in
+\mathbb{R}^{V}.
+$$<p>It satisfies:</p>$$
+p_{t,i}\geq 0
+$$<p>and:</p>$$
+\sum_{i=1}^{V}p_{t,i}=1.
+$$<p>So softmax turns scores into a probability distribution.</p><h2 id=cross-entropy-loss>Cross-entropy loss<a hidden class=anchor aria-hidden=true href=#cross-entropy-loss>#</a></h2><p>If the true next token is \(y_t\), then the target distribution is one-hot:</p>$$
+q_{t,i}
+{}={}
+\begin{cases}
+1, & i=y_t,\
+0, & i\neq y_t.
+\end{cases}
+$$<p>The cross-entropy is:</p>$$
+H(q_t,p_t)
+{}={}
+-\sum_{i=1}^{V}q_{t,i}\log p_{t,i}.
+$$<p>Because \(q_t\) is one-hot, this becomes:</p>$$
+H(q_t,p_t)
+{}={}
+-\log p_{t,y_t}.
+$$<p>So for one token, the loss is:</p>$$
+\ell_t
+{}={}
+-\log p_\theta(y_t\mid x_{<t}). $$<p>For a full sequence:</p>$$
+\mathcal{L}
+{}={}
+-\sum_{t=1}^{T}
+\log p_\theta(x_t\mid x_{<t}). $$<p>Stanford CS224N lecture material presents neural-network training with cross-entropy as minimizing negative log probability of the correct class. (<a href="https://web.stanford.edu/class/cs224n/slides_w25/cs224n-2025-lecture03-neuralnets.pdf?utm_source=chatgpt.com" title="Neural net learning: Gradients by hand (matrix calculus) ...">Stanford University</a>)</p><h2 id=perplexity>Perplexity<a hidden class=anchor aria-hidden=true href=#perplexity>#</a></h2><p>Perplexity is a common language-model evaluation metric.</p><p>If the average negative log-likelihood per token is:</p>$$
+\bar{\mathcal{L}}
+{}={}
+-\frac{1}{T}
+\sum_{t=1}^{T}
+\log p_\theta(x_t\mid x_{<t}), $$<p>then perplexity is:</p>$$
+\operatorname{PPL}
+{}={}
+\exp(\bar{\mathcal{L}}).
+$$<p>Lower perplexity means the model assigns higher probability to the correct tokens.</p><p>But perplexity is not the same as human usefulness, reasoning quality, safety, or instruction-following ability.</p><h2 id=part-iii--the-transformer-block>Part III — The Transformer block<a hidden class=anchor aria-hidden=true href=#part-iii--the-transformer-block>#</a></h2><h2 id=why-transformers-changed-language-modeling>Why transformers changed language modeling<a hidden class=anchor aria-hidden=true href=#why-transformers-changed-language-modeling>#</a></h2><p>Before transformers, sequence models often used recurrence.</p><p>A recurrent model processes tokens one by one:</p>$$
+h_t=f(h_{t-1},x_t).
+$$<p>This makes training harder to parallelize across sequence positions.</p><p>The transformer instead uses attention, allowing all positions in a sequence to interact through matrix operations. The original Transformer paper proposed an architecture based solely on attention mechanisms, dispensing with recurrence and convolution. (<a href="https://arxiv.org/abs/1706.03762?utm_source=chatgpt.com" title="Attention Is All You Need">arXiv</a>)</p><h2 id=input-tensor>Input tensor<a hidden class=anchor aria-hidden=true href=#input-tensor>#</a></h2><p>For one sequence:</p>$$
+X\in\mathbb{R}^{T\times d}.
+$$<p>For a batch:</p>$$
+X\in\mathbb{R}^{B\times T\times d}.
+$$<p>A transformer block maps:</p>$$
+X \mapsto X'
+$$<p>where:</p>$$
+X'\in\mathbb{R}^{B\times T\times d}.
+$$<p>So the shape is preserved across blocks.</p><p>A stack of \(L\) transformer blocks gives:</p>$$
+X^{(0)}
+\to
+X^{(1)}
+\to
+\cdots
+\to
+X^{(L)}.
+$$<h2 id=linear-projections-queries-keys-and-values>Linear projections: queries, keys, and values<a hidden class=anchor aria-hidden=true href=#linear-projections-queries-keys-and-values>#</a></h2><p>Inside attention, each token vector is projected into three vectors:</p>$$
+q_t = x_t W_Q,
+$$$$
+k_t = x_t W_K,
+$$$$
+v_t = x_t W_V.
+$$<p>For the whole sequence:</p>$$
+Q=XW_Q,
+$$$$
+K=XW_K,
+$$$$
+V=XW_V.
+$$<p>If:</p>$$
+X\in\mathbb{R}^{T\times d},
+$$<p>and:</p>$$
+W_Q,W_K,W_V\in\mathbb{R}^{d\times d_k},
+$$<p>then:</p>$$
+Q,K,V\in\mathbb{R}^{T\times d_k}.
+$$<p>The names are intuitive:</p><ul><li>query: what this token is looking for,</li><li>key: what this token offers for matching,</li><li>value: information to pass forward.</li></ul><h2 id=dot-product-attention>Dot-product attention<a hidden class=anchor aria-hidden=true href=#dot-product-attention>#</a></h2><p>The similarity between token \(i\) and token \(j\) is:</p>$$
+s_{ij}=q_i^\top k_j.
+$$<p>Stacking all similarities gives:</p>$$
+S=QK^\top.
+$$<p>Shape-wise:</p>$$
+(T\times d_k)(d_k\times T)=T\times T.
+$$<p>So:</p>$$
+S\in\mathbb{R}^{T\times T}.
+$$<p>Each entry \(S_{ij}\) measures how much token \(i\) attends to token \(j\).</p><h2 id=scaled-dot-product-attention>Scaled dot-product attention<a hidden class=anchor aria-hidden=true href=#scaled-dot-product-attention>#</a></h2><p>The transformer uses scaled dot-product attention:</p>$$
+\operatorname{Attention}(Q,K,V)
+{}={}
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right)V.
+$$<p>This is the central formula of transformer mathematics.</p><p>The scaling factor:</p>$$
+\frac{1}{\sqrt{d_k}}
+$$<p>prevents dot products from becoming too large when dimension \(d_k\) is large.</p><p>The Transformer paper introduced scaled dot-product attention and multi-head attention as core components of the architecture. (<a href="https://arxiv.org/abs/1706.03762?utm_source=chatgpt.com" title="Attention Is All You Need">arXiv</a>)</p><h2 id=attention-weights>Attention weights<a hidden class=anchor aria-hidden=true href=#attention-weights>#</a></h2><p>Define:</p>$$
+A=
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right).
+$$<p>Then:</p>$$
+A\in\mathbb{R}^{T\times T}.
+$$<p>Each row sums to 1:</p>$$
+\sum_{j=1}^{T}A_{ij}=1.
+$$<p>The output is:</p>$$
+O=AV.
+$$<p>For token \(i\):</p>$$
+o_i
+{}={}
+\sum_{j=1}^{T}A_{ij}v_j.
+$$<p>So attention outputs a weighted average of value vectors.</p><aside class="callout callout-note" role=note><div class=callout-title>Attention intuition</div><div class=callout-body>Attention lets each token build a new representation by mixing information from other tokens. The mixing weights are learned dynamically from queries and keys.</div></aside><h2 id=causal-masking>Causal masking<a hidden class=anchor aria-hidden=true href=#causal-masking>#</a></h2><p>For language generation, token \(t\) must not see future tokens.</p><p>So we use a causal mask.</p><p>Without masking, token \(i\) could attend to token \(j>i\), which would leak the answer during training.</p><p>The masked attention score is:</p>$$
+\tilde{S}_{ij}
+{}={}
+\begin{cases}
+S_{ij}, & j\leq i,\
+-\infty, & j>i.
+\end{cases}
+$$<p>Then:</p>$$
+A=
+\operatorname{softmax}
+\left(
+\frac{\tilde{S}}{\sqrt{d_k}}
+\right).
+$$<p>This ensures:</p>$$
+A_{ij}=0
+\quad
+\text{for}
+\quad
+j>i.
+$$<p>So each token only attends to itself and previous tokens.</p><h2 id=multi-head-attention>Multi-head attention<a hidden class=anchor aria-hidden=true href=#multi-head-attention>#</a></h2><p>Instead of one attention operation, transformers use multiple heads.</p><p>For head \(h\):</p>$$
+Q_h=XW_Q^{(h)},
+$$$$
+K_h=XW_K^{(h)},
+$$$$
+V_h=XW_V^{(h)}.
+$$<p>Then:</p>$$
+O_h=
+\operatorname{Attention}(Q_h,K_h,V_h).
+$$<p>The heads are concatenated:</p>$$
+O=
+\operatorname{Concat}(O_1,\dots,O_H)W_O.
+$$<p>Multi-head attention allows different heads to learn different relationships.</p><p>One head may focus on syntax.</p><p>Another may focus on long-range references.</p><p>Another may focus on local patterns.</p><p>Mathematically, each head is a separate learned bilinear similarity mechanism.</p><h2 id=attention-complexity>Attention complexity<a hidden class=anchor aria-hidden=true href=#attention-complexity>#</a></h2><p>For sequence length \(T\), attention forms:</p>$$
+QK^\top\in\mathbb{R}^{T\times T}.
+$$<p>So standard attention requires:</p>$$
+O(T^2)
+$$<p>attention scores.</p><p>This is the main long-context bottleneck.</p><p>If \(T=4{,}000\), then:</p>$$
+T^2=16{,}000{,}000.
+$$<p>If \(T=128{,}000\), then:</p>$$
+T^2=16{,}384{,}000{,}000.
+$$<p>So long-context LLMs require efficient attention algorithms, memory management, KV compression, sparse patterns, or alternative sequence models.</p><p>FlashAttention addresses this by computing exact attention with an IO-aware tiled algorithm that reduces memory reads and writes between GPU memory levels. (<a href="https://arxiv.org/abs/2205.14135?utm_source=chatgpt.com" title="FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness">arXiv</a>)</p><p>FlashAttention-2 further improves speed through better work partitioning and parallelism. (<a href="https://arxiv.org/abs/2307.08691?utm_source=chatgpt.com" title="FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning">arXiv</a>)</p><h2 id=part-iv--positional-information>Part IV — Positional information<a hidden class=anchor aria-hidden=true href=#part-iv--positional-information>#</a></h2><h2 id=why-position-matters>Why position matters<a hidden class=anchor aria-hidden=true href=#why-position-matters>#</a></h2><p>Attention by itself is permutation-invariant.</p><p>If we only give the model a bag of token vectors, it does not know which token came first.</p><p>For example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>dog bites man
+</span></span></code></pre></div><p>and:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>man bites dog
+</span></span></code></pre></div><p>contain the same words but different meanings.</p><p>So transformers need positional information.</p><h2 id=absolute-positional-embeddings>Absolute positional embeddings<a hidden class=anchor aria-hidden=true href=#absolute-positional-embeddings>#</a></h2><p>A simple approach is to learn a position embedding matrix:</p>$$
+P\in\mathbb{R}^{T_{\max}\times d}.
+$$<p>For position \(t\), add:</p>$$
+x_t = e_t+p_t.
+$$<p>So token identity and position are combined:</p>$$
+X = E_{\text{tokens}} + P_{\text{positions}}.
+$$<h2 id=sinusoidal-positional-encoding>Sinusoidal positional encoding<a hidden class=anchor aria-hidden=true href=#sinusoidal-positional-encoding>#</a></h2><p>The original Transformer used sinusoidal positional encodings:</p>$$
+PE_{(pos,2i)}
+{}={}
+\sin
+\left(
+\frac{pos}{10000^{2i/d}}
+\right),
+$$$$
+PE_{(pos,2i+1)}
+{}={}
+\cos
+\left(
+\frac{pos}{10000^{2i/d}}
+\right).
+$$<p>These provide deterministic position-dependent vectors.</p><h2 id=rotary-position-embedding>Rotary position embedding<a hidden class=anchor aria-hidden=true href=#rotary-position-embedding>#</a></h2><p>Rotary Position Embedding, or RoPE, applies position-dependent rotations to query and key vectors.</p><p>At a high level:</p>$$
+q_t \mapsto R_t q_t,
+$$$$
+k_s \mapsto R_s k_s.
+$$<p>Then the attention score becomes:</p>$$
+(R_tq_t)^\top(R_sk_s).
+$$<p>Because rotations interact through relative differences, RoPE naturally introduces relative position information into attention.</p><p>The RoFormer paper describes RoPE as encoding absolute position with a rotation matrix while incorporating explicit relative-position dependency in self-attention. (<a href="https://arxiv.org/abs/2104.09864?utm_source=chatgpt.com" title="RoFormer: Enhanced Transformer with Rotary Position Embedding">arXiv</a>)</p><h2 id=part-v--normalization-residuals-and-feed-forward-networks>Part V — Normalization, residuals, and feed-forward networks<a hidden class=anchor aria-hidden=true href=#part-v--normalization-residuals-and-feed-forward-networks>#</a></h2><h2 id=residual-connections>Residual connections<a hidden class=anchor aria-hidden=true href=#residual-connections>#</a></h2><p>A transformer block usually uses residual connections.</p><p>If a sublayer computes:</p>$$
+F(X),
+$$<p>then the residual output is:</p>$$
+Y=X+F(X).
+$$<p>Residual connections help gradients flow through many layers.</p><p>They also allow a layer to learn a correction rather than a full transformation.</p><h2 id=layer-normalization>Layer normalization<a hidden class=anchor aria-hidden=true href=#layer-normalization>#</a></h2><p>Layer normalization normalizes a vector across its feature dimension.</p><p>For:</p>$$
+x\in\mathbb{R}^{d},
+$$<p>define:</p>$$
+\mu
+{}={}
+\frac{1}{d}\sum_{i=1}^{d}x_i,
+$$$$
+\sigma^2
+{}={}
+\frac{1}{d}\sum_{i=1}^{d}(x_i-\mu)^2.
+$$<p>Then:</p>$$
+\operatorname{LayerNorm}(x)
+{}={}
+\gamma
+\odot
+\frac{x-\mu}{\sqrt{\sigma^2+\epsilon}}
++
+\beta.
+$$<p>Here:</p><ul><li>\(\gamma\) is learned scale,</li><li>\(\beta\) is learned shift,</li><li>\(\epsilon\) prevents division by zero.</li></ul><h2 id=rmsnorm>RMSNorm<a hidden class=anchor aria-hidden=true href=#rmsnorm>#</a></h2><p>RMSNorm removes mean-centering and uses root mean square normalization:</p>$$
+\operatorname{RMS}(x)
+{}={}
+\sqrt{
+\frac{1}{d}
+\sum_{i=1}^{d}x_i^2
+}.
+$$<p>Then:</p>$$
+\operatorname{RMSNorm}(x)
+{}={}
+\gamma
+\odot
+\frac{x}{\operatorname{RMS}(x)+\epsilon}.
+$$<p>RMSNorm was proposed as a computationally simpler alternative to LayerNorm that keeps rescaling invariance while avoiding recentering. (<a href="https://arxiv.org/abs/1910.07467?utm_source=chatgpt.com" title="Root Mean Square Layer Normalization">arXiv</a>)</p><h2 id=feed-forward-network>Feed-forward network<a hidden class=anchor aria-hidden=true href=#feed-forward-network>#</a></h2><p>After attention, each token passes through a feed-forward network.</p><p>A standard feed-forward block is:</p>$$
+\operatorname{FFN}(x)
+{}={}
+W_2\phi(W_1x+b_1)+b_2.
+$$<p>Here:</p><ul><li>\(W_1\in\mathbb{R}^{d\times d_{\text{ff}}}\),</li><li>\(W_2\in\mathbb{R}^{d_{\text{ff}}\times d}\),</li><li>\(\phi\) is a nonlinear activation.</li></ul><p>The feed-forward network is applied independently to each token.</p><p>So attention mixes information across positions, while the FFN transforms each token representation.</p><h2 id=gated-feed-forward-networks>Gated feed-forward networks<a hidden class=anchor aria-hidden=true href=#gated-feed-forward-networks>#</a></h2><p>Many modern transformers use gated FFNs.</p><p>A common form is:</p>$$
+\operatorname{FFN}(x)
+{}={}
+(W_gx \odot \phi(W_ux))W_d.
+$$<p>Here:</p><ul><li>\(W_g\) produces a gate,</li><li>\(W_u\) produces candidate features,</li><li>\(\odot\) is elementwise multiplication,</li><li>\(W_d\) projects back to model dimension.</li></ul><p>This allows the model to control which features pass through.</p><h2 id=part-vi--the-full-decoder-only-transformer>Part VI — The full decoder-only transformer<a hidden class=anchor aria-hidden=true href=#part-vi--the-full-decoder-only-transformer>#</a></h2><h2 id=one-transformer-block>One transformer block<a hidden class=anchor aria-hidden=true href=#one-transformer-block>#</a></h2><p>A simplified decoder block is:</p>$$
+Y = X + \operatorname{Attention}(\operatorname{Norm}(X)),
+$$$$
+Z = Y + \operatorname{FFN}(\operatorname{Norm}(Y)).
+$$<p>So each block contains:</p><ol><li>normalization,</li><li>causal self-attention,</li><li>residual connection,</li><li>normalization,</li><li>feed-forward network,</li><li>residual connection.</li></ol><p>Stack \(L\) blocks:</p>$$
+X^{(0)}
+\to
+X^{(1)}
+\to
+\cdots
+\to
+X^{(L)}.
+$$<p>At the end:</p>$$
+H=X^{(L)}.
+$$<p>The final logits are:</p>$$
+Z=HW_{\text{out}}.
+$$<p>If:</p>$$
+H\in\mathbb{R}^{T\times d},
+$$<p>and:</p>$$
+W_{\text{out}}\in\mathbb{R}^{d\times V},
+$$<p>then:</p>$$
+Z\in\mathbb{R}^{T\times V}.
+$$<p>Each row gives logits for the next-token distribution.</p><h2 id=weight-tying>Weight tying<a hidden class=anchor aria-hidden=true href=#weight-tying>#</a></h2><p>Often the output matrix is tied to the input embedding matrix:</p>$$
+W_{\text{out}}=E^\top.
+$$<p>If:</p>$$
+E\in\mathbb{R}^{V\times d},
+$$<p>then:</p>$$
+E^\top\in\mathbb{R}^{d\times V}.
+$$<p>This reduces parameters and connects input and output token representations.</p><h2 id=part-vii--backpropagation-and-optimization>Part VII — Backpropagation and optimization<a hidden class=anchor aria-hidden=true href=#part-vii--backpropagation-and-optimization>#</a></h2><h2 id=parameters>Parameters<a hidden class=anchor aria-hidden=true href=#parameters>#</a></h2><p>Let all model parameters be collected into:</p>$$
+\theta.
+$$<p>This includes:</p><ul><li>token embeddings,</li><li>attention matrices,</li><li>feed-forward matrices,</li><li>normalization parameters,</li><li>output projection,</li><li>router parameters in MoE models,</li><li>adapter or LoRA parameters if fine-tuning.</li></ul><p>Training minimizes:</p>$$
+\mathcal{L}(\theta).
+$$<p>The mathematical goal is:</p>$$
+\theta^\star
+{}={}
+\arg\min_\theta
+\mathcal{L}(\theta).
+$$<h2 id=gradient-descent>Gradient descent<a hidden class=anchor aria-hidden=true href=#gradient-descent>#</a></h2><p>The gradient is:</p>$$
+\nabla_\theta \mathcal{L}(\theta).
+$$<p>Gradient descent updates:</p>$$
+\theta_{k+1}
+{}={}
+\theta_k -
+\eta
+\nabla_\theta \mathcal{L}(\theta_k).
+$$<p>Here:</p><ul><li>\(\eta\) is learning rate,</li><li>\(k\) is optimization step.</li></ul><p>For LLMs, the loss is computed on minibatches.</p><p>So we use stochastic gradients:</p>$$
+g_k
+{}={}
+\nabla_\theta \mathcal{L}_{\mathcal{B}_k}(\theta_k).
+$$<h2 id=backpropagation>Backpropagation<a hidden class=anchor aria-hidden=true href=#backpropagation>#</a></h2><p>Backpropagation applies the chain rule through the computational graph.</p><p>For a composition:</p>$$
+y=f(g(h(x))),
+$$<p>the derivative is:</p>$$
+\frac{dy}{dx}
+{}={}
+\frac{dy}{df}
+\frac{df}{dg}
+\frac{dg}{dh}
+\frac{dh}{dx}.
+$$<p>In matrix form, backpropagation repeatedly multiplies local Jacobians.</p><p>For a linear layer:</p>$$
+Y=XW,
+$$<p>if:</p>$$
+G_Y=\frac{\partial \mathcal{L}}{\partial Y},
+$$<p>then:</p>$$
+\frac{\partial \mathcal{L}}{\partial W}
+{}={}
+X^\top G_Y,
+$$<p>and:</p>$$
+\frac{\partial \mathcal{L}}{\partial X}
+{}={}
+G_Y W^\top.
+$$<p>Stanford CS231n notes explicitly derive minibatch backpropagation for a linear layer \(Y=XW\). (<a href="https://cs231n.stanford.edu/handouts/linear-backprop.pdf?utm_source=chatgpt.com" title="Backpropagation for a Linear Layer">CS231n</a>)</p><h2 id=adam-optimizer>Adam optimizer<a hidden class=anchor aria-hidden=true href=#adam-optimizer>#</a></h2><p>Adam uses moving averages of gradients and squared gradients.</p><p>Given gradient:</p>$$
+g_t=\nabla_\theta \mathcal{L}_t(\theta_t),
+$$<p>Adam computes:</p>$$
+m_t=\beta_1m_{t-1}+(1-\beta_1)g_t,
+$$$$
+v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2.
+$$<p>Bias-corrected estimates are:</p>$$
+\hat{m}_t=\frac{m_t}{1-\beta_1^t},
+$$$$
+\hat{v}_t=\frac{v_t}{1-\beta_2^t}.
+$$<p>Then:</p>$$
+\theta_{t+1}
+{}={}
+\theta_t -
+\eta
+\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}.
+$$<p>Adam was introduced as a first-order stochastic optimization method using adaptive estimates of lower-order moments. (<a href="https://arxiv.org/abs/1412.6980?utm_source=chatgpt.com" title="Adam: A Method for Stochastic Optimization">arXiv</a>)</p><h2 id=adamw>AdamW<a hidden class=anchor aria-hidden=true href=#adamw>#</a></h2><p>Weight decay penalizes large weights.</p><p>A naive \(L^2\) penalty adds:</p>$$
+\lambda |\theta|_2^2
+$$<p>to the loss.</p><p>AdamW decouples weight decay from the adaptive gradient update.</p><p>A simplified AdamW update is:</p>$$
+\theta_{t+1}
+{}={}
+\theta_t -
+\eta
+\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} -
+\eta\lambda\theta_t.
+$$<p>The AdamW paper shows that \(L^2\) regularization and weight decay are not equivalent for adaptive optimizers such as Adam, and proposes decoupled weight decay. (<a href="https://arxiv.org/abs/1711.05101?utm_source=chatgpt.com" title="Decoupled Weight Decay Regularization">arXiv</a>)</p><h2 id=learning-rate-schedules>Learning-rate schedules<a hidden class=anchor aria-hidden=true href=#learning-rate-schedules>#</a></h2><p>LLM training often uses a schedule:</p><ol><li>warmup,</li><li>decay,</li><li>sometimes a final constant or cosine tail.</li></ol><p>During warmup:</p>$$
+\eta_t
+{}={}
+\eta_{\max}\frac{t}{T_{\text{warmup}}}.
+$$<p>A cosine decay may be:</p>$$
+\eta_t
+{}={}
+\eta_{\min}
++
+\frac{1}{2}
+(\eta_{\max}-\eta_{\min})
+\left[
+1+\cos\left(\frac{\pi t}{T}\right)
+\right].
+$$<p>The purpose is to avoid instability early and reduce noise later.</p><h2 id=gradient-clipping>Gradient clipping<a hidden class=anchor aria-hidden=true href=#gradient-clipping>#</a></h2><p>If gradients become too large, training may diverge.</p><p>Gradient norm clipping uses:</p>$$
+g
+\leftarrow
+g\cdot
+\min
+\left(
+1,
+\frac{c}{|g|_2}
+\right).
+$$<p>If:</p>$$
+|g|_2\leq c,
+$$<p>nothing changes.</p><p>If:</p>$$
+|g|_2>c,
+$$<p>the gradient is rescaled.</p><h2 id=part-viii--scaling-laws-and-compute-optimal-training>Part VIII — Scaling laws and compute-optimal training<a hidden class=anchor aria-hidden=true href=#part-viii--scaling-laws-and-compute-optimal-training>#</a></h2><h2 id=why-scaling-laws-matter>Why scaling laws matter<a hidden class=anchor aria-hidden=true href=#why-scaling-laws-matter>#</a></h2><p>LLMs are expensive.</p><p>We must decide:</p><ul><li>how many parameters,</li><li>how many training tokens,</li><li>how much compute,</li><li>how much data quality filtering,</li><li>how much context length,</li><li>how many experts,</li><li>how many training stages.</li></ul><p>Scaling laws try to describe how loss changes as model size, data size, and compute change.</p><p>Kaplan et al. found empirical power-law relationships between cross-entropy loss and model size, dataset size, and training compute over large ranges. (<a href="https://arxiv.org/abs/2001.08361?utm_source=chatgpt.com" title="Scaling Laws for Neural Language Models">arXiv</a>)</p><h2 id=power-law-form>Power-law form<a hidden class=anchor aria-hidden=true href=#power-law-form>#</a></h2><p>A simplified scaling law is:</p>$$
+L(N)
+{}={}
+L_\infty
++
+aN^{-\alpha}.
+$$<p>Here:</p><ul><li>\(L(N)\) is loss,</li><li>\(N\) is number of parameters,</li><li>\(L_\infty\) is irreducible loss,</li><li>\(a\) is a constant,</li><li>\(\alpha\) is scaling exponent.</li></ul><p>Similarly, for dataset size \(D\):</p>$$
+L(D)
+{}={}
+L_\infty
++
+bD^{-\beta}.
+$$<p>For compute \(C\):</p>$$
+L(C)
+{}={}
+L_\infty
++
+cC^{-\gamma}.
+$$<p>The exact exponents are empirical.</p><p>The important idea is:</p><blockquote><p>loss tends to improve predictably with scale, but with diminishing returns.</p></blockquote><h2 id=compute-optimal-training>Compute-optimal training<a hidden class=anchor aria-hidden=true href=#compute-optimal-training>#</a></h2><p>A training run has limited compute.</p><p>Roughly:</p>$$
+C \propto ND,
+$$<p>where:</p><ul><li>\(N\) is parameter count,</li><li>\(D\) is number of training tokens.</li></ul><p>If \(N\) is too large and \(D\) too small, the model is undertrained.</p><p>If \(D\) is large and \(N\) too small, the model may be capacity-limited.</p><p>The compute-optimal training paper found that model size and number of training tokens should be scaled approximately equally for compute-optimal training, challenging earlier trends of training very large models on relatively fewer tokens. (<a href="https://arxiv.org/abs/2203.15556?utm_source=chatgpt.com" title="Training Compute-Optimal Large Language Models">arXiv</a>)</p><p>So the training design problem becomes:</p>$$
+\min_{N,D}
+L(N,D)
+\quad
+\text{subject to}
+\quad
+C(N,D)\leq C_{\max}.
+$$<p>This is an optimization problem over architecture and data.</p><h2 id=part-ix--mixture-of-experts-mathematics>Part IX — Mixture-of-Experts mathematics<a hidden class=anchor aria-hidden=true href=#part-ix--mixture-of-experts-mathematics>#</a></h2><h2 id=dense-versus-sparse-models>Dense versus sparse models<a hidden class=anchor aria-hidden=true href=#dense-versus-sparse-models>#</a></h2><p>In a dense transformer, every token uses the same feed-forward parameters.</p><p>In a mixture-of-experts model, a token is routed to a subset of experts.</p><p>Let there be \(E\) experts:</p>$$
+f_1,\dots,f_E.
+$$<p>A router produces scores:</p>$$
+r(x)=W_rx.
+$$<p>Then probabilities:</p>$$
+p(x)=\operatorname{softmax}(r(x)).
+$$<p>The model selects the top \(K\) experts.</p><p>A sparse MoE output may be:</p>$$
+y
+{}={}
+\sum_{e\in \operatorname{TopK}(p(x))}
+p_e(x)f_e(x).
+$$<p>Switch Transformer simplified MoE routing by selecting different parameters for different incoming examples, producing sparsely activated models with large parameter counts but roughly controlled per-token compute. (<a href="https://arxiv.org/abs/2101.03961?utm_source=chatgpt.com" title="Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity">arXiv</a>)</p><h2 id=why-moe-is-mathematical>Why MoE is mathematical<a hidden class=anchor aria-hidden=true href=#why-moe-is-mathematical>#</a></h2><p>MoE introduces several mathematical problems:</p><ul><li>discrete routing,</li><li>load balancing,</li><li>sparse computation,</li><li>expert specialization,</li><li>communication cost,</li><li>capacity constraints,</li><li>routing instability.</li></ul><p>A load-balancing loss may encourage tokens to spread across experts.</p><p>If:</p>$$
+f_e
+$$<p>is the fraction of tokens routed to expert \(e\), and:</p>$$
+p_e
+$$<p>is the average router probability for expert \(e\), one balancing objective may penalize unevenness:</p>$$
+\mathcal{L}_{\text{balance}}
+\propto
+E\sum_{e=1}^{E} f_ep_e.
+$$<p>Recent public MoE reports explore more specialized expert structures, shared experts, fine-grained experts, and efficient inference through attention and expert sparsity. (<a href="https://arxiv.org/abs/2401.06066?utm_source=chatgpt.com" title="DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models">arXiv</a>)</p><h2 id=part-x--efficient-attention-and-inference-mathematics>Part X — Efficient attention and inference mathematics<a hidden class=anchor aria-hidden=true href=#part-x--efficient-attention-and-inference-mathematics>#</a></h2><h2 id=kv-cache>KV cache<a hidden class=anchor aria-hidden=true href=#kv-cache>#</a></h2><p>During autoregressive inference, the model generates one token at a time.</p><p>At each layer, attention needs keys and values for previous tokens.</p><p>For previous sequence length \(t\), store:</p>$$
+K_{1:t},V_{1:t}.
+$$<p>This is called the KV cache.</p><p>Without KV cache, the model would recompute keys and values for all previous tokens at every step.</p><p>With KV cache, each new token only computes its new key and value, then attends to cached previous keys and values.</p><h2 id=kv-cache-size>KV cache size<a hidden class=anchor aria-hidden=true href=#kv-cache-size>#</a></h2><p>For one layer, approximate KV cache size is:</p>$$
+2 \times B \times T \times H_{\text{kv}} \times d_h.
+$$<p>Here:</p><ul><li>factor 2 is for keys and values,</li><li>\(B\) is batch size,</li><li>\(T\) is context length,</li><li>\(H_{\text{kv}}\) is number of KV heads,</li><li>\(d_h\) is head dimension.</li></ul><p>For \(L\) layers:</p>$$
+\text{KV size}
+\propto
+2LBTH_{\text{kv}}d_h.
+$$<p>So long-context inference is often memory-bandwidth limited.</p><h2 id=multi-query-attention>Multi-query attention<a hidden class=anchor aria-hidden=true href=#multi-query-attention>#</a></h2><p>Multi-query attention shares keys and values across query heads.</p><p>Instead of:</p>$$
+H_Q=H_K=H_V,
+$$<p>MQA uses:</p>$$
+H_K=H_V=1.
+$$<p>This reduces KV cache size.</p><p>The multi-query attention paper proposed sharing keys and values across heads to reduce memory bandwidth requirements during incremental decoding. (<a href="https://arxiv.org/abs/1911.02150?utm_source=chatgpt.com" title="Fast Transformer Decoding: One Write-Head is All You Need">arXiv</a>)</p><h2 id=grouped-query-attention>Grouped-query attention<a hidden class=anchor aria-hidden=true href=#grouped-query-attention>#</a></h2><p>Grouped-query attention is between MHA and MQA.</p><p>If there are \(H_Q\) query heads and \(H_{KV}\) KV heads, then:</p>$$
+1 < H_{KV}<h_q. $$<p>GQA generalizes MQA by using an intermediate number of key-value heads, giving quality closer to multi-head attention and speed closer to MQA. (<a href="https://arxiv.org/abs/2305.13245?utm_source=chatgpt.com" title="GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints">arXiv</a>)</p><h2 id=low-rank-kv-compression>Low-rank KV compression<a hidden class=anchor aria-hidden=true href=#low-rank-kv-compression>#</a></h2><p>Some efficient inference methods compress keys and values through a latent representation.</p><p>A simplified low-rank idea is:</p>$$
+C_t = x_t W_C,
+$$<p>where:</p>$$
+C_t\in\mathbb{R}^{r},
+\qquad
+r<d. $$<p>Then keys and values are reconstructed or projected from this compressed latent:</p>$$
+K_t=C_tW_K',
+$$$$
+V_t=C_tW_V'.
+$$<p>This reduces cached state if \(r\) is much smaller than the full KV dimension.</p><p>Recent public reports describe multi-head latent attention using low-rank key-value joint compression to reduce KV cache while preserving performance. (<a href="https://arxiv.org/abs/2405.04434?utm_source=chatgpt.com" title="DeepSeek-V2: A Strong, Economical, and Efficient Mixture ...">arXiv</a>)</p><h2 id=flashattention-mathematics>FlashAttention mathematics<a hidden class=anchor aria-hidden=true href=#flashattention-mathematics>#</a></h2><p>Standard attention forms:</p>$$
+S=QK^\top,
+$$<p>then:</p>$$
+A=\operatorname{softmax}(S),
+$$<p>then:</p>$$
+O=AV.
+$$<p>The naive implementation materializes \(S\) and \(A\), both of size:</p>$$
+T\times T.
+$$<p>FlashAttention computes exact attention using tiling and online softmax, avoiding storage of the full attention matrix.</p><p>The key mathematical issue is stable blockwise softmax.</p><p>For a row vector \(s\), softmax is:</p>$$
+\operatorname{softmax}(s_i)
+{}={}
+\frac{e^{s_i}}{\sum_j e^{s_j}}.
+$$<p>For numerical stability:</p>$$
+\operatorname{softmax}(s_i)
+{}={}
+\frac{e^{s_i-m}}{\sum_j e^{s_j-m}},
+\quad
+m=\max_j s_j.
+$$<p>FlashAttention applies this idea blockwise while tracking running maxima and normalization factors.</p><p>The paper emphasizes IO complexity: reducing reads and writes between GPU high-bandwidth memory and on-chip SRAM. (<a href="https://arxiv.org/abs/2205.14135?utm_source=chatgpt.com" title="FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness">arXiv</a>)</p><h2 id=part-xi--sampling-and-decoding>Part XI — Sampling and decoding<a hidden class=anchor aria-hidden=true href=#part-xi--sampling-and-decoding>#</a></h2><h2 id=greedy-decoding>Greedy decoding<a hidden class=anchor aria-hidden=true href=#greedy-decoding>#</a></h2><p>At generation step \(t\), the model outputs:</p>$$
+p_t=\operatorname{softmax}(z_t).
+$$<p>Greedy decoding chooses:</p>$$
+x_{t+1}=\arg\max_i p_{t,i}.
+$$<p>This is deterministic.</p><p>It often produces stable but sometimes repetitive text.</p><h2 id=temperature-sampling>Temperature sampling<a hidden class=anchor aria-hidden=true href=#temperature-sampling>#</a></h2><p>Temperature modifies logits:</p>$$
+p_i
+{}={}
+\frac{\exp(z_i/\tau)}
+{\sum_j \exp(z_j/\tau)}.
+$$<p>Here:</p><ul><li>\(\tau<1\): sharper distribution,</li><li>\(\tau=1\): unchanged,</li><li>\(\tau>1\): flatter distribution.</li></ul><p>Low temperature makes the model more deterministic.</p><p>High temperature makes it more random.</p><h2 id=top-k-sampling>Top-k sampling<a hidden class=anchor aria-hidden=true href=#top-k-sampling>#</a></h2><p>Top-k sampling keeps only the \(k\) most likely tokens.</p><p>Let:</p>$$
+S_k
+{}={}
+\text{indices of top } k \text{ probabilities}.
+$$<p>Then:</p>$$
+\tilde{p}_i
+{}={}
+\begin{cases}
+\frac{p_i}{\sum_{j\in S_k}p_j}, & i\in S_k,\
+0, & i\notin S_k.
+\end{cases}
+$$<p>Then sample from \(\tilde{p}\).</p><h2 id=nucleus-sampling>Nucleus sampling<a hidden class=anchor aria-hidden=true href=#nucleus-sampling>#</a></h2><p>Nucleus sampling, or top-p sampling, chooses the smallest set \(S_p\) such that:</p>$$
+\sum_{i\in S_p}p_i \geq p.
+$$<p>Then it samples from the renormalized distribution over \(S_p\).</p><p>This adapts the number of candidate tokens based on uncertainty.</p><h2 id=beam-search>Beam search<a hidden class=anchor aria-hidden=true href=#beam-search>#</a></h2><p>Beam search keeps \(K\) candidate sequences.</p><p>For a sequence:</p>$$
+x_{1:T},
+$$<p>score is usually:</p>$$
+\log p_\theta(x_{1:T})
+{}={}
+\sum_{t=1}^{T}
+\log p_\theta(x_t\mid x_{<t}). $$<p>Beam search expands candidates and keeps the best \(K\).</p><p>It is common in translation, but less central in open-ended dialogue because it can reduce diversity.</p><h2 id=speculative-decoding>Speculative decoding<a hidden class=anchor aria-hidden=true href=#speculative-decoding>#</a></h2><p>Speculative decoding uses a smaller draft model to propose multiple tokens, then uses the larger target model to verify them.</p><p>Let the draft distribution be:</p>$$
+q(x)
+$$<p>and the target distribution be:</p>$$
+p(x).
+$$<p>The draft proposes several tokens cheaply.</p><p>The target model evaluates them in parallel.</p><p>The algorithm accepts or rejects proposed tokens so that the final distribution matches the target model.</p><p>Speculative decoding was introduced as a way to make autoregressive transformer inference faster without changing the output distribution, by computing several tokens in parallel using an approximation model. (<a href="https://arxiv.org/abs/2211.17192?utm_source=chatgpt.com" title="Fast Inference from Transformers via Speculative Decoding">arXiv</a>)</p><h2 id=part-xii--quantization-mathematics>Part XII — Quantization mathematics<a hidden class=anchor aria-hidden=true href=#part-xii--quantization-mathematics>#</a></h2><h2 id=why-quantization-matters>Why quantization matters<a hidden class=anchor aria-hidden=true href=#why-quantization-matters>#</a></h2><p>LLM inference is expensive because weights and KV caches are huge.</p><p>Quantization stores numbers with fewer bits.</p><p>For example:</p><ul><li>FP16: 16 bits,</li><li>INT8: 8 bits,</li><li>INT4: 4 bits.</li></ul><p>If a model has \(N\) weights, then storage is roughly:</p>$$
+\text{memory}
+{}={}
+N \times \text{bits per weight}.
+$$<p>Reducing from 16 bits to 4 bits gives about:</p>$$
+4\times
+$$<p>smaller weight storage.</p><h2 id=uniform-quantization>Uniform quantization<a hidden class=anchor aria-hidden=true href=#uniform-quantization>#</a></h2><p>A real value \(w\) can be quantized as:</p>$$
+q
+{}={}
+\operatorname{round}
+\left(
+\frac{w}{s}
+\right),
+$$<p>then reconstructed as:</p>$$
+\hat{w}=sq.
+$$<p>Here \(s\) is a scale.</p><p>For a group of weights:</p>$$
+s=
+\frac{\max |w|}{q_{\max}}.
+$$<p>The quantization error is:</p>$$
+e=w-\hat{w}.
+$$<p>The objective is to keep this error small.</p><h2 id=gptq-style-second-order-quantization>GPTQ-style second-order quantization<a hidden class=anchor aria-hidden=true href=#gptq-style-second-order-quantization>#</a></h2><p>Quantization changes weights:</p>$$
+W \to \hat{W}.
+$$<p>This changes the layer output:</p>$$
+XW \to X\hat{W}.
+$$<p>A second-order approximation uses Hessian information to minimize output error.</p><p>GPTQ introduced a one-shot post-training quantization method for generative transformers based on approximate second-order information, reducing weights to 3 or 4 bits with small accuracy degradation in reported experiments. (<a href="https://arxiv.org/abs/2210.17323?utm_source=chatgpt.com" title="GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers">arXiv</a>)</p><h2 id=activation-aware-quantization>Activation-aware quantization<a hidden class=anchor aria-hidden=true href=#activation-aware-quantization>#</a></h2><p>Some weights matter more than others because they interact with large activations.</p><p>AWQ observes that a small fraction of salient weights can strongly affect quantization error, and uses activation statistics to identify important channels. (<a href="https://arxiv.org/abs/2306.00978?utm_source=chatgpt.com" title="AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration">arXiv</a>)</p><p>The mathematical idea is:</p>$$
+|XW-X\hat{W}|
+$$<p>matters more than:</p>$$
+|W-\hat{W}|.
+$$<p>So quantization should care about the input activation distribution.</p><h2 id=part-xiii--parameter-efficient-fine-tuning>Part XIII — Parameter-efficient fine-tuning<a hidden class=anchor aria-hidden=true href=#part-xiii--parameter-efficient-fine-tuning>#</a></h2><h2 id=full-fine-tuning>Full fine-tuning<a hidden class=anchor aria-hidden=true href=#full-fine-tuning>#</a></h2><p>Full fine-tuning updates all parameters:</p>$$
+\theta \leftarrow \theta+\Delta\theta.
+$$<p>For very large models, this is expensive.</p><p>It requires optimizer states, gradients, and memory for all parameters.</p><h2 id=lora>LoRA<a hidden class=anchor aria-hidden=true href=#lora>#</a></h2><p>LoRA freezes the original weight matrix and learns a low-rank update.</p><p>For a weight matrix:</p>$$
+W\in\mathbb{R}^{d_{\text{in}}\times d_{\text{out}}},
+$$<p>instead of learning a full update:</p>$$
+\Delta W,
+$$<p>LoRA learns:</p>$$
+\Delta W=AB,
+$$<p>where:</p>$$
+A\in\mathbb{R}^{d_{\text{in}}\times r},
+$$$$
+B\in\mathbb{R}^{r\times d_{\text{out}}},
+$$<p>and:</p>$$
+r\ll \min(d_{\text{in}},d_{\text{out}}).
+$$<p>The adapted layer is:</p>$$
+y=x(W+AB).
+$$<p>LoRA freezes pretrained weights and injects trainable low-rank matrices, greatly reducing trainable parameters and memory compared with full fine-tuning. (<a href="https://arxiv.org/abs/2106.09685?utm_source=chatgpt.com" title="LoRA: Low-Rank Adaptation of Large Language Models">arXiv</a>)</p><h2 id=part-xiv--alignment-mathematics>Part XIV — Alignment mathematics<a hidden class=anchor aria-hidden=true href=#part-xiv--alignment-mathematics>#</a></h2><h2 id=why-pretraining-is-not-enough>Why pretraining is not enough<a hidden class=anchor aria-hidden=true href=#why-pretraining-is-not-enough>#</a></h2><p>A pretrained LLM learns to predict text.</p><p>But predicting internet text is not the same as following user intent.</p><p>Instruction tuning and preference optimization try to modify behavior.</p><p>The InstructGPT/RLHF paper showed that fine-tuning with human feedback can make models better aligned with user intent, and that larger pretrained models are not automatically better at following instructions. (<a href="https://arxiv.org/abs/2203.02155?utm_source=chatgpt.com" title="Training language models to follow instructions with human feedback">arXiv</a>)</p><h2 id=supervised-fine-tuning>Supervised fine-tuning<a hidden class=anchor aria-hidden=true href=#supervised-fine-tuning>#</a></h2><p>Given instruction-response pairs:</p>$$
+(x,y),
+$$<p>SFT minimizes:</p>$$
+\mathcal{L}_{\text{SFT}}
+{}={}
+-\sum_t
+\log \pi_\theta(y_t\mid x,y_{<t}). $$<p>This is still cross-entropy.</p><p>The difference is the dataset: instead of arbitrary next-token text, the data contains desired responses.</p><h2 id=reward-modeling>Reward modeling<a hidden class=anchor aria-hidden=true href=#reward-modeling>#</a></h2><p>Suppose humans compare two responses:</p>$$
+y^+ \succ y^-.
+$$<p>A reward model assigns scores:</p>$$
+r_\phi(x,y).
+$$<p>A common preference loss is Bradley–Terry style:</p>$$
+\mathcal{L}_{\text{RM}}
+{}={}
+-\log
+\sigma
+\left(
+r_\phi(x,y^+)-r_\phi(x,y^-)
+\right).
+$$<p>This trains the reward model to score preferred responses higher.</p><h2 id=rlhf-objective>RLHF objective<a hidden class=anchor aria-hidden=true href=#rlhf-objective>#</a></h2><p>A common RLHF objective is:</p><h2 id=heading>$$
+\max_\theta
+\mathbb{E}<em>{y\sim \pi</em>\theta(\cdot\mid x)}
+[
+r_\phi(x,y)
+]</h2><p>\beta
+D_{\mathrm{KL}}
+\left(
+\pi_\theta(\cdot\mid x)
+,|,
+\pi_{\text{ref}}(\cdot\mid x)
+\right).
+$$</p><p>The first term encourages high reward.</p><p>The KL term prevents the policy from drifting too far from a reference model.</p><h2 id=ppo>PPO<a hidden class=anchor aria-hidden=true href=#ppo>#</a></h2><p>PPO uses a clipped surrogate objective.</p><p>Let:</p>$$
+\rho_t(\theta)
+{}={}
+\frac{\pi_\theta(a_t\mid s_t)}
+{\pi_{\theta_{\text{old}}}(a_t\mid s_t)}.
+$$<p>The PPO clipped objective is:</p>$$
+\mathcal{L}^{\text{CLIP}}(\theta)
+{}={}
+\mathbb{E}
+\left[
+\min
+\left(
+\rho_t(\theta)A_t,
+\operatorname{clip}(\rho_t(\theta),1-\epsilon,1+\epsilon)A_t
+\right)
+\right].
+$$<p>PPO was introduced as a policy-gradient method that alternates between sampling and optimizing a clipped surrogate objective. (<a href="https://arxiv.org/abs/1707.06347?utm_source=chatgpt.com" title="Proximal Policy Optimization Algorithms">arXiv</a>)</p><h2 id=direct-preference-optimization>Direct Preference Optimization<a hidden class=anchor aria-hidden=true href=#direct-preference-optimization>#</a></h2><p>DPO avoids explicitly training a reward model and running RL.</p><p>For a preferred response \(y^+\) and rejected response \(y^-\), DPO uses a loss of the form:</p><h2 id=heading-1>$$
+\mathcal{L}_{\text{DPO}}
+{}=</h2><p>\log
+\sigma
+\left(
+\beta
+\left[
+\log
+\frac{\pi_\theta(y^+\mid x)}
+{\pi_{\text{ref}}(y^+\mid x)}</p><ul><li>\log
+\frac{\pi_\theta(y^-\mid x)}
+{\pi_{\text{ref}}(y^-\mid x)}
+\right]
+\right).
+$$</li></ul><p>DPO shows that a preference optimization problem related to RLHF can be solved with a simple classification-style objective, without explicit reward modeling or reinforcement-learning sampling during fine-tuning. (<a href="https://arxiv.org/abs/2305.18290?utm_source=chatgpt.com" title="Direct Preference Optimization: Your Language Model is Secretly a Reward Model">arXiv</a>)</p><h2 id=part-xv--reasoning-time-and-multi-token-objectives>Part XV — Reasoning-time and multi-token objectives<a hidden class=anchor aria-hidden=true href=#part-xv--reasoning-time-and-multi-token-objectives>#</a></h2><h2 id=test-time-computation>Test-time computation<a hidden class=anchor aria-hidden=true href=#test-time-computation>#</a></h2><p>Some modern systems improve answers by spending more computation during inference.</p><p>Mathematically, instead of producing one short continuation immediately, the model may sample, verify, revise, or search.</p><p>A general inference-time objective is:</p>$$
+y^\star
+{}={}
+\arg\max_y
+S(x,y),
+$$<p>where \(S\) may combine:</p><ul><li>model likelihood,</li><li>reward score,</li><li>verifier score,</li><li>constraint satisfaction,</li><li>tool result correctness,</li><li>self-consistency.</li></ul><h2 id=self-consistency>Self-consistency<a hidden class=anchor aria-hidden=true href=#self-consistency>#</a></h2><p>Instead of one reasoning path, sample \(M\) paths:</p>$$
+y^{(1)},\dots,y^{(M)}.
+$$<p>Then aggregate answers.</p><p>For classification-like answers:</p>$$
+\hat{a}
+{}={}
+\operatorname{mode}
+{a^{(1)},\dots,a^{(M)}}.
+$$<p>This reduces variance when reasoning paths are noisy.</p><h2 id=multi-token-prediction>Multi-token prediction<a hidden class=anchor aria-hidden=true href=#multi-token-prediction>#</a></h2><p>Standard language modeling predicts one next token:</p>$$
+x_{t+1}.
+$$<p>Multi-token prediction asks the model to predict several future tokens:</p>$$
+x_{t+1},x_{t+2},\dots,x_{t+n}.
+$$<p>A multi-token objective may be:</p>$$
+\mathcal{L}
+{}={}
+-\sum_{k=1}^{n}
+\log p_\theta^{(k)}(x_{t+k}\mid x_{\leq t}).
+$$<p>The multi-token prediction paper argues that predicting multiple future tokens can improve sample efficiency and may improve downstream generative performance. (<a href="https://arxiv.org/abs/2404.19737?utm_source=chatgpt.com" title="Better & Faster Large Language Models via Multi-token Prediction">arXiv</a>)</p><h2 id=reinforcement-learning-for-reasoning>Reinforcement learning for reasoning<a hidden class=anchor aria-hidden=true href=#reinforcement-learning-for-reasoning>#</a></h2><p>Recent public research has explored using reinforcement learning to improve reasoning behavior.</p><p>In a simplified setting, suppose the model outputs a solution \(y\) to a problem \(x\), and receives reward:</p>$$
+R(x,y).
+$$<p>The objective is:</p>$$
+\max_\theta
+\mathbb{E}_{y\sim\pi_\theta(\cdot\mid x)}
+[
+R(x,y)
+].
+$$<p>For mathematical problems, reward may be rule-based:</p>$$
+R(x,y)=
+\begin{cases}
+1, & \text{answer correct},\
+0, & \text{answer incorrect}.
+\end{cases}
+$$<p>Recent reasoning-RL work reports that reasoning behaviors can be incentivized through large-scale RL, including self-reflection and verification patterns. (<a href="https://arxiv.org/abs/2501.12948?utm_source=chatgpt.com" title="DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning">arXiv</a>)</p><h2 id=part-xvi--distributed-training-mathematics>Part XVI — Distributed training mathematics<a hidden class=anchor aria-hidden=true href=#part-xvi--distributed-training-mathematics>#</a></h2><h2 id=why-distributed-training-is-needed>Why distributed training is needed<a hidden class=anchor aria-hidden=true href=#why-distributed-training-is-needed>#</a></h2><p>Large models do not fit on one GPU.</p><p>Training requires distributing:</p><ul><li>data,</li><li>parameters,</li><li>gradients,</li><li>optimizer states,</li><li>activations,</li><li>attention context,</li><li>experts.</li></ul><h2 id=data-parallelism>Data parallelism<a hidden class=anchor aria-hidden=true href=#data-parallelism>#</a></h2><p>Each GPU gets a different batch shard.</p><p>If the full batch is:</p>$$
+\mathcal{B}
+{}={}
+\mathcal{B}_1\cup\cdots\cup\mathcal{B}_G,
+$$<p>then GPU \(g\) computes:</p>$$
+g_g
+{}={}
+\nabla_\theta
+\mathcal{L}_{\mathcal{B}_g}(\theta).
+$$<p>Then gradients are averaged:</p>$$
+g
+{}={}
+\frac{1}{G}
+\sum_{g=1}^{G}g_g.
+$$<p>All GPUs update the same parameters.</p><h2 id=tensor-parallelism>Tensor parallelism<a hidden class=anchor aria-hidden=true href=#tensor-parallelism>#</a></h2><p>A matrix multiplication:</p>$$
+Y=XW
+$$<p>can be split across GPUs.</p><p>If:</p>$$
+W=[W_1,W_2,\dots,W_G],
+$$<p>then:</p>$$
+Y_g=XW_g.
+$$<p>Then concatenate:</p>$$
+Y=[Y_1,Y_2,\dots,Y_G].
+$$<p>Megatron-LM introduced efficient intra-layer model parallelism for training multi-billion-parameter transformer language models. (<a href="https://arxiv.org/abs/1909.08053?utm_source=chatgpt.com" title="Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism">arXiv</a>)</p><h2 id=pipeline-parallelism>Pipeline parallelism<a hidden class=anchor aria-hidden=true href=#pipeline-parallelism>#</a></h2><p>Layers are split across devices.</p><p>If:</p>$$
+f=f_L\circ f_{L-1}\circ\cdots\circ f_1,
+$$<p>then different devices hold different blocks of layers.</p><p>Microbatches flow through the pipeline.</p><p>The mathematical issue is balancing computation and minimizing idle time.</p><h2 id=zero-style-optimizer-sharding>ZeRO-style optimizer sharding<a hidden class=anchor aria-hidden=true href=#zero-style-optimizer-sharding>#</a></h2><p>For Adam, memory includes:</p><ul><li>parameters \(\theta\),</li><li>gradients \(g\),</li><li>first moment \(m\),</li><li>second moment \(v\).</li></ul><p>ZeRO partitions optimizer states, gradients, and parameters across devices to reduce memory redundancy.</p><p>ZeRO was proposed to remove memory redundancy in data/model parallel training and scale trainable model size with the number of devices. (<a href="https://arxiv.org/abs/1910.02054?utm_source=chatgpt.com" title="ZeRO: Memory Optimizations Toward Training Trillion Parameter Models">arXiv</a>)</p><h2 id=part-xvii--alternative-sequence-models>Part XVII — Alternative sequence models<a hidden class=anchor aria-hidden=true href=#part-xvii--alternative-sequence-models>#</a></h2><h2 id=why-alternatives-exist>Why alternatives exist<a hidden class=anchor aria-hidden=true href=#why-alternatives-exist>#</a></h2><p>Standard attention has:</p>$$
+O(T^2)
+$$<p>complexity.</p><p>For very long sequences, this is expensive.</p><p>Alternative sequence models try to reduce complexity to:</p>$$
+O(T)
+$$<p>or:</p>$$
+O(T\log T).
+$$<h2 id=state-space-models>State-space models<a hidden class=anchor aria-hidden=true href=#state-space-models>#</a></h2><p>A continuous-time state-space model has:</p>$$
+\frac{dh(t)}{dt}
+{}={}
+Ah(t)+Bx(t),
+$$$$
+y(t)=Ch(t)+Dx(t).
+$$<p>Discretized:</p>$$
+h_t=\bar{A}h_{t-1}+\bar{B}x_t,
+$$$$
+y_t=Ch_t+Dx_t.
+$$<p>Selective state-space models make some parameters depend on the input.</p><p>Mamba identifies input-dependent selective state-space parameters as important for discrete data such as language and proposes hardware-aware algorithms with linear scaling in sequence length. (<a href="https://arxiv.org/abs/2312.00752?utm_source=chatgpt.com" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces">arXiv</a>)</p><h2 id=recurrent-transformer-hybrids>Recurrent-transformer hybrids<a hidden class=anchor aria-hidden=true href=#recurrent-transformer-hybrids>#</a></h2><p>Some architectures try to combine:</p><ul><li>transformer-like parallel training,</li><li>recurrent-like efficient inference.</li></ul><p>RWKV proposes a model that can be formulated like a transformer during training and like an RNN during inference, with linear complexity. (<a href="https://arxiv.org/abs/2305.13048?utm_source=chatgpt.com" title="RWKV: Reinventing RNNs for the Transformer Era">arXiv</a>)</p><h2 id=part-xviii--the-complete-mathematical-map>Part XVIII — The complete mathematical map<a hidden class=anchor aria-hidden=true href=#part-xviii--the-complete-mathematical-map>#</a></h2><p>The mathematics of LLMs includes:</p><table><thead><tr><th>LLM component</th><th>Mathematics</th></tr></thead><tbody><tr><td>Tokenization</td><td>discrete mathematics, compression, subword statistics</td></tr><tr><td>Embeddings</td><td>linear algebra, vector spaces</td></tr><tr><td>Language modeling</td><td>probability, conditional distributions, chain rule</td></tr><tr><td>Softmax</td><td>exponential families, normalization</td></tr><tr><td>Cross-entropy</td><td>information theory, maximum likelihood</td></tr><tr><td>Attention</td><td>matrix multiplication, bilinear forms, kernels</td></tr><tr><td>Multi-head attention</td><td>tensor algebra, block matrix operations</td></tr><tr><td>Positional encoding</td><td>Fourier features, rotations, relative geometry</td></tr><tr><td>Transformer block</td><td>residual dynamical systems, nonlinear maps</td></tr><tr><td>Normalization</td><td>statistics, scale invariance</td></tr><tr><td>Backpropagation</td><td>multivariable calculus, chain rule, Jacobians</td></tr><tr><td>Optimization</td><td>stochastic optimization, adaptive methods</td></tr><tr><td>Scaling laws</td><td>empirical power laws, constrained optimization</td></tr><tr><td>MoE</td><td>sparse routing, discrete optimization, load balancing</td></tr><tr><td>Long context</td><td>quadratic complexity, memory bandwidth, approximation</td></tr><tr><td>KV cache</td><td>tensor storage, incremental computation</td></tr><tr><td>Quantization</td><td>numerical analysis, approximation, information loss</td></tr><tr><td>LoRA</td><td>low-rank matrix factorization</td></tr><tr><td>RLHF</td><td>reinforcement learning, KL regularization</td></tr><tr><td>DPO</td><td>preference learning, logistic loss, implicit rewards</td></tr><tr><td>Distributed training</td><td>parallel algorithms, communication complexity</td></tr><tr><td>Reasoning-time compute</td><td>search, sampling, verification, policy optimization</td></tr></tbody></table><h2 id=section-summary>Section summary<a hidden class=anchor aria-hidden=true href=#section-summary>#</a></h2><p>A large language model is a probability model over token sequences.</p><p>The chain rule gives:</p>$$
+p_\theta(x_1,\dots,x_T)
+{}={}
+\prod_{t=1}^{T}
+p_\theta(x_t\mid x_{<t}). $$<p>Training minimizes negative log-likelihood:</p>$$
+\mathcal{L}
+{}={}
+-\sum_t
+\log p_\theta(x_t\mid x_{<t}). $$<p>Tokens are mapped into vectors using an embedding matrix:</p>$$
+E\in\mathbb{R}^{V\times d}.
+$$<p>A sequence becomes:</p>$$
+X\in\mathbb{R}^{T\times d}.
+$$<p>A transformer block applies attention:</p>$$
+\operatorname{Attention}(Q,K,V)
+{}={}
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right)V.
+$$<p>Causal masking prevents future-token leakage.</p><p>Multi-head attention repeats attention in parallel subspaces.</p><p>Feed-forward networks add nonlinear feature transformation.</p><p>Backpropagation computes gradients.</p><p>AdamW updates parameters using adaptive moments and decoupled weight decay.</p><p>Scaling laws describe how loss changes with parameters, data, and compute.</p><p>MoE models activate only some experts per token.</p><p>Inference uses KV caching, sampling, decoding algorithms, quantization, and sometimes speculative decoding.</p><p>Alignment uses supervised fine-tuning, reward models, RLHF, PPO, DPO, and other preference-optimization methods.</p><p>The core idea is:</p><blockquote><p>an LLM is a trained probabilistic dynamical computation over token tensors, optimized at massive scale to predict, transform, and generate language.</p></blockquote><p>At the deepest level, LLM mathematics combines:</p>$$
+\text{linear algebra}
++
+\text{probability}
++
+\text{information theory}
++
+\text{optimization}
++
+\text{numerical analysis}
++
+\text{parallel computing}
++
+\text{reinforcement learning}.
+$$<h2 id=source-anchors-used-for-this-section>Source anchors used for this section<a hidden class=anchor aria-hidden=true href=#source-anchors-used-for-this-section>#</a></h2><ul><li>Transformer architecture, scaled dot-product attention, multi-head attention: Vaswani et al., <em>Attention Is All You Need</em>. (<a href="https://arxiv.org/abs/1706.03762?utm_source=chatgpt.com" title="Attention Is All You Need">arXiv</a>)</li><li>BPE subword tokenization: Sennrich, Haddow, and Birch. (<a href="https://arxiv.org/abs/1508.07909?utm_source=chatgpt.com" title="Neural Machine Translation of Rare Words with Subword Units">arXiv</a>)</li><li>SentencePiece tokenizer: Kudo and Richardson. (<a href="https://arxiv.org/abs/1808.06226?utm_source=chatgpt.com" title="[1808.06226] SentencePiece: A simple and language ...">arXiv</a>)</li><li>Cross-entropy and neural-network likelihood: <em>Deep Learning</em> book and Stanford CS224N material. (<a href="https://www.deeplearningbook.org/contents/mlp.html?utm_source=chatgpt.com" title="Deep Learning Book - Chapter 6">Deep Learning Book</a>)</li><li>RoPE positional encoding: RoFormer. (<a href="https://arxiv.org/abs/2104.09864?utm_source=chatgpt.com" title="RoFormer: Enhanced Transformer with Rotary Position Embedding">arXiv</a>)</li><li>RMSNorm: Zhang and Sennrich. (<a href="https://arxiv.org/abs/1910.07467?utm_source=chatgpt.com" title="Root Mean Square Layer Normalization">arXiv</a>)</li><li>Scaling laws: Kaplan et al. (<a href="https://arxiv.org/abs/2001.08361?utm_source=chatgpt.com" title="Scaling Laws for Neural Language Models">arXiv</a>)</li><li>Compute-optimal training: Hoffmann et al. (<a href="https://arxiv.org/abs/2203.15556?utm_source=chatgpt.com" title="Training Compute-Optimal Large Language Models">arXiv</a>)</li><li>FlashAttention and FlashAttention-2: Dao et al. (<a href="https://arxiv.org/abs/2205.14135?utm_source=chatgpt.com" title="FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness">arXiv</a>)</li><li>MoE and Switch Transformers: Fedus, Zoph, and Shazeer. (<a href="https://arxiv.org/abs/2101.03961?utm_source=chatgpt.com" title="Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity">arXiv</a>)</li><li>Recent MoE, MLA-style KV compression, and multi-token prediction reports: public technical reports and papers. (<a href="https://arxiv.org/abs/2405.04434?utm_source=chatgpt.com" title="DeepSeek-V2: A Strong, Economical, and Efficient Mixture ...">arXiv</a>)</li><li>Adam and AdamW: Kingma & Ba; Loshchilov & Hutter. (<a href="https://arxiv.org/abs/1412.6980?utm_source=chatgpt.com" title="Adam: A Method for Stochastic Optimization">arXiv</a>)</li><li>ZeRO and tensor/model parallel training: Rajbhandari et al.; Shoeybi et al. (<a href="https://arxiv.org/abs/1910.02054?utm_source=chatgpt.com" title="ZeRO: Memory Optimizations Toward Training Trillion Parameter Models">arXiv</a>)</li><li>RLHF, PPO, DPO, and reasoning-RL literature: Ouyang et al.; Schulman et al.; Rafailov et al.; recent public RL reasoning papers. (<a href="https://arxiv.org/abs/2203.02155?utm_source=chatgpt.com" title="Training language models to follow instructions with human feedback">arXiv</a>)</li><li>Quantization and speculative decoding: GPTQ, AWQ, speculative decoding. (<a href="https://arxiv.org/abs/2210.17323?utm_source=chatgpt.com" title="GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers">arXiv</a>)</li><li>LoRA: Hu et al. (<a href="https://arxiv.org/abs/2106.09685?utm_source=chatgpt.com" title="LoRA: Low-Rank Adaptation of Large Language Models">arXiv</a>)</li><li>Efficient long-sequence alternatives: MQA, GQA, Mamba, RWKV. (<a href="https://arxiv.org/abs/1911.02150?utm_source=chatgpt.com" title="Fast Transformer Decoding: One Write-Head is All You Need">arXiv</a>)</li></ul></div><footer class="post-footer article-footer"><ul class=post-tags><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/large-language-models/>Large Language Models</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/transformers/>Transformers</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/attention/>Attention</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/language-modeling/>Language Modeling</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/optimization/>Optimization</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/scaling-laws/>Scaling Laws</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/inference/>Inference</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/alignment/>Alignment</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/rlhf/>RLHF</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/dpo/>DPO</a></li><li><a href=https://anwarshamim01.github.io/Sang_e_Mehrab/tags/moe/>MoE</a></li></ul><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on x" href="https://x.com/intent/tweet/?text=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f&amp;hashtags=largelanguagemodels%2ctransformers%2cattention%2clanguagemodeling%2coptimization%2cscalinglaws%2cinference%2calignment%2cRLHF%2cDPO%2cMoE"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f&amp;title=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment&amp;summary=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment&amp;source=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f&title=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on whatsapp" href="https://api.whatsapp.com/send?text=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment%20-%20https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on telegram" href="https://telegram.me/share/url?text=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment&amp;url=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment on ycombinator" href="https://news.ycombinator.com/submitlink?t=1.4%20Mathematics%20of%20Large%20Language%20Models%3a%20Training%2c%20Inference%2c%20Attention%2c%20Scaling%2c%20and%20Alignment&u=https%3a%2f%2fanwarshamim01.github.io%2fSang_e_Mehrab%2fcourses%2fcourse%2fchapter-01%2fsection-04%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer><script type=application/ld+json>"{\"@context\":\"https://schema.org\",\"@type\":\"ScholarlyArticle\",\"author\":[{\"@type\":\"Person\",\"name\":\"Anwar Shamim\"}],\"datePublished\":\"2026-05-01\",\"headline\":\"1.4 Mathematics of Large Language Models: Training, Inference, Attention, Scaling, and Alignment\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sange Mehrab\"},\"url\":\"https://anwarshamim01.github.io/Sang_e_Mehrab/courses/course/chapter-01/section-04/\"}"</script></div></article></div></main><footer class=footer><span>&copy; 2026 <a href=https://anwarshamim01.github.io/Sang_e_Mehrab/>Sange Mehrab</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",()=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const t=document.createRange();t.selectNodeContents(e);const n=window.getSelection();n.removeAllRanges(),n.addRange(t);try{document.execCommand("copy"),s()}catch{}n.removeRange(t)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
